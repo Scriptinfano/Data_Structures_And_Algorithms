@@ -43,4 +43,3 @@ void changeLength2D(T **&a, int oldRows, int copyRows,
     delete[] a;//存储每个一维数组首地址的数组还没有释放内存，此时释放所有存储一维数组地址的内存
     a = temp;
 }
-

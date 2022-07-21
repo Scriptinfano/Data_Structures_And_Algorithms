@@ -29,26 +29,12 @@ int main() {
 }
 
 void test01() {
-    arrayList<char> intArray(10);
-    intArray.insert(0, 'f');
-    intArray.insert(1, 'g');
-    intArray.insert(2, 'd');
-    /*
-    for (mystd::iterator<char> it(intArray.begin()); it != intArray.end(); ++it) {
-        cout << *it << " ";
-    }
-    */
-    /*
-    intArray[0]='q';
-    cout<<intArray[0];
-    intArray[1]=intArray[0];
-    cout<<intArray[1];
-    */
-    arrayList<char> intArray2(10);
-    intArray.insert(0, 'f');
-    intArray.insert(1, 'g');
-    intArray.insert(2, 'd');
-    bool judge = intArray != intArray;
-    cout << boolalpha << judge;
+
+    arrayList<int>array(5);
+    array.push_back(12);
+    array.push_back(23);
+    array.push_back(123);
+    array.reverse();
+    cout<<array;
 
 }
