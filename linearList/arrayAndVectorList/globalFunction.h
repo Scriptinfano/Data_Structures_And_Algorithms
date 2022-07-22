@@ -1,7 +1,7 @@
 #pragma once
 
 #include "illegalParameterValue.h"
-#include"arrayList.h"
+#include"arrayList.hpp"
 
 template<class T>
 void changeLength1D(T *&a, int oldLength, int newLength) {
@@ -18,14 +18,14 @@ void changeLength1D(T *&a, int oldLength, int newLength) {
 template<class T>
 void changeLength2D(T **&a, int oldRows, int copyRows,
                     int copyColumns, int newRows,
-                    int newColumns) {// Resize the two-dimensional array a that has oldRows number of rows.
-    // The dimensions of the resized array are newRows x newColumns.
-    // Copy the top left oldRows x newColumns sub array into the resized array.
+                    int newColumns) {// Resize the two-dimensional arrayList a that has oldRows number of rows.
+    // The dimensions of the resized arrayList are newRows x newColumns.
+    // Copy the top left oldRows x newColumns sub arrayList into the resized arrayList.
     // make sure new dimensions are adequate
     if (copyRows > newRows || copyColumns > newColumns)
         throw illegalParameterValue("new dimensions are too small");
 
-    T **temp = new T *[newRows];              // array for rows
+    T **temp = new T *[newRows];              // arrayList for rows
     // create row arrays for temp
     for (int i = 0; i < newRows; i++)
         temp[i] = new T[newColumns];

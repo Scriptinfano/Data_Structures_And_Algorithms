@@ -5,4 +5,4 @@ set(CMAKE_CXX_STANDARD 23)
 
 add_executable(Data_Structures_And_Algorithms main.cpp)
 
-add_executable(selfDefineArray linearList/array/selfDefineArray.cpp linearList/array/myIterator.h linearList/array/illegalParameterValue.h linearList/array/globalFunction.h linearList/array/arrayList.h)
+add_executable(selfDefineArray linearList/arrayAndVectorList/selfDefineArray.cpp linearList/arrayAndVectorList/myIterator.h linearList/arrayAndVectorList/illegalParameterValue.h linearList/arrayAndVectorList/globalFunction.h linearList/arrayAndVectorList/arrayList.hpp)

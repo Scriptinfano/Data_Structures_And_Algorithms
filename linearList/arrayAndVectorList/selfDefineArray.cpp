@@ -1,7 +1,7 @@
 #include <iostream>
 #include"myIterator.h"//自定义迭代器
 #include "illegalParameterValue.h"//异常类定义
-#include "arrayList.h"
+#include "arrayList.hpp"
 
 using namespace std;
 
