@@ -11,7 +11,7 @@ void test01();
 int main() {
     //创建两个容量为100的线性表
     /*
-        linerList*x=(linerList)new arrayList<int>(100);
+        linearList*x=(linearList)new arrayList<int>(100);
         arrayList<double>y(100);
 
         arrayList<char>z;
@@ -30,11 +30,16 @@ int main() {
 
 void test01() {
 
-    arrayList<int>array(5);
+    arrayList<int> array(5);
+
+
     array.push_back(12);
     array.push_back(23);
     array.push_back(123);
-    array.reverse();
-    cout<<array;
+    array.push_back(42);
+    array.push_back(89);
 
+
+
+    cout << array;
 }

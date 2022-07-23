@@ -10,29 +10,13 @@
 #include "myIterator.h"
 #include "globalFunction.h"
 #include"illegalParameterValue.h"
-#include<malloc.h>
+#include "D:\ClionProjects\Data_Structures_And_Algorithms\virtualBaseClassLinearList.h"
 
 using namespace std;
 
-template<class T>
-class linerList {
-public:
-    virtual ~linerList() {}                                  //空的虚析构函数
-    virtual bool empty() const = 0;                          //检测容器是否为空
-    virtual int size() const = 0;                            //返回容器中元素的数量
-    virtual T &get(int index) const = 0;                     //返回索引值为index的对象
-    virtual int indexOf(const T &theElement) const = 0;      //传入对象的引用，返回该对象在容器中的索引值
-    virtual void erase(int index) = 0;                       //删除索引为index的对象
-    virtual void insert(int index, const T &theElement) = 0; //在索引index处的后一个位置插入元素
-    virtual void output(std::ostream &out) const = 0;        //输出元素
-
-
-};
-
-
 //继承动态数组基类的派生类
 template<class T>
-class arrayList : public linerList<T> {
+class arrayList : public linearList<T> {
 protected:
     void checkIndex(int theIndex, std::string actionType) const;
 
@@ -83,6 +67,14 @@ public:
 
     void reverse();//原地反转数组元素
 
+    void leftShift(int offset);//将线性表的元素向左移动offset个位置
+
+    void removeRange(int beginIndex, int endIndex);//移除索引范围内的元素
+
+    void circularShift(int offset);//循环移动线性表内的元素，按顺时针方向移动
+
+    void half();//隔一个元素删除一个元素
+
     //其他作为成员函数重载的运算符函数
     bool operator==(arrayList<T> &array);
 
@@ -91,8 +83,6 @@ public:
     bool operator!=(arrayList<T> &array);
 
     bool operator<(arrayList<T> &array);
-
-    void removeRange(int beginIndex, int endIndex);
 
     //可支持自定义迭代器的函数
     T *begin() { return element; }//返回首元素地址
@@ -170,6 +160,7 @@ void arrayList<T>::erase(int theIndex) {
         element = temp;
         listSize--;
         arrayLength = arrayLength / 2;
+        return;
     }
     element[--listSize].~T(); //由于移动元素会导致数组末尾多出一个未存放运算的空间，所以必须主动调用相应类型的析构函数将其释放
 }
@@ -409,8 +400,8 @@ void arrayList<T>::checkIndex(int theIndex, std::string actionType) const {
             ostringstream s;
             s << "插入元素时，";
             if (theIndex < 0)s << "索引值不得<0" << endl;
-            if (theIndex >= arrayLength)s << "索引值不得>=数组大小" << endl;
-            if (theIndex > listSize)s << "索引值不得>数组元素个数" << endl;
+            if (theIndex >= this->capacity())s << "索引值不得>=数组大小" << endl;
+            if (theIndex > this->size())s << "索引值不得>数组元素个数" << endl;
             throw illegalParameterValue(s.str());
         }
     } else if (actionType == "erase" || actionType == "get" || actionType == "replace") {
@@ -431,6 +422,44 @@ void arrayList<T>::checkIndex(int theIndex, std::string actionType) const {
 
 }
 
+template<class T>
+void arrayList<T>::leftShift(int offset) {
+    T *target = new T[listSize];
+    copy(element + offset, element + listSize, target);
+    listSize -= offset;
+    delete[]element;
+    element = target;
+}
+
+template<class T>
+void arrayList<T>::circularShift(int offset) {
+    int netOffset = 0;//净偏移量，若offset>listSize，则netOffset=offSet%listSize
+    if (offset > listSize)netOffset = offset % listSize; else netOffset = offset;
+    T *temp = new T[listSize];
+    copy(element + netOffset, element + listSize, temp);
+    copy(element, element + netOffset, temp + (listSize - netOffset));
+    delete[]element;
+    element = temp;
+}
+
+template<class T>
+void arrayList<T>::half() {
+    int i = 0, x = 0;
+    if (i>=listSize-1)return;
+    int newSize = (listSize / 2) + (listSize % 2);
+    T *temp = new T[newSize];
+    while (i <= listSize - 1) {
+
+        temp[x] = element[i];
+        i += 2;
+        x++;
+    }
+    listSize = arrayLength = newSize;
+
+    delete[]element;
+    element = temp;
+}
+
 
 //当使用输出流迭代器将泛型数据放入到指定输出流时必须重载<<运算符
 template<class T>
@@ -441,7 +470,7 @@ ostream &operator<<(ostream &out, const arrayList<T> &x) {
 
 
 template<class T>
-class vectorList : public linerList<T> {
+class vectorList : public linearList<T> {
 protected:
     void checkIndex(int theIndex, string actionType) const;
 
@@ -475,6 +504,7 @@ public:
     //线性表的起始和结束位置的迭代器
     //下面先定义一个类型别名，方便使用，返回迭代器类型的时候不用写一长串
     typedef typename vector<T>::iterator iterator;//在为模板类型定义别名时要再typedef之后加上typename，typedef创建了存在类型的别名，typename告诉编译器std::vector<T>::iterator是一个类型而不是一个成员，此语句使得iterator成为vector<T>::iterator的别名
+
     iterator begin() { return element->begin(); }
 
     iterator end() { return element->end(); }
