@@ -41,6 +41,7 @@ public:
     void erase(int theIndex);                       //删除索引为theIndex的元素
     void insert(int theIndex, const T &theElement); //在指定位置插入元素
     void output(std::ostream &out) const;           //输出流迭代器输出所有元素
+
     //其他常规成员函数
 
     void trimToSize();//将数组多余的空间裁剪掉，使得数组大小等于元素数量
@@ -75,6 +76,13 @@ public:
 
     void half();//隔一个元素删除一个元素
 
+    void meld(const arrayList<T> &arrayOne,
+              const arrayList<T> &arrayTwo);//调用该函数的容器交替地包含arrayOne和arrayTwo的元素，从arrayOne的第0个元素开始，若一个表的元素取完则将另一个表剩下的元素放到新表中
+
+    void merge(arrayList<T> &listA, arrayList<T> &listB);//将两个无序的线性表合并成一个有序的线性表
+
+    void split(arrayList<T> &listA, arrayList<T> &listB);//将调用函数的对象中索引为偶数的元素放入listA，将索引为奇数的元素放入listB
+
     //其他作为成员函数重载的运算符函数
     bool operator==(arrayList<T> &array);
 
@@ -84,10 +92,16 @@ public:
 
     bool operator<(arrayList<T> &array);
 
-    //可支持自定义迭代器的函数
-    T *begin() { return element; }//返回首元素地址
+    //返回首元素地址末元素后继地址的函数
+    T *begin() const { return element; }//返回首元素地址
 
-    T *end() { return element + listSize; }//返回最后一个元素后面的位置
+    T *end() const { return element + listSize; }//返回最后一个元素后面的位置
+
+    //返回自定义迭代器的函数，两个函数分别返回指向首元素的迭代器和指向末元素后继位置的迭代器
+    mystd::iterator<T> it_begin() const;
+
+    mystd::iterator<T> it_end() const;
+
 
 };
 
@@ -445,7 +459,7 @@ void arrayList<T>::circularShift(int offset) {
 template<class T>
 void arrayList<T>::half() {
     int i = 0, x = 0;
-    if (i>=listSize-1)return;
+    if (i >= listSize - 1)return;
     int newSize = (listSize / 2) + (listSize % 2);
     T *temp = new T[newSize];
     while (i <= listSize - 1) {
@@ -460,6 +474,87 @@ void arrayList<T>::half() {
     element = temp;
 }
 
+template<class T>
+void arrayList<T>::meld(const arrayList<T> &arrayOne, const arrayList<T> &arrayTwo) {
+    int listSizeOne = arrayOne.size(), listSizeTwo = arrayTwo.size();
+    T *temp = new T[listSizeOne + listSizeTwo];
+    int tempIndex = 0, oneIndex = 0, twoIndex = 0;
+    while (!(oneIndex == listSizeOne || twoIndex == listSizeTwo)) {
+        temp[tempIndex] = arrayOne[oneIndex];
+        tempIndex++;
+        oneIndex++;
+        temp[tempIndex] = arrayTwo[twoIndex];
+        tempIndex++;
+        twoIndex++;
+    }
+    if (oneIndex == listSizeOne && twoIndex == listSizeTwo) {
+        //两个表的元素一样长，说明不需要将另一个表的元素放进新表
+        return;
+
+    } else if (oneIndex == listSizeOne) {
+        //将表2放入新表
+        while (twoIndex < listSizeTwo) {
+            temp[tempIndex] = arrayTwo[twoIndex];
+            tempIndex++;
+            twoIndex++;
+        }
+    } else {
+        //twoIndex==listSizeTwo的情况，将表1放入新表
+        while (oneIndex < listSizeOne) {
+            temp[tempIndex] = arrayOne[oneIndex];
+            tempIndex++;
+            oneIndex++;
+
+        }
+    }
+    listSize = listSizeOne + listSizeTwo;
+    arrayLength = listSizeOne + listSizeTwo;
+    delete[]element;
+    element = temp;
+
+
+}
+
+template<class T>
+void arrayList<T>::merge(arrayList<T> &listA, arrayList<T> &listB) {
+    int listSizeOne = listA.size(), listSizeTwo = listB.size();
+    int sumListSize=listSizeOne+listSizeTwo;
+    T *temp = new T[listSizeOne + listSizeTwo];
+    copy(listA.begin(), listA.end(), temp);
+    copy(listB.begin(), listB.end(), temp + listSizeOne);
+    sort(temp, temp+sumListSize);
+    delete[]element;
+    element = temp;
+    listSize = arrayLength = listSizeOne + listSizeTwo;
+}
+
+template<class T>
+mystd::iterator<T> arrayList<T>::it_begin() const {
+    return mystd::iterator<T>(begin());
+}
+
+template<class T>
+mystd::iterator<T> arrayList<T>::it_end() const {
+    return mystd::iterator<T>(end());
+}
+
+template<class T>
+void arrayList<T>::split(arrayList<T> &listA, arrayList<T> &listB) {
+    for(int i=0;i<listSize;i++)
+    {
+        if(i%2==0)
+        {
+            //此时的索引是偶数
+            listA.push_back(element[i]);
+        }else
+        {
+            //此时的索引是奇数
+            listB.push_back(element[i]);
+        }
+    }
+
+}
+
 
 //当使用输出流迭代器将泛型数据放入到指定输出流时必须重载<<运算符
 template<class T>
@@ -468,6 +563,7 @@ ostream &operator<<(ostream &out, const arrayList<T> &x) {
     return out;
 }
 
+//以vector<>容器作为底层存储结构的模板链表类
 
 template<class T>
 class vectorList : public linearList<T> {
@@ -534,7 +630,11 @@ T &vectorList<T>::get(int theIndex) const {
 
 template<class T>
 int vectorList<T>::indexOf(const T &theElement) const {
-
+    for (int i = 0; i < element->size(); i++) {
+        if (theElement == element[i])
+            return i;
+    }
+    return -1;
 }
 
 template<class T>
@@ -552,7 +652,10 @@ void vectorList<T>::insert(int theIndex, const T &theElement) {
 
 template<class T>
 void vectorList<T>::output(ostream &out) const {
-
+for(typename vector<T>::iterator it=this->element->begin();it!=this->element->end();it++)
+{
+    out<<*it<" ";
+}
 }
 
 template<class T>

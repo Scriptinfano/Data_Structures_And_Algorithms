@@ -50,7 +50,7 @@ protected:
     int listSize;//链表节点个数
 
 public:
-    chainList(int initialCapacity = 10);
+    chainList();//以链表作为底层数据结构的容器无需指定容量
 
     chainList(const chainList<T> &theChainList);
 
@@ -64,6 +64,15 @@ public:
     void erase(int theIndex);                       //删除索引为theIndex的元素
     void insert(int theIndex, const T &theElement); //在指定位置插入元素
     void output(ostream &out) const;
+
+    //其他函数
+    void setSize(int newSize);//使链表节点个数等于newSize，若newSize小于原大小，则删除多余元素，若大于原大小则不做任何操作
+
+    void push_back(const T &theElement);
+
+    void set(int theIndex, const T &theElement);//替换指定元素
+
+    void removeRange(int beginIndex, int endIndex);//删除指定范围内的元素
 };
 
 template<class T>
@@ -91,18 +100,10 @@ void chainList<T>::checkIndex(int theIndex, string actionType) const {
         s << "checkIndex第二个参数传入不正确，未指定正确的操作类型" << endl;
         throw illegalParameterValue(s.str());
     }
-
-
 }
 
 template<class T>
-chainList<T>::chainList(int initialCapacity) {
-    if (initialCapacity < 1) {
-        std::ostringstream s;
-        s << "初始容量=" << initialCapacity << "，此值必须大于0";
-        throw illegalParameterValue(s.str());
-
-    }
+chainList<T>::chainList() {
     firstNode = nullptr;
     listSize = 0;
 }
@@ -214,36 +215,192 @@ void chainList<T>::output(ostream &out) const {
 }
 
 template<class T>
+void chainList<T>::setSize(int newSize) {
+    if (newSize < listSize) {
+        //删除多于元素
+        chainNode<T> *p = firstNode;
+        for (int i = 0; i < newSize - 1; i++)
+            p = p->next;
+        //此时p指向的节点的之后的所有节点都是要删除的节点
+        chainNode<T> *deleteNode = p->next;
+        p->next = nullptr;
+        chainNode<T> *currentNode = deleteNode;
+
+        int count = 0;
+        while (currentNode != nullptr) {
+            currentNode = currentNode->next;
+            delete deleteNode;
+            deleteNode = currentNode;
+            count++;
+        }
+        listSize -= count;
+
+    } else {
+        return;
+    }
+
+}
+
+template<class T>
+void chainList<T>::push_back(const T &theElement) {
+    chainNode<T> *newNode = new chainNode<T>(theElement, nullptr);
+    if (listSize == 0)firstNode = newNode;
+    else {
+        chainNode<T> *p = firstNode;
+        for (int i = 0; i < listSize - 1; i++) {
+            p = p->next;
+        }
+        p->next = newNode;
+    }
+    listSize++;
+}
+
+template<class T>
+void chainList<T>::set(int theIndex, const T &theElement) {
+    checkIndex(theIndex, "replace");
+    this->get(theIndex) = theElement;
+}
+
+template<class T>
+void chainList<T>::removeRange(int beginIndex, int endIndex) {
+    if (beginIndex >= 0 && beginIndex < endIndex && endIndex <= listSize - 1) {
+        chainNode<T>*pBegin=firstNode,*pEnd=firstNode;
+        for(int i=0;i<beginIndex-1;i++)
+            pBegin=pBegin->next;
+        for(int i=0;i<endIndex-1;i++)
+            pEnd=pEnd->next;
+        chainNode<T>*p=pBegin->next,*j=pEnd->next;
+        chainNode<T>*deleteNode= nullptr;
+        int count=0;
+        while(p!=j->next)
+        {
+            deleteNode=p;
+            p=p->next;
+            delete deleteNode;
+            count++;
+        }
+        pBegin->next=pEnd->next->next;
+        listSize-=count;
+    } else {
+        throw illegalParameterValue("使用removeRange函数时索引传入有误");
+
+    }
+}
+
+template<class T>
 ostream &operator<<(ostream &out, const chainList<T> &theNode) {
     theNode.output(out);
     return out;
 }
 
-
-
-
-//定义前向迭代器
+//扩展chainList，以扩充抽象基类extendedLinearList中新增的功能
 template<class T>
-class forward_iterator {
+class extendedChainList : public extendedLinearList<T>, public chainList<T> {
+
 protected:
-    chainNode<T> *node;
+    chainNode<T> *lastNode;//这是一个指向链表尾节点的指针，在调用push_back()函数时可以更快地将元素插入到链表尾部
+
 public:
-    //向前迭代器必须的typedef定义语句
-    typedef forward_iterator_tag iterator_category;
-    typedef ptrdiff_t difference_type;
-    typedef T value_type;
-    typedef T *pointer;
-    typedef T &reference;
+    //构造函数与拷贝构造函数
 
-    //构造函数
-    forward_iterator(chainNode<T>*theNode=nullptr)
-    {
-        node=theNode;
+    extendedChainList(int initialCapacity = 10) : chainList<T>(initialCapacity) {}
+
+    extendedChainList(const extendedChainList<T> &c) : chainList<T>(c) {}
+
+    //ADT方法
+    bool empty() const { return chainList<T>::listSize == 0; }
+
+    int size() const { return chainList<T>::listSize; }
+
+    T &get(int theIndex) const { return chainList<T>::get(theIndex); }
+
+    int indexOf(const T &theElement) const { return chainList<T>::indexOf(theElement); }
+
+    void erase(int theIndex);
+
+    void insert(int theIndex, const T &theElement);
+
+    void clear();
+
+    void push_back(const T &theElement);
+
+    void output(ostream &out) const { chainList<T>::output(out); }
+
+    //其他函数
+    void zero() {
+        chainList<T>::firstNode = nullptr;
+        chainList<T>::listSize = 0;
     }
-    //解引用操作符
-    T &operator*()const{return node->element;}
-    T*operator->()const{return &(node->element);}
-
-    //迭代器加法操作
 
 };
+
+template<class T>
+void extendedChainList<T>::erase(int theIndex) {
+    chainList<T>::checkIndex(theIndex, "erase");
+
+    chainNode<T> *deleteNode;
+    if (theIndex == 0)//删除头节点
+    {
+        deleteNode = chainList<T>::firstNode;
+        chainList<T>::firstNode = chainList<T>::firstNode->next;
+    } else {
+        //找到要删除节点的前驱节点
+        chainNode<T> *p = chainList<T>::firstNode;
+        for (int i = 0; i < theIndex - 1; i++) {
+            p = p->next;
+        }
+        deleteNode = p->next;
+        p->next = p->next->next;
+        //若要删除的节点是最后一个节点，则将最后一个节点的前一个节点作为最后一个节点
+        if (deleteNode == lastNode)
+            lastNode = p;
+    }
+    chainList<T>::listSize--;
+    delete deleteNode;
+}
+
+template<class T>
+void extendedChainList<T>::insert(int theIndex, const T &theElement) {
+    chainList<T>::checkIndex(theIndex, "insert");
+
+    //在头节点之前插入节点
+    if (theIndex == 0) {
+        chainList<T>::firstNode = new chainNode<T>(theElement, chainList<T>::firstNode);
+        if (chainList<T>::listSize == 0)lastNode = chainList<T>::firstNode;
+    } else {
+        //找到要插入节点的前驱节点
+        chainList<T> *p = chainList<T>::firstNode;
+        for (int i = 0; i < chainList<T>::listSize - 1; i++)
+            p = p->next;
+        p->next = new chainNode<T>(theElement, p->next);
+        if (chainList<T>::listSize == theIndex) {
+            //说明是在最后一个节点之后插入节点，相当于在末尾新增节点
+            lastNode = p->next;
+        }
+    }
+    chainList<T>::listSize++;
+}
+
+template<class T>
+void extendedChainList<T>::clear() {
+    while (chainList<T>::firstNode != nullptr) {
+        chainNode<T> *nextNode = chainList<T>::firstNode->next;
+        delete chainList<T>::firstNode;
+        chainList<T>::firstNode = nextNode;
+    }
+    chainList<T>::listSize = 0;
+
+}
+
+template<class T>
+void extendedChainList<T>::push_back(const T &theElement) {
+    chainNode<T> *newNode = new chainNode<T>(theElement, nullptr);
+    if (chainList<T>::firstNode == nullptr) {
+        //整个链表是空的情况
+        chainList<T>::firstNode = lastNode = newNode;
+    } else {
+        lastNode->next = newNode;
+        lastNode = newNode;
+    }
+    chainList<T>::listSize++;
+}
