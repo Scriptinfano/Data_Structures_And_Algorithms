@@ -1,7 +1,8 @@
 #pragma once
 
+#include "D:\ClionProjects\Data_Structures_And_Algorithms\chainList\chainListMain.h"
 #include "illegalParameterValue.h"
-#include"arrayList.hpp"
+#include "arrayList.hpp"
 
 template<class T>
 void changeLength1D(T *&a, int oldLength, int newLength) {
@@ -42,4 +43,16 @@ void changeLength2D(T **&a, int oldRows, int copyRows,
 
     delete[] a;//存储每个一维数组首地址的数组还没有释放内存，此时释放所有存储一维数组地址的内存
     a = temp;
+}
+
+//将链表转换为数组线性表，要求使用chainList的get()方法和size()方法，类arrayList的insert方法
+template<class T>
+void chainToArray(const chainList<T>&theChain,arrayList<T>&theArray)
+{
+    theArray.reserve(theChain.size());
+    for(int i=0;i<theChain.size();i++)
+    {
+       theArray.push_back(theChain.get(i));
+    }
+
 }

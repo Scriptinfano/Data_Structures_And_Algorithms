@@ -12,6 +12,10 @@
 #include"illegalParameterValue.h"
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\virtualBaseClassLinearList.h"
 
+//全局模板函数的前向声明
+template<class T>
+void changeLength1D(T *&a, int oldLength, int newLength);
+
 using namespace std;
 
 //继承动态数组基类的派生类
@@ -187,10 +191,10 @@ void arrayList<T>::insert(int theIndex, const T &theElement) {
     {
         if (m_extraSize == 0) {
             //调用构造函数时传入的extraSize比初始容量小或者未传入额外的参数则执行倍增操作，否则执行按用户指定的增加数组大小的操作
-            changeLength1D(element, arrayLength, 2 * arrayLength);
+            changeLength1D<T>(element, arrayLength, 2 * arrayLength);
             arrayLength *= 2;
         } else {
-            changeLength1D(element, arrayLength, m_extraSize);
+            changeLength1D<T>(element, arrayLength, m_extraSize);
             arrayLength = m_extraSize;
         }
     }
@@ -226,7 +230,7 @@ void arrayList<T>::trimToSize() {
         return;
     }
 
-    changeLength1D(element, arrayLength, listSize);
+    changeLength1D<T>(element, arrayLength, listSize);
     arrayLength = listSize;
 
 }
@@ -238,11 +242,11 @@ void arrayList<T>::setCapacity(int newCapacity) {
     }
     if (newCapacity < listSize) {
 //两个都变
-        changeLength1D(element, arrayLength, newCapacity);
+        changeLength1D<T>(element, arrayLength, newCapacity);
         arrayLength = listSize = newCapacity;
     }
     if (newCapacity > listSize) {
-        changeLength1D(element, arrayLength, newCapacity);
+        changeLength1D<T>(element, arrayLength, newCapacity);
         arrayLength = newCapacity;
     }
 }
@@ -284,7 +288,7 @@ template<class T>
 void arrayList<T>::push_back(const T theElement) {
     if (listSize + 1 > arrayLength) {
         //执行倍增操作之后将元素添加到最后一个元素的后面
-        changeLength1D(element, arrayLength, 2 * arrayLength);
+        changeLength1D<T>(element, arrayLength, 2 * arrayLength);
         element[listSize] = theElement;
         listSize++;
         arrayLength = 2 * arrayLength;

@@ -5,22 +5,11 @@
 #include<iostream>
 #include<string>
 #include <iterator>
+#include <string.h>
+#include "D:\ClionProjects\Data_Structures_And_Algorithms\linearList\arrayAndVectorList\illegalParameterValue.h"
+#include"D:\ClionProjects\Data_Structures_And_Algorithms\linearList\arrayAndVectorList\arrayList.hpp"
 
 using namespace std;
-
-//定义异常类
-class illegalParameterValue {
-private:
-    string message;
-
-public:
-    illegalParameterValue() : message("非法实参传入") {}
-
-    illegalParameterValue(string theMessage) { message = theMessage; }
-
-    void outPutMessage() const { cout << message << endl; }
-};
-
 
 //定义链表节点类
 template<class T>
@@ -43,6 +32,27 @@ public:
 //定义链表类
 template<class T>
 class chainList : public linearList<T> {
+
+    //定义模板类的友元模板函数直接将定义写在类定义之内
+    friend bool operator<(const chainList<T> &leftChain, const chainList<T> &rightChain) {
+        char c;
+        T t;
+        if (typeid(t) != typeid(c))throw illegalParameterValue("使用<比较两个链表时，不能比较除了char类型以外的数据类型");
+        chainNode<T> *it = leftChain.begin();
+        chainNode<T> *it2 = rightChain.begin();
+        char *p = new char[leftChain.size()];
+        char *p2 = new char[rightChain.size()];
+        for (int i = 0; i < leftChain.size(); i++) {
+            p[i] = leftChain.get(i);
+        }
+        for (int i = 0; i < rightChain.size(); i++) {
+            p2[i] = rightChain.get(i);
+        }
+        int cmp = strcmp(p, p2);
+        if (cmp < 0)return true;
+        else return false;
+    }
+
 protected:
     void checkIndex(int theIndex, string actionType) const;
 
@@ -63,17 +73,42 @@ public:
     int indexOf(const T &theElement) const;         //返回元素theElement首次出现的索引值
     void erase(int theIndex);                       //删除索引为theIndex的元素
     void insert(int theIndex, const T &theElement); //在指定位置插入元素
-    void output(ostream &out) const;
+    void output(ostream &out) const;                //输出链表中的所有元素
+
 
     //其他函数
     void setSize(int newSize);//使链表节点个数等于newSize，若newSize小于原大小，则删除多余元素，若大于原大小则不做任何操作
 
-    void push_back(const T &theElement);
+    void push_back(const T &theElement);//向链表的尾部新加一个节点
 
     void set(int theIndex, const T &theElement);//替换指定元素
 
     void removeRange(int beginIndex, int endIndex);//删除指定范围内的元素
+
+    chainNode<T> *indexToAddress(int theIndex) const;//给出索引，返回该索引所代表的节点的地址
+
+    int indexOf(chainNode<T> *pBegin, const T &theElement) const;    //从以地址为pBegin的节点开始向后查找，找到第一个节点元素是theElement的节点编号
+
+    int lastIndexOf(const T &theElement) const;//返回指定元素最后出现的索引，若不存在则返回-1
+
+    void swap(chainList<T> &theChain);//交换两个链表中的元素
+
+    void fromList(const arrayList<T> &theArray);//将数组线性表转换为链表
+
+    arrayList<T> toList();//将自身转换为数组线性表，并直接返回结果
+
+    //重载运算符函数
+    T &operator[](int index);
+
+    bool operator==(const chainList<T> &theChain);
+
+    bool operator!=(const chainList<T> &theChain);
+
+    //返回链表首节点地址
+    chainNode<T> *begin() const;
+
 };
+
 
 template<class T>
 void chainList<T>::checkIndex(int theIndex, string actionType) const {
@@ -264,28 +299,138 @@ void chainList<T>::set(int theIndex, const T &theElement) {
 template<class T>
 void chainList<T>::removeRange(int beginIndex, int endIndex) {
     if (beginIndex >= 0 && beginIndex < endIndex && endIndex <= listSize - 1) {
-        chainNode<T>*pBegin=firstNode,*pEnd=firstNode;
-        for(int i=0;i<beginIndex-1;i++)
-            pBegin=pBegin->next;
-        for(int i=0;i<endIndex-1;i++)
-            pEnd=pEnd->next;
-        chainNode<T>*p=pBegin->next,*j=pEnd->next;
-        chainNode<T>*deleteNode= nullptr;
-        int count=0;
-        while(p!=j->next)
-        {
-            deleteNode=p;
-            p=p->next;
+        chainNode<T> *pBegin = firstNode, *pEnd = firstNode;
+        for (int i = 0; i < beginIndex - 1; i++)
+            pBegin = pBegin->next;
+        for (int i = 0; i < endIndex - 1; i++)
+            pEnd = pEnd->next;
+        chainNode<T> *p = pBegin->next, *j = pEnd->next;
+        chainNode<T> *deleteNode = nullptr;
+        int count = 0;
+        while (p != j->next) {
+            deleteNode = p;
+            p = p->next;
             delete deleteNode;
             count++;
         }
-        pBegin->next=pEnd->next->next;
-        listSize-=count;
+        pBegin->next = pEnd->next->next;
+        listSize -= count;
     } else {
         throw illegalParameterValue("使用removeRange函数时索引传入有误");
 
     }
 }
+
+template<class T>
+int chainList<T>::lastIndexOf(const T &theElement) const {
+    chainNode<T> *p = firstNode;
+    int lastIndex = 0;
+    int finalIndex = 0;
+
+    while (p != nullptr) {
+        finalIndex = lastIndex;
+        lastIndex = indexOf(p, theElement);
+        p = indexToAddress(lastIndex);
+        if (p != nullptr)p = p->next;
+    }
+    return finalIndex;
+}
+
+template<class T>
+int chainList<T>::indexOf(chainNode<T> *pBegin, const T &theElement) const {
+    //从以地址为pBegin的节点开始向后查找，找到第一个节点元素是theElement的节点编号
+    chainNode<T> *currentNode = pBegin;
+    int index = 0;
+    chainNode<T> *p = firstNode;
+    while (p != currentNode) {
+        p = p->next;
+        index++;
+    }
+
+    while (currentNode != nullptr && currentNode->element != theElement) {
+        currentNode = currentNode->next;
+        index++;
+    }
+    if (currentNode == nullptr)return -1;//代表没有找到
+    else return index;//找到了
+
+}
+
+template<class T>
+chainNode<T> *chainList<T>::indexToAddress(int theIndex) const {
+    if (theIndex >= listSize || theIndex < 0)return nullptr;
+    int index = 0;
+    chainNode<T> *p = firstNode;
+    while (index != theIndex) {
+        p = p->next;
+        index++;
+    }
+    return p;
+}
+
+template<class T>
+T &chainList<T>::operator[](int index) {
+    chainNode<T> *p = firstNode;
+    for (int i = 0; i < index; i++) {
+        p = p->next;
+    }
+    return p->element;
+
+}
+
+template<class T>
+bool chainList<T>::operator==(const chainList<T> &theChain) {
+    chainNode<T> *p = firstNode, *p2 = theChain.begin();
+    if (listSize != theChain.size())return false;
+    else {
+        while (p != nullptr && p2 != nullptr) {
+            if (p->element != p2->element)return false;
+            p = p->next;
+            p2 = p2->next;
+        }
+        return true;
+    }
+}
+
+template<class T>
+chainNode<T> *chainList<T>::begin() const {
+    return firstNode;
+}
+
+template<class T>
+bool chainList<T>::operator!=(const chainList<T> &theChain) {
+    return !(*this == theChain);
+}
+
+template<class T>
+void chainList<T>::swap(chainList<T> &theChain) {
+    int selfListSize = this->size();
+    int otherListSize = theChain.size();
+
+    chainNode<T> *temp = firstNode;
+    firstNode = theChain.firstNode;
+    theChain.firstNode = temp;
+
+    listSize = otherListSize;
+    theChain.setSize(selfListSize);
+
+}
+
+template<class T>
+void chainList<T>::fromList(const arrayList<T> &theArray) {
+    for (int i = 0; i < theArray.size(); i++)
+        this->push_back(theArray.get(i));
+}
+
+template<class T>
+arrayList<T> chainList<T>::toList() {
+    arrayList<T>array(this->size());
+    for(int i=0;i<this->size();i++)
+    array.push_back(this->get(i));
+
+    return array;
+}
+
 
 template<class T>
 ostream &operator<<(ostream &out, const chainList<T> &theNode) {
