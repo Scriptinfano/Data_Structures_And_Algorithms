@@ -60,7 +60,15 @@ protected:
     int listSize;//链表节点个数
 
 public:
-    chainList();//以链表作为底层数据结构的容器无需指定容量
+
+
+    //不构造首节点，创建一个空表
+    chainList(chainNode<T>*p= nullptr,int theListSize=0):firstNode(p),listSize(theListSize){};//以链表作为底层数据结构的容器无需指定容量
+
+    //构造首节点
+    chainList(const T&theElement,int theListSize=1):listSize(theListSize){
+        firstNode=new chainNode<T>(theElement, nullptr);
+    }
 
     chainList(const chainList<T> &theChainList);
 
@@ -96,6 +104,12 @@ public:
     void fromList(const arrayList<T> &theArray);//将数组线性表转换为链表
 
     arrayList<T> toList();//将自身转换为数组线性表，并直接返回结果
+
+    void leftShift(int offset);//将链表中的元素向左移动offset个位置
+
+    void reverse();//原地颠倒链表中的元素，不分配任何新的节点空间
+
+    void meld(const chainList<T>chainA,const chainList<T>chainB);//与派生类方法meld()类似，合并后的链表应该是链表a和b的节点空间，合并之后输入链表chainA和chainB是空表
 
     //重载运算符函数
     T &operator[](int index);
@@ -137,11 +151,6 @@ void chainList<T>::checkIndex(int theIndex, string actionType) const {
     }
 }
 
-template<class T>
-chainList<T>::chainList() {
-    firstNode = nullptr;
-    listSize = 0;
-}
 
 template<class T>
 chainList<T>::chainList(const chainList<T> &theChainList) {
@@ -424,11 +433,51 @@ void chainList<T>::fromList(const arrayList<T> &theArray) {
 
 template<class T>
 arrayList<T> chainList<T>::toList() {
-    arrayList<T>array(this->size());
-    for(int i=0;i<this->size();i++)
-    array.push_back(this->get(i));
+    arrayList<T> array(this->size());
+    for (int i = 0; i < this->size(); i++)
+        array.push_back(this->get(i));
 
     return array;
+}
+
+template<class T>
+void chainList<T>::leftShift(int offset) {
+    int newSize = listSize - offset;
+    chainNode<T> *p = firstNode;
+    for (int i = 0; i < offset; i++)
+        p = p->next;
+    chainNode<T> *temp = new chainNode<T>(p->element, nullptr);
+    chainNode<T> *j = temp;
+
+    for (int i = 0; i < newSize - 1; i++) {
+        j->next = new chainNode<T>(p->next->element, nullptr);
+        j = j->next;
+        p = p->next;
+    }
+    firstNode = temp;
+    listSize = newSize;
+
+
+}
+
+template<class T>
+void chainList<T>::reverse() {
+    chainNode<T> *p = firstNode;
+    chainNode<T> *j = firstNode->next;
+    chainNode<T> *temp = nullptr;
+    while (j != nullptr) {
+        temp = j->next;
+        j->next = p;
+        p = j;
+        j = temp;
+    }
+    firstNode->next = nullptr;
+    firstNode = p;
+}
+
+template<class T>
+void chainList<T>::meld(const chainList<T> chainA, const chainList<T> chainB) {
+
 }
 
 
@@ -448,9 +497,16 @@ protected:
 public:
     //构造函数与拷贝构造函数
 
-    extendedChainList(int initialCapacity = 10) : chainList<T>(initialCapacity) {}
+    extendedChainList(chainNode<T>*p= nullptr,int theSize=0) : chainList<T>(p,theSize) {
+        lastNode = chainList<T>::firstNode;
+    }
 
-    extendedChainList(const extendedChainList<T> &c) : chainList<T>(c) {}
+    extendedChainList(const extendedChainList<T> &c) : chainList<T>(c) {
+        chainNode<T> *p = chainList<T>::firstNode;
+        while (p->next != nullptr)
+            p = p->next;
+        lastNode = p;
+    }
 
     //ADT方法
     bool empty() const { return chainList<T>::listSize == 0; }
@@ -476,6 +532,8 @@ public:
         chainList<T>::firstNode = nullptr;
         chainList<T>::listSize = 0;
     }
+
+    void meld(const extendedChainList<T> &chainA, const extendedChainList<T> &chainB);
 
 };
 
@@ -514,7 +572,7 @@ void extendedChainList<T>::insert(int theIndex, const T &theElement) {
         if (chainList<T>::listSize == 0)lastNode = chainList<T>::firstNode;
     } else {
         //找到要插入节点的前驱节点
-        chainList<T> *p = chainList<T>::firstNode;
+        chainNode<T> *p = chainList<T>::firstNode;
         for (int i = 0; i < chainList<T>::listSize - 1; i++)
             p = p->next;
         p->next = new chainNode<T>(theElement, p->next);
@@ -548,4 +606,44 @@ void extendedChainList<T>::push_back(const T &theElement) {
         lastNode = newNode;
     }
     chainList<T>::listSize++;
+}
+
+template<class T>
+void extendedChainList<T>::meld(const extendedChainList<T> &chainA, const extendedChainList<T> &chainB) {
+    chainNode<T> *p = chainA.firstNode;
+    chainNode<T> *j = chainB.firstNode;
+    chainNode<T>*k= nullptr;
+    while (!(p == nullptr || j == nullptr)) {
+        this->push_back(p->element);
+        p = p->next;
+        this->push_back(j->element);
+        j = j->next;
+
+    }
+
+    //此时如果两个链表长度不相等，则一个指针是nullptr，另一个指针指向的节点及之后的所有节点都是要插入目标链表的，目标链表即调用该函数的对象
+    if (j== nullptr && p!= nullptr) {
+        //chainA链表剩下的全部插入
+        while (p != nullptr) {
+            this->push_back(p->element);
+            p = p->next;
+        }
+    } else if (j!= nullptr&&p== nullptr) {
+        //chainB链表剩下的全部插入
+        while (j != nullptr) {
+            this->push_back(j->element);
+            j = j->next;
+        }
+
+    } else {
+        //j和p都是nullptr，说明两个链表的长度一样，不需要做任何后续的补全工作
+        chainList<T>::listSize = chainA.listSize;
+        lastNode=j;
+        return;
+    }
+    chainList<T>::listSize = chainA.listSize + chainB.listSize;
+    k= chainList<T>::firstNode;
+    while(k->next!= nullptr)
+        k=k->next;
+    lastNode=k;
 }

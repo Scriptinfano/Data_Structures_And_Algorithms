@@ -80,8 +80,8 @@ public:
 
     void half();//隔一个元素删除一个元素
 
-    void meld(const arrayList<T> &arrayOne,
-              const arrayList<T> &arrayTwo);//调用该函数的容器交替地包含arrayOne和arrayTwo的元素，从arrayOne的第0个元素开始，若一个表的元素取完则将另一个表剩下的元素放到新表中
+    void meld(const arrayList<T> &arrayA,
+              const arrayList<T> &arrayB);//调用该函数的容器交替地包含arrayOne和arrayTwo的元素，从arrayOne的第0个元素开始，若一个表的元素取完则将另一个表剩下的元素放到新表中
 
     void merge(arrayList<T> &listA, arrayList<T> &listB);//将两个无序的线性表合并成一个有序的线性表
 
@@ -479,40 +479,40 @@ void arrayList<T>::half() {
 }
 
 template<class T>
-void arrayList<T>::meld(const arrayList<T> &arrayOne, const arrayList<T> &arrayTwo) {
-    int listSizeOne = arrayOne.size(), listSizeTwo = arrayTwo.size();
-    T *temp = new T[listSizeOne + listSizeTwo];
-    int tempIndex = 0, oneIndex = 0, twoIndex = 0;
-    while (!(oneIndex == listSizeOne || twoIndex == listSizeTwo)) {
-        temp[tempIndex] = arrayOne[oneIndex];
+void arrayList<T>::meld(const arrayList<T> &arrayA, const arrayList<T> &arrayB) {
+    int listSizeA = arrayA.size(), listSizeB = arrayB.size();
+    T *temp = new T[listSizeA + listSizeB];
+    int tempIndex = 0, indexA = 0, indexB = 0;
+    while (!(indexA == listSizeA || indexB == listSizeB)) {
+        temp[tempIndex] = arrayA[indexA];
         tempIndex++;
-        oneIndex++;
-        temp[tempIndex] = arrayTwo[twoIndex];
+        indexA++;
+        temp[tempIndex] = arrayB[indexB];
         tempIndex++;
-        twoIndex++;
+        indexB++;
     }
-    if (oneIndex == listSizeOne && twoIndex == listSizeTwo) {
+    if (indexA == listSizeA && indexB == listSizeB) {
         //两个表的元素一样长，说明不需要将另一个表的元素放进新表
         return;
 
-    } else if (oneIndex == listSizeOne) {
+    } else if (indexA == listSizeA) {
         //将表2放入新表
-        while (twoIndex < listSizeTwo) {
-            temp[tempIndex] = arrayTwo[twoIndex];
+        while (indexB < listSizeB) {
+            temp[tempIndex] = arrayB[indexB];
             tempIndex++;
-            twoIndex++;
+            indexB++;
         }
     } else {
-        //twoIndex==listSizeTwo的情况，将表1放入新表
-        while (oneIndex < listSizeOne) {
-            temp[tempIndex] = arrayOne[oneIndex];
+        //indexB==listSizeTwo的情况，将表1放入新表
+        while (indexA < listSizeA) {
+            temp[tempIndex] = arrayA[indexA];
             tempIndex++;
-            oneIndex++;
+            indexA++;
 
         }
     }
-    listSize = listSizeOne + listSizeTwo;
-    arrayLength = listSizeOne + listSizeTwo;
+    listSize = listSizeA + listSizeB;
+    arrayLength = listSizeA + listSizeB;
     delete[]element;
     element = temp;
 
