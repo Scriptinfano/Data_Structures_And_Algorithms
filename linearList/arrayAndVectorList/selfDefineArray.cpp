@@ -44,7 +44,8 @@ void test01() {
 
     //array3.merge(array,array2);
     //array3.meld(array, array2);
-    //sort(array.begin(),array.end());//sort函数要求传入的迭代器支持随机访问
+    //sort(array.begin(),array.end());
+    // sort函数要求传入的迭代器支持随机访问
 
 
     cout << array2 << endl;

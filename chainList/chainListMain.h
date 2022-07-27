@@ -1,13 +1,15 @@
 #pragma once
 
-#include"D:\ClionProjects\Data_Structures_And_Algorithms\virtualBaseClassLinearList.h"
-#include<sstream>
-#include<iostream>
-#include<string>
-#include <iterator>
-#include <string.h>
+#include "D:\ClionProjects\Data_Structures_And_Algorithms\virtualBaseClassLinearList.h"
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\linearList\arrayAndVectorList\illegalParameterValue.h"
-#include"D:\ClionProjects\Data_Structures_And_Algorithms\linearList\arrayAndVectorList\arrayList.hpp"
+#include "D:\ClionProjects\Data_Structures_And_Algorithms\linearList\arrayAndVectorList\arrayList.hpp"
+#include <sstream>
+#include <iostream>
+#include <string>
+#include <iterator>
+#include <cstring>
+#include <algorithm>
+#include <vector>
 
 using namespace std;
 
@@ -63,11 +65,12 @@ public:
 
 
     //不构造首节点，创建一个空表
-    chainList(chainNode<T>*p= nullptr,int theListSize=0):firstNode(p),listSize(theListSize){};//以链表作为底层数据结构的容器无需指定容量
+    chainList(chainNode<T> *p = nullptr, int theListSize = 0) : firstNode(p),
+                                                                listSize(theListSize) {};//以链表作为底层数据结构的容器无需指定容量
 
     //构造首节点
-    chainList(const T&theElement,int theListSize=1):listSize(theListSize){
-        firstNode=new chainNode<T>(theElement, nullptr);
+    chainList(const T &theElement, int theListSize = 1) : listSize(theListSize) {
+        firstNode = new chainNode<T>(theElement, nullptr);
     }
 
     chainList(const chainList<T> &theChainList);
@@ -109,7 +112,14 @@ public:
 
     void reverse();//原地颠倒链表中的元素，不分配任何新的节点空间
 
-    void meld(const chainList<T>chainA,const chainList<T>chainB);//与派生类方法meld()类似，合并后的链表应该是链表a和b的节点空间，合并之后输入链表chainA和chainB是空表
+    void meld(chainList<T> &chainA,
+              chainList<T> &chainB);//与派生类方法meld()类似，合并后的链表应该是链表a和b的节点空间，合并之后输入链表chainA和chainB是空表，会物理删除输入的两个表
+
+    void physicalClear();//物理删除链表元素，释放所有链表空间
+
+    void logicalClear();//逻辑清空链表元素，将存储链表首节点的成员变量指针firstNode置为nullptr，再将listSize置为0
+
+
 
     //重载运算符函数
     T &operator[](int index);
@@ -120,6 +130,7 @@ public:
 
     //返回链表首节点地址
     chainNode<T> *begin() const;
+
 
 };
 
@@ -476,11 +487,53 @@ void chainList<T>::reverse() {
 }
 
 template<class T>
-void chainList<T>::meld(const chainList<T> chainA, const chainList<T> chainB) {
+void chainList<T>::meld(chainList<T> &chainA, chainList<T> &chainB) {
+    if (chainA.size() == 0 && chainB.size() == 0)return;
+    chainNode<T> *p = chainA.begin();
+    chainNode<T> *j = chainB.begin();
+    chainNode<T> *t = nullptr;
+    chainNode<T> *c = nullptr;
+    chainNode<T> *temp = nullptr;
+    chainNode<T> *temp2 = nullptr;
+    do {
+        temp = p->next;
+        t = p;
+        p = p->next;
+        temp2 = j->next;
+        c = j;
+        j = j->next;
+        t->next = c;
+        c->next = temp;
+    } while (temp != nullptr && temp2 != nullptr);
+    if (temp == nullptr && temp2 != nullptr)
+        c->next = temp2;
+    firstNode = chainA.begin();
+    listSize = chainA.size() + chainB.size();
+    chainA.logicalClear();
+    chainB.logicalClear();
 
 }
 
+template<class T>
+void chainList<T>::physicalClear() {
+    chainNode<T> *deleteNode = firstNode;
+    chainNode<T> *p = firstNode;
+    while (p != nullptr) {
+        deleteNode = p;
+        p = p->next;
+        delete deleteNode;
+    }
+    firstNode = nullptr;
+    listSize = 0;
+}
 
+template<class T>
+void chainList<T>::logicalClear() {
+    firstNode = nullptr;
+    listSize = 0;
+}
+
+//全局函数，重载左移运算符使得cout<<对象名可输出链表元素
 template<class T>
 ostream &operator<<(ostream &out, const chainList<T> &theNode) {
     theNode.output(out);
@@ -497,7 +550,7 @@ protected:
 public:
     //构造函数与拷贝构造函数
 
-    extendedChainList(chainNode<T>*p= nullptr,int theSize=0) : chainList<T>(p,theSize) {
+    extendedChainList(chainNode<T> *p = nullptr, int theSize = 0) : chainList<T>(p, theSize) {
         lastNode = chainList<T>::firstNode;
     }
 
@@ -534,6 +587,8 @@ public:
     }
 
     void meld(const extendedChainList<T> &chainA, const extendedChainList<T> &chainB);
+
+    vector<extendedChainList<T>> *split();
 
 };
 
@@ -612,7 +667,7 @@ template<class T>
 void extendedChainList<T>::meld(const extendedChainList<T> &chainA, const extendedChainList<T> &chainB) {
     chainNode<T> *p = chainA.firstNode;
     chainNode<T> *j = chainB.firstNode;
-    chainNode<T>*k= nullptr;
+    chainNode<T> *k = nullptr;
     while (!(p == nullptr || j == nullptr)) {
         this->push_back(p->element);
         p = p->next;
@@ -622,13 +677,13 @@ void extendedChainList<T>::meld(const extendedChainList<T> &chainA, const extend
     }
 
     //此时如果两个链表长度不相等，则一个指针是nullptr，另一个指针指向的节点及之后的所有节点都是要插入目标链表的，目标链表即调用该函数的对象
-    if (j== nullptr && p!= nullptr) {
+    if (j == nullptr && p != nullptr) {
         //chainA链表剩下的全部插入
         while (p != nullptr) {
             this->push_back(p->element);
             p = p->next;
         }
-    } else if (j!= nullptr&&p== nullptr) {
+    } else if (j != nullptr && p == nullptr) {
         //chainB链表剩下的全部插入
         while (j != nullptr) {
             this->push_back(j->element);
@@ -638,12 +693,52 @@ void extendedChainList<T>::meld(const extendedChainList<T> &chainA, const extend
     } else {
         //j和p都是nullptr，说明两个链表的长度一样，不需要做任何后续的补全工作
         chainList<T>::listSize = chainA.listSize;
-        lastNode=j;
+        lastNode = j;
         return;
     }
     chainList<T>::listSize = chainA.listSize + chainB.listSize;
-    k= chainList<T>::firstNode;
-    while(k->next!= nullptr)
-        k=k->next;
-    lastNode=k;
+    k = chainList<T>::firstNode;
+    while (k->next != nullptr)
+        k = k->next;
+    lastNode = k;
 }
+
+template<class T>
+vector<extendedChainList<T>> *extendedChainList<T>::split() {
+    auto *targetVector = new vector<extendedChainList<T>>;
+    if (this->size() == 0)return nullptr;
+    extendedChainList<T> oddChain;//存放索引为奇数的节点
+    extendedChainList<T> evenChain;//存放索引为偶数的节点
+    for (int i = 0; i < this->size(); i++) {
+        if ((i % 2) != 0)//索引为奇数时
+        {
+            oddChain.push_back(this->get(i));
+        } else {
+            //索引为偶数时
+            evenChain.push_back(this->get(i));
+        }
+    }
+    targetVector->push_back(oddChain);
+    targetVector->push_back(evenChain);
+    return targetVector;
+}
+
+
+//全局模板函数，假设T类型的数据定义了比较运算符，且输入的两个链表chainA和chainB都是有序链表
+template<class T>
+extendedChainList<T> merge(extendedChainList<T> &chainA, extendedChainList<T> &chainB) {
+    vector<T> temp;
+    for (int i = 0; i < chainA.size(); i++) {
+        temp.push_back(chainA.get(i));
+    }
+    for (int i = 0; i < chainB.size(); i++) {
+        temp.push_back(chainB.get(i));
+    }
+    sort(temp.begin(), temp.end());
+    extendedChainList<T> targetChain;
+    for (int i = 0; i < temp.size(); i++) {
+        targetChain.push_back(temp.at(i));
+    }
+    return targetChain;
+}
+

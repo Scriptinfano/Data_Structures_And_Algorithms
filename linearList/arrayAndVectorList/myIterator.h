@@ -93,6 +93,7 @@ typename mystd::iterator<T>::difference_type mystd::iterator<T>::operator-(refer
     return distance;
 }
 
+
 template<class T>
 T &mystd::iterator<T>::operator[](int i) {
     position+=i;
