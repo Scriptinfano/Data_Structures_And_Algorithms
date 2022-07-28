@@ -10,6 +10,7 @@
 #include <cstring>
 #include <algorithm>
 #include <vector>
+#include <queue>
 
 using namespace std;
 
@@ -87,20 +88,27 @@ public:
     void output(ostream &out) const;                //输出链表中的所有元素
 
 
-    //其他函数
+private:
+    //私有内部接口：
     void setSize(int newSize);//使链表节点个数等于newSize，若newSize小于原大小，则删除多余元素，若大于原大小则不做任何操作
-
-    void push_back(const T &theElement);//向链表的尾部新加一个节点
-
-    void set(int theIndex, const T &theElement);//替换指定元素
-
-    void removeRange(int beginIndex, int endIndex);//删除指定范围内的元素
 
     chainNode<T> *indexToAddress(int theIndex) const;//给出索引，返回该索引所代表的节点的地址
 
     int indexOf(chainNode<T> *pBegin, const T &theElement) const;    //从以地址为pBegin的节点开始向后查找，找到第一个节点元素是theElement的节点编号
 
     int lastIndexOf(const T &theElement) const;//返回指定元素最后出现的索引，若不存在则返回-1
+
+    void swap(int indexA, int indexB);//交换指定索引的两个节点的元素
+
+public:
+
+    //其他函数
+
+    void push_back(const T &theElement);//向链表的尾部新加一个节点
+
+    void set(int theIndex, const T &theElement);//替换指定元素
+
+    void removeRange(int beginIndex, int endIndex);//删除指定范围内的元素
 
     void swap(chainList<T> &theChain);//交换两个链表中的元素
 
@@ -119,6 +127,9 @@ public:
 
     void logicalClear();//逻辑清空链表元素，将存储链表首节点的成员变量指针firstNode置为nullptr，再将listSize置为0
 
+    vector<chainList<T>> *split();//生成两个扩展链表a和b，a中包含索引为奇数的元素，b中包含其余元素，a和b的存储空间即*this的存储空间
+
+    void test();//用来测试私有函数的公有接口
 
 
     //重载运算符函数
@@ -533,6 +544,65 @@ void chainList<T>::logicalClear() {
     listSize = 0;
 }
 
+template<class T>
+void chainList<T>::swap(int indexA, int indexB) {
+    checkIndex(indexA, "replace");
+    checkIndex(indexB, "replace");
+    T temp;
+    temp = this->get(indexA);
+    this->get(indexA) = this->get(indexB);
+    this->get(indexB) = temp;
+}
+
+template<class T>
+vector<chainList<T>> *chainList<T>::split() {
+    vector<chainList<T>> *p = new vector<chainList<T>>;
+    if (this->size() < 2)return nullptr;
+    if (this->size() == 2) {
+        chainList<T> c1(firstNode, 1);
+        chainNode<T> *secondNode = firstNode->next;
+        firstNode->next = nullptr;
+        chainList<T> c2(secondNode, 1);
+        secondNode->next = nullptr;
+        p->push_back(c1);
+        p->push_back(c2);
+        firstNode = nullptr;
+        listSize = 0;
+        return p;
+    }
+    //元素个数大于等于3的，要采用一套交换算法，将所有索引为偶数的（索引为0的元素不用动），也就是索引为2的元素开始往后所有索引为偶数的元素往前放，例如{7，6，8，9，2}变为{7，8，2，6，9}
+    int i = 1;
+    int x = 2;
+    while (true) {
+        if (x + 1 <= listSize)//满足这个条件的就执行swap()函数
+        {
+            this->swap(i, x);
+        } else break;
+        i++;
+        x += 2;
+    }
+
+    chainList<T> c1(firstNode, i);//索引为i的节点之前的所有节点归属c1
+    chainList<T> c2(this->indexToAddress(i), listSize - i);
+    this->indexToAddress(i - 1)->next = nullptr;
+
+    p->push_back(c1);
+    p->push_back(c2);
+
+    firstNode = nullptr;
+    listSize = 0;
+    return p;
+
+
+}
+
+template<class T>
+void chainList<T>::test() {
+
+    this->swap(1, 2);
+
+}
+
 //全局函数，重载左移运算符使得cout<<对象名可输出链表元素
 template<class T>
 ostream &operator<<(ostream &out, const chainList<T> &theNode) {
@@ -579,6 +649,8 @@ public:
     void push_back(const T &theElement);
 
     void output(ostream &out) const { chainList<T>::output(out); }
+
+    void circularShift(int theOffset);
 
     //其他函数
     void zero() {
@@ -721,6 +793,18 @@ vector<extendedChainList<T>> *extendedChainList<T>::split() {
     targetVector->push_back(oddChain);
     targetVector->push_back(evenChain);
     return targetVector;
+}
+
+template<class T>
+void extendedChainList<T>::circularShift(int theOffset) {
+    queue<T> temp;
+    int netOffset=theOffset%chainList<T>::listSize;
+    for (int i = 0; i < netOffset; i++) {
+        temp.push(this->get(0));
+        this->erase(0);
+        this->push_back(temp.front());
+        temp.pop();
+    }
 }
 
 
