@@ -44,6 +44,26 @@ void selectionSort(T a[],int n)
     }
 }
 
+//原本的选择排序有个缺点就是即使元素已经有序，程序依然会继续运行，因此要求在检查最大元素时，同时检查数组是否已经有序
+template<class T>
+void betterSelectionSort(T a[],int n)
+{
+    bool sorted=false;
+    for(int size=n;!sorted&&(size>1);size--)
+    {
+        int indexOfMax=0;
+        sorted=true;
+        for(int i=1;i<size;i++)
+        {
+            if(a[indexOfMax]<=a[i])indexOfMax=i;
+            else sorted= false;
+        }
+        swap(a[indexOfMax],a[size-1]);
+    }
+}
 int main() {
+
+
+
     return 0;
 }

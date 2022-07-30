@@ -1,7 +1,6 @@
 #pragma once
 
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\virtualBaseClassLinearList.h"
-#include "D:\ClionProjects\Data_Structures_And_Algorithms\linearList\arrayAndVectorList\illegalParameterValue.h"
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\linearList\arrayAndVectorList\arrayList.hpp"
 #include <sstream>
 #include <iostream>
@@ -14,23 +13,6 @@
 
 using namespace std;
 
-//定义链表节点类
-template<class T>
-class chainNode {
-public:
-    T element;//链表节点的数据域
-    chainNode<T> *next;//链表节点的指针域
-
-    //成员函数
-    chainNode() = default;
-
-    chainNode(const T &theElement) { this->element = theElement; }
-
-    chainNode(const T &theElement, chainNode<T> *theNext) {
-        this->element = theElement;
-        this->next = theNext;
-    }
-};
 
 //定义链表类
 template<class T>
@@ -54,6 +36,10 @@ class chainList : public linearList<T> {
         int cmp = strcmp(p, p2);
         if (cmp < 0)return true;
         else return false;
+    }
+
+    friend void bubbleSort(chainList<T> *chain, int size) {
+        for (int i = size; i > 1 && chain->bubble(i); i--);
     }
 
 protected:
@@ -100,6 +86,8 @@ private:
 
     void swap(int indexA, int indexB);//交换指定索引的两个节点的元素
 
+    bool bubble(int n);
+
 public:
 
     //其他函数
@@ -130,6 +118,16 @@ public:
     vector<chainList<T>> *split();//生成两个扩展链表a和b，a中包含索引为奇数的元素，b中包含其余元素，a和b的存储空间即*this的存储空间
 
     void test();//用来测试私有函数的公有接口
+
+    void swapNode(int indexA, int indexB);//交换两个节点的数据
+
+    void insertSort();//利用插入排序法对链表元素进行排列
+
+    void selectionSort();
+
+    void rankSort();
+
+    void bubbleSort();
 
 
     //重载运算符函数
@@ -184,7 +182,7 @@ chainList<T>::chainList(const chainList<T> &theChainList) {
     }
     //先创建指针接管被复制链表，再拷贝第一个元素，再移动原链表指针，再用指针接管目标链表，然后循环拷贝元素
     chainNode<T> *sourceNode = theChainList.firstNode;//sourceNode指向被复制链表的首节点
-    firstNode = new chainNode(sourceNode->element);//初始化目标链表首节点并拷贝首元素
+    firstNode = new chainNode<T>(sourceNode->element);//初始化目标链表首节点并拷贝首元素
     sourceNode = sourceNode->next;//指向被复制链表首节点的指针向后挪一个节点
     chainNode<T> *targetNode = firstNode;//创建指向目标链表首节点的指针
     while (sourceNode != nullptr) {
@@ -204,6 +202,7 @@ chainList<T>::~chainList() {
         delete firstNode;
         firstNode = nextNode;
     }
+    listSize = 0;
 }
 
 template<class T>
@@ -282,17 +281,23 @@ void chainList<T>::output(ostream &out) const {
 
 template<class T>
 void chainList<T>::setSize(int newSize) {
+    if (newSize < 0)throw illegalParameterValue("调用void chainList<T>::setSize(int newSize)函数时，参数传递错误，newSize不得小于0");
     if (newSize < listSize) {
         //删除多于元素
         chainNode<T> *p = firstNode;
-        for (int i = 0; i < newSize - 1; i++)
+        chainNode<T> *j = p->next;
+        //此时p指向的节点是j指向的节点的前驱节点
+        for (int i = 0; i < newSize; i++) {
+            j = j->next;
             p = p->next;
-        //此时p指向的节点的之后的所有节点都是要删除的节点
-        chainNode<T> *deleteNode = p->next;
+        }
+        //p在j的前面，此时j指向的节点以及之后的所有节点是要删除的节点
         p->next = nullptr;
+
+        chainNode<T> *deleteNode = j;
         chainNode<T> *currentNode = deleteNode;
 
-        int count = 0;
+        int count = 0;//记录删除节点的数量
         while (currentNode != nullptr) {
             currentNode = currentNode->next;
             delete deleteNode;
@@ -302,7 +307,7 @@ void chainList<T>::setSize(int newSize) {
         listSize -= count;
 
     } else {
-        return;
+        throw illegalParameterValue("调用void chainList<T>::setSize(int newSize)函数时，参数传递错误，newSize不得大于原大小");
     }
 
 }
@@ -603,6 +608,78 @@ void chainList<T>::test() {
 
 }
 
+template<class T>
+void chainList<T>::insertSort() {
+    for (int i = 1; i < this->size(); i++) {
+        T t = this->get(i);
+        int j;
+        for (j = i - 1; j >= 0 && t < this->get(j); j--) {
+            this->get(j + 1) = this->get(j);
+        }
+        this->get(j + 1) = t;
+    }
+}
+
+template<class T>
+bool chainList<T>::bubble(int n) {
+    bool swapped = false;
+    for (int i = 0; i < n; i++) {
+        if (this->get(i) > this->get(i + 1)) {
+            this->swapNode(i, i + 1);
+            swapped = true;
+        }
+    }
+    return swapped;
+}
+
+template<class T>
+void chainList<T>::selectionSort() {
+    bool sorted = false;
+    for (int size = this->size(); !sorted && (size > 1); size--) {
+        int indexOfMax = 0;
+        sorted = true;
+        for (int i = 1; i < size; i++) {
+            if (this->get(indexOfMax) <= this->get(i))
+                indexOfMax = i;
+            else sorted = false;
+        }
+        this->swap(this->get(indexOfMax), this->get(size - 1));
+    }
+}
+
+template<class T>
+void chainList<T>::rankSort() {
+    int *countArray = new int[this->size()];
+    for (int i = 0; i < this->size(); i++)countArray[i] = 0;
+    for (int i = 0; i < this->size(); i++) {
+        countArray[this->get(i)]++;
+    }
+    int index = 0;
+    for (int i = 0; i < this->size(); i++) {
+        if (countArray[i] != 0) {
+            for (int j = 0; j < countArray[i]; j++) {
+                this->get(index) = i;
+                index++;
+            }
+        }
+    }
+}
+
+template<class T>
+void chainList<T>::swapNode(int indexA, int indexB) {
+    checkIndex(indexA, "replace");
+    checkIndex(indexB, "replace");
+    T temp;
+    temp = this->get(indexA);
+    this->get(indexA) = this->get(indexB);
+    this->get(indexB) = temp;
+}
+
+template<class T>
+void chainList<T>::bubbleSort() {
+    for (int i = this->size(); i > 1 && this->bubble(i); i--);
+}
+
 //全局函数，重载左移运算符使得cout<<对象名可输出链表元素
 template<class T>
 ostream &operator<<(ostream &out, const chainList<T> &theNode) {
@@ -610,219 +687,14 @@ ostream &operator<<(ostream &out, const chainList<T> &theNode) {
     return out;
 }
 
+//将链表转换为数组线性表，要求使用chainList的get()方法和size()方法，类arrayList的insert方法
+template<class T>
+void chainToArray(const chainList<T> &theChain, arrayList<T> &theArray) {
+    theArray.reserve(theChain.size());
+    for (int i = 0; i < theChain.size(); i++) {
+        theArray.push_back(theChain.get(i));
+    }
+}
+
+
 //扩展chainList，以扩充抽象基类extendedLinearList中新增的功能
-template<class T>
-class extendedChainList : public extendedLinearList<T>, public chainList<T> {
-
-protected:
-    chainNode<T> *lastNode;//这是一个指向链表尾节点的指针，在调用push_back()函数时可以更快地将元素插入到链表尾部
-
-public:
-    //构造函数与拷贝构造函数
-
-    extendedChainList(chainNode<T> *p = nullptr, int theSize = 0) : chainList<T>(p, theSize) {
-        lastNode = chainList<T>::firstNode;
-    }
-
-    extendedChainList(const extendedChainList<T> &c) : chainList<T>(c) {
-        chainNode<T> *p = chainList<T>::firstNode;
-        while (p->next != nullptr)
-            p = p->next;
-        lastNode = p;
-    }
-
-    //ADT方法
-    bool empty() const { return chainList<T>::listSize == 0; }
-
-    int size() const { return chainList<T>::listSize; }
-
-    T &get(int theIndex) const { return chainList<T>::get(theIndex); }
-
-    int indexOf(const T &theElement) const { return chainList<T>::indexOf(theElement); }
-
-    void erase(int theIndex);
-
-    void insert(int theIndex, const T &theElement);
-
-    void clear();
-
-    void push_back(const T &theElement);
-
-    void output(ostream &out) const { chainList<T>::output(out); }
-
-    void circularShift(int theOffset);
-
-    //其他函数
-    void zero() {
-        chainList<T>::firstNode = nullptr;
-        chainList<T>::listSize = 0;
-    }
-
-    void meld(const extendedChainList<T> &chainA, const extendedChainList<T> &chainB);
-
-    vector<extendedChainList<T>> *split();
-
-};
-
-template<class T>
-void extendedChainList<T>::erase(int theIndex) {
-    chainList<T>::checkIndex(theIndex, "erase");
-
-    chainNode<T> *deleteNode;
-    if (theIndex == 0)//删除头节点
-    {
-        deleteNode = chainList<T>::firstNode;
-        chainList<T>::firstNode = chainList<T>::firstNode->next;
-    } else {
-        //找到要删除节点的前驱节点
-        chainNode<T> *p = chainList<T>::firstNode;
-        for (int i = 0; i < theIndex - 1; i++) {
-            p = p->next;
-        }
-        deleteNode = p->next;
-        p->next = p->next->next;
-        //若要删除的节点是最后一个节点，则将最后一个节点的前一个节点作为最后一个节点
-        if (deleteNode == lastNode)
-            lastNode = p;
-    }
-    chainList<T>::listSize--;
-    delete deleteNode;
-}
-
-template<class T>
-void extendedChainList<T>::insert(int theIndex, const T &theElement) {
-    chainList<T>::checkIndex(theIndex, "insert");
-
-    //在头节点之前插入节点
-    if (theIndex == 0) {
-        chainList<T>::firstNode = new chainNode<T>(theElement, chainList<T>::firstNode);
-        if (chainList<T>::listSize == 0)lastNode = chainList<T>::firstNode;
-    } else {
-        //找到要插入节点的前驱节点
-        chainNode<T> *p = chainList<T>::firstNode;
-        for (int i = 0; i < chainList<T>::listSize - 1; i++)
-            p = p->next;
-        p->next = new chainNode<T>(theElement, p->next);
-        if (chainList<T>::listSize == theIndex) {
-            //说明是在最后一个节点之后插入节点，相当于在末尾新增节点
-            lastNode = p->next;
-        }
-    }
-    chainList<T>::listSize++;
-}
-
-template<class T>
-void extendedChainList<T>::clear() {
-    while (chainList<T>::firstNode != nullptr) {
-        chainNode<T> *nextNode = chainList<T>::firstNode->next;
-        delete chainList<T>::firstNode;
-        chainList<T>::firstNode = nextNode;
-    }
-    chainList<T>::listSize = 0;
-
-}
-
-template<class T>
-void extendedChainList<T>::push_back(const T &theElement) {
-    chainNode<T> *newNode = new chainNode<T>(theElement, nullptr);
-    if (chainList<T>::firstNode == nullptr) {
-        //整个链表是空的情况
-        chainList<T>::firstNode = lastNode = newNode;
-    } else {
-        lastNode->next = newNode;
-        lastNode = newNode;
-    }
-    chainList<T>::listSize++;
-}
-
-template<class T>
-void extendedChainList<T>::meld(const extendedChainList<T> &chainA, const extendedChainList<T> &chainB) {
-    chainNode<T> *p = chainA.firstNode;
-    chainNode<T> *j = chainB.firstNode;
-    chainNode<T> *k = nullptr;
-    while (!(p == nullptr || j == nullptr)) {
-        this->push_back(p->element);
-        p = p->next;
-        this->push_back(j->element);
-        j = j->next;
-
-    }
-
-    //此时如果两个链表长度不相等，则一个指针是nullptr，另一个指针指向的节点及之后的所有节点都是要插入目标链表的，目标链表即调用该函数的对象
-    if (j == nullptr && p != nullptr) {
-        //chainA链表剩下的全部插入
-        while (p != nullptr) {
-            this->push_back(p->element);
-            p = p->next;
-        }
-    } else if (j != nullptr && p == nullptr) {
-        //chainB链表剩下的全部插入
-        while (j != nullptr) {
-            this->push_back(j->element);
-            j = j->next;
-        }
-
-    } else {
-        //j和p都是nullptr，说明两个链表的长度一样，不需要做任何后续的补全工作
-        chainList<T>::listSize = chainA.listSize;
-        lastNode = j;
-        return;
-    }
-    chainList<T>::listSize = chainA.listSize + chainB.listSize;
-    k = chainList<T>::firstNode;
-    while (k->next != nullptr)
-        k = k->next;
-    lastNode = k;
-}
-
-template<class T>
-vector<extendedChainList<T>> *extendedChainList<T>::split() {
-    auto *targetVector = new vector<extendedChainList<T>>;
-    if (this->size() == 0)return nullptr;
-    extendedChainList<T> oddChain;//存放索引为奇数的节点
-    extendedChainList<T> evenChain;//存放索引为偶数的节点
-    for (int i = 0; i < this->size(); i++) {
-        if ((i % 2) != 0)//索引为奇数时
-        {
-            oddChain.push_back(this->get(i));
-        } else {
-            //索引为偶数时
-            evenChain.push_back(this->get(i));
-        }
-    }
-    targetVector->push_back(oddChain);
-    targetVector->push_back(evenChain);
-    return targetVector;
-}
-
-template<class T>
-void extendedChainList<T>::circularShift(int theOffset) {
-    queue<T> temp;
-    int netOffset=theOffset%chainList<T>::listSize;
-    for (int i = 0; i < netOffset; i++) {
-        temp.push(this->get(0));
-        this->erase(0);
-        this->push_back(temp.front());
-        temp.pop();
-    }
-}
-
-
-//全局模板函数，假设T类型的数据定义了比较运算符，且输入的两个链表chainA和chainB都是有序链表
-template<class T>
-extendedChainList<T> merge(extendedChainList<T> &chainA, extendedChainList<T> &chainB) {
-    vector<T> temp;
-    for (int i = 0; i < chainA.size(); i++) {
-        temp.push_back(chainA.get(i));
-    }
-    for (int i = 0; i < chainB.size(); i++) {
-        temp.push_back(chainB.get(i));
-    }
-    sort(temp.begin(), temp.end());
-    extendedChainList<T> targetChain;
-    for (int i = 0; i < temp.size(); i++) {
-        targetChain.push_back(temp.at(i));
-    }
-    return targetChain;
-}
-

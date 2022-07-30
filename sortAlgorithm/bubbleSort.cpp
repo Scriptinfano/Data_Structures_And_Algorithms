@@ -2,8 +2,9 @@
 
 using namespace std;
 
+
 template<class T>
-void swap(T &a,T&b)
+void myswap(T &a,T&b)
 {
     T temp;
     temp=a;
@@ -32,6 +33,33 @@ void bubbleSort(T a[],int n)
     }
 }
 
+//º∞ ±÷’÷πµƒ√∞≈›≈≈–Ú
+template<class T>
+bool betterBubble(T a[],int n)
+{
+    bool swapped= false;
+    for(int i=0;i<n;i++)
+    {
+        if(a[i]>a[i+1])
+        {
+            swap(a[i],a[i+1]);
+            swapped= true;
+        }
+    }
+    return swapped;
+}
+
+template<class T>
+bool betterBubbleSort(T a[],int n)
+{
+    for(int i=n;i>1&& betterBubble(a,i);i--);
+}
 int main() {
+    int a[]={12,32,1,4,16,3,6,31};
+    betterBubbleSort(a,8);
+    for(auto i:a)
+    {
+        cout<<i<<" ";
+    }
     return 0;
 }

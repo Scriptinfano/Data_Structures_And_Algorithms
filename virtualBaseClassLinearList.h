@@ -1,9 +1,27 @@
 #pragma once
 
+//定义链表节点类
+template<class T>
+class chainNode {
+public:
+    T element;//链表节点的数据域
+    chainNode<T> *next;//链表节点的指针域
+
+    //成员函数
+    chainNode() = default;
+
+    chainNode(const T &theElement) { this->element = theElement; }
+
+    chainNode(const T &theElement, chainNode<T> *theNext) {
+        this->element = theElement;
+        this->next = theNext;
+    }
+};
+
 template<class T>
 class linearList {
 public:
-    virtual ~linearList() {}                                  //空的虚析构函数
+    virtual ~linearList() {}                                 //空的虚析构函数
     virtual bool empty() const = 0;                          //检测容器是否为空
     virtual int size() const = 0;                            //返回容器中元素的数量
     virtual T &get(int index) const = 0;                     //返回索引值为index的对象
@@ -24,3 +42,4 @@ public:
     virtual void push_back(const T &theElement) = 0;
 
 };
+

@@ -1,34 +1,81 @@
 #include<iostream>
-#include "chainListMain.h"
+#include"circularListWithHeader.h"
+#include "D:\ClionProjects\Data_Structures_And_Algorithms\linearList\arrayAndVectorList\globalFunction.h"
+#include<ctime>
 
-using namespace std;
+//全局模板函数在使用的文件前必须要前向声明
+template<class T>
+void chainToArray(const chainList<T> &theChain, arrayList<T> &theArray);
+
+
+void test21();//extendedChainList<T>::split方法测试
+void test22();
+void test23();
+void test27_3();//测试计数排序
+
+
 
 int main() {
-    chainList<char> chain;
-    chain.push_back('i');
-    chain.push_back('e');
-    chain.push_back('n');
-    chain.push_back('r');
-    chainList<char>chain2;
-    chain2.push_back('q');
-    chain2.push_back('e');
-    chain2.push_back('r');
-    chain2.push_back('d');
+    test27_3();
+    return 0;
+}
 
+void test21() {
+    srand((unsigned int) time(0));
+    extendedChainList<int> chain;
+    int max = 100, min = 0;
+    int randNumber = 0;
 
+    for (int i = 0; i < 10; i++) {
+        randNumber = rand() % (max - min + 1) + min;
+        chain.push_back(randNumber);
+    }
+    cout << "原始链表：" << endl;
+    cout << chain << endl;
+    cout << "分离后：" << endl;
+    vector<extendedChainList<int>> *p = chain.split();
+    if (p == nullptr)cout << "chain为空" << endl;
+    cout << p->at(0) << endl;
+    cout << p->at(1) << endl;
 
-/*
-    chain.swap(chain2);
-    cout<<chain<<endl;
-    cout<<chain2;
-*/
+}
 
-    //bool a =chain<chain2;
-    //cout<<boolalpha<<a;
-    //int lastIndex=chain.lastIndexOf(13);
-    //chain.removeRange(2, 4);
-    //chain.setSize(3);
-    //chain.set(2,43);
-    //cout<<chain[2];
-    //cout << chain;
+void test22() {
+    chainList<int> chain;
+    chain.push_back(7);
+    chain.push_back(3);
+    chain.push_back(9);
+    chain.push_back(8);
+    chain.push_back(2);
+    chain.push_back(6);
+
+    vector<chainList<int>> *p = chain.split();
+    cout << p->at(0) << endl;
+}
+
+void test23() {
+    extendedChainList<int> chain;
+    chain.push_back(7);
+    chain.push_back(3);
+    chain.push_back(9);
+    chain.push_back(8);
+    chain.push_back(2);
+    chain.push_back(6);
+    chain.circularShift(8);
+    cout << chain;
+}
+void test27_3() {
+    chainList<int> chain;
+
+    chain.push_back(7);
+    chain.push_back(3);
+    chain.push_back(9);
+    chain.push_back(8);
+    chain.push_back(2);
+    chain.push_back(6);
+
+    chain.rankSort();
+
+    cout<<chain;
+
 }
