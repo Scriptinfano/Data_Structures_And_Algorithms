@@ -65,13 +65,14 @@ public:
     ~chainList();
 
     //ADT方法
-    bool empty() const { return listSize == 0; }    //检测是否为空
-    int size() const;                               //返回容器元素个数
-    T &get(int theIndex) const;                     //得到索引值为theIndex的元素
-    int indexOf(const T &theElement) const;         //返回元素theElement首次出现的索引值
-    void erase(int theIndex);                       //删除索引为theIndex的元素
-    void insert(int theIndex, const T &theElement); //在指定位置插入元素
-    void output(ostream &out) const;                //输出链表中的所有元素
+    virtual bool empty() const { return listSize == 0; }    //检测是否为空
+    virtual int size() const;                               //返回容器元素个数
+    virtual T &get(int theIndex) const;                     //得到索引值为theIndex的元素
+    virtual int indexOf(const T &theElement) const;         //返回元素theElement首次出现的索引值
+    virtual void erase(int theIndex);                       //删除索引为theIndex的元素
+    virtual void insert(int theIndex, const T &theElement); //在指定位置插入元素
+    virtual void output(ostream &out) const;                //输出链表中的所有元素
+    virtual void clear();                                   //标准清空容器接口，可选择物理清空还是逻辑清空
 
 
 private:
@@ -87,6 +88,11 @@ private:
     void swap(int indexA, int indexB);//交换指定索引的两个节点的元素
 
     bool bubble(int n);
+
+    void physicalClear();//物理删除链表元素，释放所有链表空间
+
+    void logicalClear();//逻辑清空链表元素，将存储链表首节点的成员变量指针firstNode置为nullptr，再将listSize置为0
+
 
 public:
 
@@ -110,10 +116,6 @@ public:
 
     void meld(chainList<T> &chainA,
               chainList<T> &chainB);//与派生类方法meld()类似，合并后的链表应该是链表a和b的节点空间，合并之后输入链表chainA和chainB是空表，会物理删除输入的两个表
-
-    void physicalClear();//物理删除链表元素，释放所有链表空间
-
-    void logicalClear();//逻辑清空链表元素，将存储链表首节点的成员变量指针firstNode置为nullptr，再将listSize置为0
 
     vector<chainList<T>> *split();//生成两个扩展链表a和b，a中包含索引为奇数的元素，b中包含其余元素，a和b的存储空间即*this的存储空间
 
@@ -343,13 +345,14 @@ void chainList<T>::removeRange(int beginIndex, int endIndex) {
         chainNode<T> *p = pBegin->next, *j = pEnd->next;
         chainNode<T> *deleteNode = nullptr;
         int count = 0;
+        pBegin->next=j->next;
+
         while (p != j->next) {
             deleteNode = p;
             p = p->next;
             delete deleteNode;
             count++;
         }
-        pBegin->next = pEnd->next->next;
         listSize -= count;
     } else {
         throw illegalParameterValue("使用removeRange函数时索引传入有误");
@@ -678,6 +681,11 @@ void chainList<T>::swapNode(int indexA, int indexB) {
 template<class T>
 void chainList<T>::bubbleSort() {
     for (int i = this->size(); i > 1 && this->bubble(i); i--);
+}
+
+template<class T>
+void chainList<T>::clear() {
+this->physicalClear();
 }
 
 //全局函数，重载左移运算符使得cout<<对象名可输出链表元素

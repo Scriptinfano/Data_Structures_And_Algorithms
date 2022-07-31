@@ -1,5 +1,6 @@
 #include<iostream>
 #include"circularListWithHeader.h"
+#include"extendedChainList.h"
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\linearList\arrayAndVectorList\globalFunction.h"
 #include<ctime>
 
@@ -10,13 +11,15 @@ void chainToArray(const chainList<T> &theChain, arrayList<T> &theArray);
 
 void test21();//extendedChainList<T>::split方法测试
 void test22();
+
 void test23();
+
 void test27_3();//测试计数排序
-
-
+void testRemoveRange();
 
 int main() {
-    test27_3();
+    testRemoveRange();
+
     return 0;
 }
 
@@ -64,6 +67,7 @@ void test23() {
     chain.circularShift(8);
     cout << chain;
 }
+
 void test27_3() {
     chainList<int> chain;
 
@@ -76,6 +80,21 @@ void test27_3() {
 
     chain.rankSort();
 
-    cout<<chain;
+    cout << chain;
+
+}
+
+void testRemoveRange() {
+    circularListWithHeader<int> circular;
+    circular.push_back(7);
+    circular.push_back(9);
+    circular.push_back(8);
+    circular.push_back(2);
+    circular.push_back(6);
+    circular.push_back(5);
+
+    circular.removeRange(2, 4);
+
+    cout<<circular;
 
 }

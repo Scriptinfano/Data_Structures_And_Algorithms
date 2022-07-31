@@ -29,6 +29,8 @@ public:
     virtual void erase(int index) = 0;                       //删除索引为index的对象
     virtual void insert(int index, const T &theElement) = 0; //在索引index处的后一个位置插入元素
     virtual void output(std::ostream &out) const = 0;        //输出元素
+    virtual void clear() = 0;
+
 };
 
 //为开发extendedChain类定义抽象基类，此抽象基类私有派生自
@@ -36,10 +38,6 @@ template<class T>
 class extendedLinearList : private linearList<T> {
 public:
     virtual ~extendedLinearList() {}
-
-    virtual void clear() = 0;
-
     virtual void push_back(const T &theElement) = 0;
 
 };
-
