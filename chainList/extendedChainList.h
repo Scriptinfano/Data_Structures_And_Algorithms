@@ -8,17 +8,17 @@ template<class T>
 class extendedChainList : public extendedLinearList<T>, public chainList<T> {
 
 protected:
-    chainNode<T> *lastNode;//这是一个指向链表尾节点的指针，在调用push_back()函数时可以更快地将元素插入到链表尾部
+    ChainNode<T> *lastNode;//这是一个指向链表尾节点的指针，在调用push_back()函数时可以更快地将元素插入到链表尾部
 
 public:
     //构造函数与拷贝构造函数
 
-    extendedChainList(chainNode<T> *p = nullptr, int theSize = 0) : chainList<T>(p, theSize) {
+    extendedChainList(ChainNode<T> *p = nullptr, int theSize = 0) : chainList<T>(p, theSize) {
         lastNode = chainList<T>::firstNode;
     }
 
     extendedChainList(const extendedChainList<T> &c) : chainList<T>(c) {
-        chainNode<T> *p = chainList<T>::firstNode;
+        ChainNode<T> *p = chainList<T>::firstNode;
         while (p->next != nullptr)
             p = p->next;
         lastNode = p;
@@ -29,13 +29,13 @@ public:
 
     int size() const { return chainList<T>::listSize; }
 
-    T &get(int theIndex) const { return chainList<T>::get(theIndex); }
+    T &get(const int &theIndex) const { return chainList<T>::get(theIndex); }
 
     int indexOf(const T &theElement) const { return chainList<T>::indexOf(theElement); }
 
-    void erase(int theIndex);
+    void erase(const int &theIndex);
 
-    void insert(int theIndex, const T &theElement);
+    void insert(const int &theIndex, const T &theElement);
 
     void clear();
 
@@ -58,17 +58,17 @@ public:
 };
 
 template<class T>
-void extendedChainList<T>::erase(int theIndex) {
+void extendedChainList<T>::erase(const int &theIndex) {
     chainList<T>::checkIndex(theIndex, "erase");
 
-    chainNode<T> *deleteNode;
+    ChainNode<T> *deleteNode;
     if (theIndex == 0)//删除头节点
     {
         deleteNode = chainList<T>::firstNode;
         chainList<T>::firstNode = chainList<T>::firstNode->next;
     } else {
         //找到要删除节点的前驱节点
-        chainNode<T> *p = chainList<T>::firstNode;
+        ChainNode<T> *p = chainList<T>::firstNode;
         for (int i = 0; i < theIndex - 1; i++) {
             p = p->next;
         }
@@ -83,19 +83,19 @@ void extendedChainList<T>::erase(int theIndex) {
 }
 
 template<class T>
-void extendedChainList<T>::insert(int theIndex, const T &theElement) {
+void extendedChainList<T>::insert(const int &theIndex, const T &theElement) {
     chainList<T>::checkIndex(theIndex, "insert");
 
     //在头节点之前插入节点
     if (theIndex == 0) {
-        chainList<T>::firstNode = new chainNode<T>(theElement, chainList<T>::firstNode);
+        chainList<T>::firstNode = new ChainNode<T>(theElement, chainList<T>::firstNode);
         if (chainList<T>::listSize == 0)lastNode = chainList<T>::firstNode;
     } else {
         //找到要插入节点的前驱节点
-        chainNode<T> *p = chainList<T>::firstNode;
+        ChainNode<T> *p = chainList<T>::firstNode;
         for (int i = 0; i < chainList<T>::listSize - 1; i++)
             p = p->next;
-        p->next = new chainNode<T>(theElement, p->next);
+        p->next = new ChainNode<T>(theElement, p->next);
         if (chainList<T>::listSize == theIndex) {
             //说明是在最后一个节点之后插入节点，相当于在末尾新增节点
             lastNode = p->next;
@@ -107,7 +107,7 @@ void extendedChainList<T>::insert(int theIndex, const T &theElement) {
 template<class T>
 void extendedChainList<T>::clear() {
     while (chainList<T>::firstNode != nullptr) {
-        chainNode<T> *nextNode = chainList<T>::firstNode->next;
+        ChainNode<T> *nextNode = chainList<T>::firstNode->next;
         delete chainList<T>::firstNode;
         chainList<T>::firstNode = nextNode;
     }
@@ -117,7 +117,7 @@ void extendedChainList<T>::clear() {
 
 template<class T>
 void extendedChainList<T>::push_back(const T &theElement) {
-    chainNode<T> *newNode = new chainNode<T>(theElement, nullptr);
+    ChainNode<T> *newNode = new ChainNode<T>(theElement, nullptr);
     if (chainList<T>::firstNode == nullptr) {
         //整个链表是空的情况
         chainList<T>::firstNode = lastNode = newNode;
@@ -130,9 +130,9 @@ void extendedChainList<T>::push_back(const T &theElement) {
 
 template<class T>
 void extendedChainList<T>::meld(const extendedChainList<T> &chainA, const extendedChainList<T> &chainB) {
-    chainNode<T> *p = chainA.firstNode;
-    chainNode<T> *j = chainB.firstNode;
-    chainNode<T> *k = nullptr;
+    ChainNode<T> *p = chainA.firstNode;
+    ChainNode<T> *j = chainB.firstNode;
+    ChainNode<T> *k = nullptr;
     while (!(p == nullptr || j == nullptr)) {
         this->push_back(p->element);
         p = p->next;

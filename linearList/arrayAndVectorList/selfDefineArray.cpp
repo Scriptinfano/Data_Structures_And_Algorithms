@@ -1,9 +1,9 @@
 #include <iostream>
 #include"myIterator.h"//自定义迭代器
-#include "illegalParameterValue.h"//异常类定义
 #include "arrayList.hpp"
-
+#include "D:\ClionProjects\Data_Structures_And_Algorithms\namespaces.h"
 using namespace std;
+using ExceptionSpace::IllegalParameterValue;
 
 
 void test01();
@@ -11,7 +11,7 @@ void test01();
 int main() {
     //创建两个容量为100的线性表
     /*
-        linearList*x=(linearList)new arrayList<int>(100);
+        LinearList*x=(LinearList)new arrayList<int>(100);
         arrayList<double>y(100);
 
         arrayList<char>z;
@@ -20,9 +20,9 @@ int main() {
     try {
         test01();
     }
-    catch (const illegalParameterValue &except) {
+    catch (const IllegalParameterValue &exception) {
         cerr << "触发异常，详细信息如下" << endl;
-        except.outPutMessage();
+        exception.OutMessage();
     }
 
     return 0;

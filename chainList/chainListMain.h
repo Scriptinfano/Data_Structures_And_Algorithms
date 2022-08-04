@@ -2,6 +2,7 @@
 
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\virtualBaseClassLinearList.h"
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\linearList\arrayAndVectorList\arrayList.hpp"
+#include "../namespaces.h"
 #include <sstream>
 #include <iostream>
 #include <string>
@@ -12,19 +13,20 @@
 #include <queue>
 
 using namespace std;
+using ExceptionSpace::IllegalParameterValue;
 
 
 //定义链表类
 template<class T>
-class chainList : public linearList<T> {
+class chainList : public LinearList<T> {
 
     //定义模板类的友元模板函数直接将定义写在类定义之内
     friend bool operator<(const chainList<T> &leftChain, const chainList<T> &rightChain) {
         char c;
         T t;
-        if (typeid(t) != typeid(c))throw illegalParameterValue("使用<比较两个链表时，不能比较除了char类型以外的数据类型");
-        chainNode<T> *it = leftChain.begin();
-        chainNode<T> *it2 = rightChain.begin();
+        if (typeid(t) != typeid(c))throw IllegalParameterValue("使用<比较两个链表时，不能比较除了char类型以外的数据类型");
+        ChainNode<T> *it = leftChain.begin();
+        ChainNode<T> *it2 = rightChain.begin();
         char *p = new char[leftChain.size()];
         char *p2 = new char[rightChain.size()];
         for (int i = 0; i < leftChain.size(); i++) {
@@ -45,19 +47,18 @@ class chainList : public linearList<T> {
 protected:
     void checkIndex(int theIndex, string actionType) const;
 
-    chainNode<T> *firstNode;//指向链表第一个节点的指针，当链表为空时，此值为nullptr
+    ChainNode<T> *firstNode;//指向链表第一个节点的指针，当链表为空时，此值为nullptr
     int listSize;//链表节点个数
 
 public:
 
 
     //不构造首节点，创建一个空表
-    chainList(chainNode<T> *p = nullptr, int theListSize = 0) : firstNode(p),
-                                                                listSize(theListSize) {};//以链表作为底层数据结构的容器无需指定容量
+    chainList(ChainNode<T> *p = nullptr, int theListSize = 0) : firstNode(p), listSize(theListSize) {}
 
     //构造首节点
     chainList(const T &theElement, int theListSize = 1) : listSize(theListSize) {
-        firstNode = new chainNode<T>(theElement, nullptr);
+        firstNode = new ChainNode<T>(theElement, nullptr);
     }
 
     chainList(const chainList<T> &theChainList);
@@ -67,10 +68,10 @@ public:
     //ADT方法
     virtual bool empty() const { return listSize == 0; }    //检测是否为空
     virtual int size() const;                               //返回容器元素个数
-    virtual T &get(int theIndex) const;                     //得到索引值为theIndex的元素
+    virtual T &get(const int &theIndex) const;                     //得到索引值为theIndex的元素
     virtual int indexOf(const T &theElement) const;         //返回元素theElement首次出现的索引值
-    virtual void erase(int theIndex);                       //删除索引为theIndex的元素
-    virtual void insert(int theIndex, const T &theElement); //在指定位置插入元素
+    virtual void erase(const int &theIndex);                       //删除索引为theIndex的元素
+    virtual void insert(const int &theIndex, const T &theElement); //在指定位置插入元素
     virtual void output(ostream &out) const;                //输出链表中的所有元素
     virtual void clear();                                   //标准清空容器接口，可选择物理清空还是逻辑清空
 
@@ -79,9 +80,9 @@ private:
     //私有内部接口：
     void setSize(int newSize);//使链表节点个数等于newSize，若newSize小于原大小，则删除多余元素，若大于原大小则不做任何操作
 
-    chainNode<T> *indexToAddress(int theIndex) const;//给出索引，返回该索引所代表的节点的地址
+    ChainNode<T> *indexToAddress(int theIndex) const;//给出索引，返回该索引所代表的节点的地址
 
-    int indexOf(chainNode<T> *pBegin, const T &theElement) const;    //从以地址为pBegin的节点开始向后查找，找到第一个节点元素是theElement的节点编号
+    int indexOf(ChainNode<T> *pBegin, const T &theElement) const;    //从以地址为pBegin的节点开始向后查找，找到第一个节点元素是theElement的节点编号
 
     int lastIndexOf(const T &theElement) const;//返回指定元素最后出现的索引，若不存在则返回-1
 
@@ -140,7 +141,7 @@ public:
     bool operator!=(const chainList<T> &theChain);
 
     //返回链表首节点地址
-    chainNode<T> *begin() const;
+    ChainNode<T> *begin() const;
 
 
 };
@@ -148,14 +149,14 @@ public:
 
 template<class T>
 void chainList<T>::checkIndex(int theIndex, string actionType) const {
-//确保索引在0到listsize-1之间
+//确保索引在0到listSize-1之间
     if (actionType == "insert") {
         if (theIndex < 0 || theIndex > this->size()) {
             ostringstream s;
             s << "插入元素时，";
             if (theIndex < 0)s << "索引值不得<0" << endl;
             if (theIndex > listSize)s << "索引值不得>数组元素个数" << endl;
-            throw illegalParameterValue(s.str());
+            throw IllegalParameterValue(s.str());
         }
     } else if (actionType == "erase" || actionType == "get" || actionType == "replace") {
         if (theIndex >= this->size()) {
@@ -164,12 +165,12 @@ void chainList<T>::checkIndex(int theIndex, string actionType) const {
                 s << "删除元素时，索引值不得>=listSize" << endl;
             else if (actionType == "replace")s << "替换元素时，索引值不得>=listSize" << endl;
             else if (actionType == "get")s << "获取元素时，索引值不得>=listSize" << endl;
-            throw illegalParameterValue(s.str());
+            throw IllegalParameterValue(s.str());
         }
     } else {
         ostringstream s;
         s << "checkIndex第二个参数传入不正确，未指定正确的操作类型" << endl;
-        throw illegalParameterValue(s.str());
+        throw IllegalParameterValue(s.str());
     }
 }
 
@@ -183,12 +184,12 @@ chainList<T>::chainList(const chainList<T> &theChainList) {
         return;
     }
     //先创建指针接管被复制链表，再拷贝第一个元素，再移动原链表指针，再用指针接管目标链表，然后循环拷贝元素
-    chainNode<T> *sourceNode = theChainList.firstNode;//sourceNode指向被复制链表的首节点
-    firstNode = new chainNode<T>(sourceNode->element);//初始化目标链表首节点并拷贝首元素
+    ChainNode<T> *sourceNode = theChainList.firstNode;//sourceNode指向被复制链表的首节点
+    firstNode = new ChainNode<T>(sourceNode->element);//初始化目标链表首节点并拷贝首元素
     sourceNode = sourceNode->next;//指向被复制链表首节点的指针向后挪一个节点
-    chainNode<T> *targetNode = firstNode;//创建指向目标链表首节点的指针
+    ChainNode<T> *targetNode = firstNode;//创建指向目标链表首节点的指针
     while (sourceNode != nullptr) {
-        targetNode->next = new chainNode<T>(sourceNode->element);
+        targetNode->next = new ChainNode<T>(sourceNode->element);
         targetNode = targetNode->next;
         sourceNode = sourceNode->next;
     }
@@ -200,7 +201,7 @@ chainList<T>::chainList(const chainList<T> &theChainList) {
 template<class T>
 chainList<T>::~chainList() {
     while (firstNode != nullptr) {
-        chainNode<T> *nextNode = firstNode->next;
+        ChainNode<T> *nextNode = firstNode->next;
         delete firstNode;
         firstNode = nextNode;
     }
@@ -213,9 +214,9 @@ int chainList<T>::size() const {
 }
 
 template<class T>
-T &chainList<T>::get(int theIndex) const {
+T &chainList<T>::get(const int &theIndex) const {
     checkIndex(theIndex, "get");
-    chainNode<T> *currentNode = firstNode;
+    ChainNode<T> *currentNode = firstNode;
     for (int i = 0; i < theIndex; i++) {
         currentNode = currentNode->next;
     }
@@ -224,7 +225,7 @@ T &chainList<T>::get(int theIndex) const {
 
 template<class T>
 int chainList<T>::indexOf(const T &theElement) const {
-    chainNode<T> *currentNode = firstNode;
+    ChainNode<T> *currentNode = firstNode;
     int index = 0;
     while (currentNode != nullptr && currentNode->element != theElement) {
         currentNode = currentNode->next;
@@ -235,17 +236,17 @@ int chainList<T>::indexOf(const T &theElement) const {
 }
 
 template<class T>
-void chainList<T>::erase(int theIndex) {
+void chainList<T>::erase(const int &theIndex) {
     checkIndex(theIndex, "erase");
 
-    chainNode<T> *deleteNode;
+    ChainNode<T> *deleteNode;
     if (theIndex == 0)//删除首元素的节点
     {
         deleteNode = firstNode;
         firstNode = firstNode->next;
     } else {
         //用遍历的方法让指针p指向要删除节点的前驱节点
-        chainNode<T> *p = firstNode;
+        ChainNode<T> *p = firstNode;
         for (int i = 0; i < theIndex - 1; i++) {
             p = p->next;
         }
@@ -257,18 +258,18 @@ void chainList<T>::erase(int theIndex) {
 }
 
 template<class T>
-void chainList<T>::insert(int theIndex, const T &theElement) {
+void chainList<T>::insert(const int &theIndex, const T &theElement) {
     checkIndex(theIndex, "insert");
     if (theIndex == 0)//在表头插入新节点
     {
-        firstNode = new chainNode<T>(theElement, firstNode);
+        firstNode = new ChainNode<T>(theElement, firstNode);
 
     } else {
-        chainNode<T> *p = firstNode;
+        ChainNode<T> *p = firstNode;
         for (int i = 0; i < theIndex - 1; i++) {
             p = p->next;
         }
-        p->next = new chainNode<T>(theElement, p->next);
+        p->next = new ChainNode<T>(theElement, p->next);
 
     }
     listSize++;
@@ -276,18 +277,18 @@ void chainList<T>::insert(int theIndex, const T &theElement) {
 
 template<class T>
 void chainList<T>::output(ostream &out) const {
-    for (chainNode<T> *currentNode = firstNode; currentNode != nullptr; currentNode = currentNode->next) {
+    for (ChainNode<T> *currentNode = firstNode; currentNode != nullptr; currentNode = currentNode->next) {
         out << currentNode->element << " ";
     }
 }
 
 template<class T>
 void chainList<T>::setSize(int newSize) {
-    if (newSize < 0)throw illegalParameterValue("调用void chainList<T>::setSize(int newSize)函数时，参数传递错误，newSize不得小于0");
+    if (newSize < 0)throw IllegalParameterValue("调用void chainList<T>::setSize(int newSize)函数时，参数传递错误，newSize不得小于0");
     if (newSize < listSize) {
         //删除多于元素
-        chainNode<T> *p = firstNode;
-        chainNode<T> *j = p->next;
+        ChainNode<T> *p = firstNode;
+        ChainNode<T> *j = p->next;
         //此时p指向的节点是j指向的节点的前驱节点
         for (int i = 0; i < newSize; i++) {
             j = j->next;
@@ -296,8 +297,8 @@ void chainList<T>::setSize(int newSize) {
         //p在j的前面，此时j指向的节点以及之后的所有节点是要删除的节点
         p->next = nullptr;
 
-        chainNode<T> *deleteNode = j;
-        chainNode<T> *currentNode = deleteNode;
+        ChainNode<T> *deleteNode = j;
+        ChainNode<T> *currentNode = deleteNode;
 
         int count = 0;//记录删除节点的数量
         while (currentNode != nullptr) {
@@ -309,17 +310,17 @@ void chainList<T>::setSize(int newSize) {
         listSize -= count;
 
     } else {
-        throw illegalParameterValue("调用void chainList<T>::setSize(int newSize)函数时，参数传递错误，newSize不得大于原大小");
+        throw IllegalParameterValue("调用void chainList<T>::setSize(int newSize)函数时，参数传递错误，newSize不得大于原大小");
     }
 
 }
 
 template<class T>
 void chainList<T>::push_back(const T &theElement) {
-    chainNode<T> *newNode = new chainNode<T>(theElement, nullptr);
+    ChainNode<T> *newNode = new ChainNode<T>(theElement, nullptr);
     if (listSize == 0)firstNode = newNode;
     else {
-        chainNode<T> *p = firstNode;
+        ChainNode<T> *p = firstNode;
         for (int i = 0; i < listSize - 1; i++) {
             p = p->next;
         }
@@ -337,15 +338,15 @@ void chainList<T>::set(int theIndex, const T &theElement) {
 template<class T>
 void chainList<T>::removeRange(int beginIndex, int endIndex) {
     if (beginIndex >= 0 && beginIndex < endIndex && endIndex <= listSize - 1) {
-        chainNode<T> *pBegin = firstNode, *pEnd = firstNode;
+        ChainNode<T> *pBegin = firstNode, *pEnd = firstNode;
         for (int i = 0; i < beginIndex - 1; i++)
             pBegin = pBegin->next;
         for (int i = 0; i < endIndex - 1; i++)
             pEnd = pEnd->next;
-        chainNode<T> *p = pBegin->next, *j = pEnd->next;
-        chainNode<T> *deleteNode = nullptr;
+        ChainNode<T> *p = pBegin->next, *j = pEnd->next;
+        ChainNode<T> *deleteNode = nullptr;
         int count = 0;
-        pBegin->next=j->next;
+        pBegin->next = j->next;
 
         while (p != j->next) {
             deleteNode = p;
@@ -355,14 +356,14 @@ void chainList<T>::removeRange(int beginIndex, int endIndex) {
         }
         listSize -= count;
     } else {
-        throw illegalParameterValue("使用removeRange函数时索引传入有误");
+        throw IllegalParameterValue("使用removeRange函数时索引传入有误");
 
     }
 }
 
 template<class T>
 int chainList<T>::lastIndexOf(const T &theElement) const {
-    chainNode<T> *p = firstNode;
+    ChainNode<T> *p = firstNode;
     int lastIndex = 0;
     int finalIndex = 0;
 
@@ -376,11 +377,11 @@ int chainList<T>::lastIndexOf(const T &theElement) const {
 }
 
 template<class T>
-int chainList<T>::indexOf(chainNode<T> *pBegin, const T &theElement) const {
+int chainList<T>::indexOf(ChainNode<T> *pBegin, const T &theElement) const {
     //从以地址为pBegin的节点开始向后查找，找到第一个节点元素是theElement的节点编号
-    chainNode<T> *currentNode = pBegin;
+    ChainNode<T> *currentNode = pBegin;
     int index = 0;
-    chainNode<T> *p = firstNode;
+    ChainNode<T> *p = firstNode;
     while (p != currentNode) {
         p = p->next;
         index++;
@@ -396,10 +397,10 @@ int chainList<T>::indexOf(chainNode<T> *pBegin, const T &theElement) const {
 }
 
 template<class T>
-chainNode<T> *chainList<T>::indexToAddress(int theIndex) const {
+ChainNode<T> *chainList<T>::indexToAddress(int theIndex) const {
     if (theIndex >= listSize || theIndex < 0)return nullptr;
     int index = 0;
-    chainNode<T> *p = firstNode;
+    ChainNode<T> *p = firstNode;
     while (index != theIndex) {
         p = p->next;
         index++;
@@ -409,7 +410,7 @@ chainNode<T> *chainList<T>::indexToAddress(int theIndex) const {
 
 template<class T>
 T &chainList<T>::operator[](int index) {
-    chainNode<T> *p = firstNode;
+    ChainNode<T> *p = firstNode;
     for (int i = 0; i < index; i++) {
         p = p->next;
     }
@@ -419,7 +420,7 @@ T &chainList<T>::operator[](int index) {
 
 template<class T>
 bool chainList<T>::operator==(const chainList<T> &theChain) {
-    chainNode<T> *p = firstNode, *p2 = theChain.begin();
+    ChainNode<T> *p = firstNode, *p2 = theChain.begin();
     if (listSize != theChain.size())return false;
     else {
         while (p != nullptr && p2 != nullptr) {
@@ -432,7 +433,7 @@ bool chainList<T>::operator==(const chainList<T> &theChain) {
 }
 
 template<class T>
-chainNode<T> *chainList<T>::begin() const {
+ChainNode<T> *chainList<T>::begin() const {
     return firstNode;
 }
 
@@ -446,7 +447,7 @@ void chainList<T>::swap(chainList<T> &theChain) {
     int selfListSize = this->size();
     int otherListSize = theChain.size();
 
-    chainNode<T> *temp = firstNode;
+    ChainNode<T> *temp = firstNode;
     firstNode = theChain.firstNode;
     theChain.firstNode = temp;
 
@@ -473,14 +474,14 @@ arrayList<T> chainList<T>::toList() {
 template<class T>
 void chainList<T>::leftShift(int offset) {
     int newSize = listSize - offset;
-    chainNode<T> *p = firstNode;
+    ChainNode<T> *p = firstNode;
     for (int i = 0; i < offset; i++)
         p = p->next;
-    chainNode<T> *temp = new chainNode<T>(p->element, nullptr);
-    chainNode<T> *j = temp;
+    ChainNode<T> *temp = new ChainNode<T>(p->element, nullptr);
+    ChainNode<T> *j = temp;
 
     for (int i = 0; i < newSize - 1; i++) {
-        j->next = new chainNode<T>(p->next->element, nullptr);
+        j->next = new ChainNode<T>(p->next->element, nullptr);
         j = j->next;
         p = p->next;
     }
@@ -492,9 +493,9 @@ void chainList<T>::leftShift(int offset) {
 
 template<class T>
 void chainList<T>::reverse() {
-    chainNode<T> *p = firstNode;
-    chainNode<T> *j = firstNode->next;
-    chainNode<T> *temp = nullptr;
+    ChainNode<T> *p = firstNode;
+    ChainNode<T> *j = firstNode->next;
+    ChainNode<T> *temp = nullptr;
     while (j != nullptr) {
         temp = j->next;
         j->next = p;
@@ -508,12 +509,12 @@ void chainList<T>::reverse() {
 template<class T>
 void chainList<T>::meld(chainList<T> &chainA, chainList<T> &chainB) {
     if (chainA.size() == 0 && chainB.size() == 0)return;
-    chainNode<T> *p = chainA.begin();
-    chainNode<T> *j = chainB.begin();
-    chainNode<T> *t = nullptr;
-    chainNode<T> *c = nullptr;
-    chainNode<T> *temp = nullptr;
-    chainNode<T> *temp2 = nullptr;
+    ChainNode<T> *p = chainA.begin();
+    ChainNode<T> *j = chainB.begin();
+    ChainNode<T> *t = nullptr;
+    ChainNode<T> *c = nullptr;
+    ChainNode<T> *temp = nullptr;
+    ChainNode<T> *temp2 = nullptr;
     do {
         temp = p->next;
         t = p;
@@ -535,8 +536,8 @@ void chainList<T>::meld(chainList<T> &chainA, chainList<T> &chainB) {
 
 template<class T>
 void chainList<T>::physicalClear() {
-    chainNode<T> *deleteNode = firstNode;
-    chainNode<T> *p = firstNode;
+    ChainNode<T> *deleteNode = firstNode;
+    ChainNode<T> *p = firstNode;
     while (p != nullptr) {
         deleteNode = p;
         p = p->next;
@@ -564,14 +565,16 @@ void chainList<T>::swap(int indexA, int indexB) {
 
 template<class T>
 vector<chainList<T>> *chainList<T>::split() {
-    vector<chainList<T>> *p = new vector<chainList<T>>;
+    auto *p = new vector<chainList<T>>;
     if (this->size() < 2)return nullptr;
     if (this->size() == 2) {
         chainList<T> c1(firstNode, 1);
-        chainNode<T> *secondNode = firstNode->next;
+        ChainNode<T> *secondNode = firstNode->next;
         firstNode->next = nullptr;
         chainList<T> c2(secondNode, 1);
         secondNode->next = nullptr;
+        c1.set(0, this->get(0));
+        c2.set(0, this->get(1));
         p->push_back(c1);
         p->push_back(c2);
         firstNode = nullptr;
@@ -685,7 +688,7 @@ void chainList<T>::bubbleSort() {
 
 template<class T>
 void chainList<T>::clear() {
-this->physicalClear();
+    this->physicalClear();
 }
 
 //全局函数，重载左移运算符使得cout<<对象名可输出链表元素

@@ -1,12 +1,10 @@
 #pragma once
-
-#include "illegalParameterValue.h"
 #include "arrayList.hpp"
-
+using ExceptionSpace::IllegalParameterValue;
 template<class T>
 void changeLength1D(T *&a, int oldLength, int newLength) {
     if (newLength < 0)
-        throw illegalParameterValue("新数组的长度必须大于等于0");
+        throw IllegalParameterValue("新数组的长度必须大于等于0");
     T *temp = new T[newLength];             //为新数组分配空间
     int number = min(oldLength, newLength); //返回较小的值
     copy(a, a + number, temp);              //将老数组的值依次拷贝到新数组
@@ -23,7 +21,7 @@ void changeLength2D(T **&a, int oldRows, int copyRows,
     // Copy the top left oldRows x newColumns sub arrayList into the resized arrayList.
     // make sure new dimensions are adequate
     if (copyRows > newRows || copyColumns > newColumns)
-        throw illegalParameterValue("new dimensions are too small");
+        throw IllegalParameterValue("new dimensions are too small");
 
     T **temp = new T *[newRows];              // arrayList for rows
     // create row arrays for temp

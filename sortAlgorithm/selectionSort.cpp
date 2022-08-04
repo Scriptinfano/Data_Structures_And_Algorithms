@@ -44,6 +44,22 @@ void selectionSort(T a[],int n)
     }
 }
 
+template<class T>
+void selectionSort2(T a[],int size)
+{
+    for(int i=0;i<size-1;i++)
+    {
+        int tempMin=i;
+        for(int j=i+1;j<size;j++)
+        {
+            if(a[j]<a[tempMin])
+                tempMin=j;
+        }
+
+        swap(a[i],a[tempMin]);
+    }
+}
+
 //原本的选择排序有个缺点就是即使元素已经有序，程序依然会继续运行，因此要求在检查最大元素时，同时检查数组是否已经有序
 template<class T>
 void betterSelectionSort(T a[],int n)

@@ -9,8 +9,10 @@
 #include <vector>
 #include "myIterator.h"
 #include "globalFunction.h"
-#include "illegalParameterValue.h"
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\virtualBaseClassLinearList.h"
+#include "../namespaces.h"
+
+using ExceptionSpace::IllegalParameterValue;
 
 //全局模板函数的前向声明
 template<class T>
@@ -20,7 +22,7 @@ using namespace std;
 
 //继承动态数组基类的派生类
 template<class T>
-class arrayList : public linearList<T> {
+class arrayList : public LinearList<T> {
 protected:
     void checkIndex(int theIndex, std::string actionType) const;
 
@@ -38,13 +40,13 @@ public:
     ~arrayList() { delete[] element; }//析构函数
 
     // ADT方法（实现基类的纯虚函数）
-    bool empty() const { return listSize == 0; }    //检测是否为空
-    int size() const;                               //返回容器元素个数
-    T &get(int theIndex) const;                     //得到索引值为theIndex的元素
-    int indexOf(const T &theElement) const;         //返回元素的索引值
-    void erase(int theIndex);                       //删除索引为theIndex的元素
-    void insert(int theIndex, const T &theElement); //在指定位置插入元素
-    void output(std::ostream &out) const;           //输出流迭代器输出所有元素
+    virtual bool empty() const { return listSize == 0; }    //检测是否为空
+    virtual int size() const;                               //返回容器元素个数
+    virtual T &get(const int &index) const;                     //返回索引值为index的对象
+    virtual int indexOf(const T &theElement) const;         //返回元素的索引值
+    virtual void erase(const int &index);                       //删除索引为index的对象
+    virtual void insert(const int &index, const T &theElement); //在索引index处的后一个位置插入元素
+    virtual void output(std::ostream &out) const;           //输出流迭代器输出所有元素
 
     //其他常规成员函数
 
@@ -115,7 +117,7 @@ arrayList<T>::arrayList(int initialCapacity, int extraSize) {
     if (initialCapacity < 1) {
         ostringstream s;
         s << "初始容量=" << initialCapacity << "，此值必须>0" << endl;
-        throw illegalParameterValue(s.str()); // ostringstream对象调用str()会返回一个临时的string对象
+        throw IllegalParameterValue(s.str()); // ostringstream对象调用str()会返回一个临时的string对象
     }
     arrayLength = initialCapacity;
     element = new T[arrayLength];
@@ -136,13 +138,6 @@ arrayList<T>::arrayList(const arrayList<T> &theList) {
 }
 
 
-//返回指定索引的元素
-template<class T>
-T &arrayList<T>::get(int theIndex) const {
-    checkIndex(theIndex, "get");
-    return element[theIndex];
-}
-
 //返回指定元素的索引，若元素不存在则返回-1
 template<class T>
 int arrayList<T>::indexOf(const T &theElement) const {
@@ -162,46 +157,6 @@ int arrayList<T>::indexOf(const T &theElement) const {
         return -1; //代表没有找到
     else
         return theIndex;
-}
-
-//删除指定元素，索引不得>=listsize
-template<class T>
-void arrayList<T>::erase(int theIndex) {
-    checkIndex(theIndex, "erase");
-    copy(element + theIndex + 1, element + listSize,
-         element + theIndex); //标准算法函数copy()的第一第二个参数是要复制元素的起始位置和终止位置，第三个参数是目标容器的目标地址
-    if (listSize - 1 < (arrayLength / 4)) {
-        //若线性表元素个数降至线性表容量的1/4以下时，创建新数组，长度为arrayLength/2，然后将老表的元素复制过去
-        T *temp = new T[arrayLength / 2];
-        copy(this->begin(), this->end(), temp);
-        delete[]element;
-        element = temp;
-        listSize--;
-        arrayLength = arrayLength / 2;
-        return;
-    }
-    element[--listSize].~T(); //由于移动元素会导致数组末尾多出一个未存放运算的空间，所以必须主动调用相应类型的析构函数将其释放
-}
-
-//在指定位置插入指定的新元素
-template<class T>
-void arrayList<T>::insert(int theIndex, const T &theElement) {
-    checkIndex(theIndex, "insert");        //先检查索引值是否合理
-    if (listSize == arrayLength) //数组已经满了，数组长度需要倍增后再插入新的元素
-    {
-        if (m_extraSize == 0) {
-            //调用构造函数时传入的extraSize比初始容量小或者未传入额外的参数则执行倍增操作，否则执行按用户指定的增加数组大小的操作
-            changeLength1D<T>(element, arrayLength, 2 * arrayLength);
-            arrayLength *= 2;
-        } else {
-            changeLength1D<T>(element, arrayLength, m_extraSize);
-            arrayLength = m_extraSize;
-        }
-    }
-    copy_backward(element + theIndex, element + listSize,
-                  element + listSize + 1); //将指定区间内的元素向后挪，直到该区间末位置与第三个参数的地址相同为止
-    element[theIndex] = theElement;
-    listSize++;
 }
 
 //利用输出流迭代器输出数组中的所有元素，中间的分隔符是“ ”
@@ -387,7 +342,7 @@ void arrayList<T>::removeRange(int beginIndex, int endIndex) {
         listSize = newLength;
 
     } else {
-        throw illegalParameterValue("使用removeRange函数时索引传入有误");
+        throw IllegalParameterValue("使用removeRange函数时索引传入有误");
     }
 }
 
@@ -420,7 +375,7 @@ void arrayList<T>::checkIndex(int theIndex, std::string actionType) const {
             if (theIndex < 0)s << "索引值不得<0" << endl;
             if (theIndex >= this->capacity())s << "索引值不得>=数组大小" << endl;
             if (theIndex > this->size())s << "索引值不得>数组元素个数" << endl;
-            throw illegalParameterValue(s.str());
+            throw IllegalParameterValue(s.str());
         }
     } else if (actionType == "erase" || actionType == "get" || actionType == "replace") {
         if (theIndex >= this->size()) {
@@ -429,12 +384,12 @@ void arrayList<T>::checkIndex(int theIndex, std::string actionType) const {
                 s << "删除元素时，索引值不得>=listSize" << endl;
             else if (actionType == "replace")s << "替换元素时，索引值不得>=listSize" << endl;
             else if (actionType == "get")s << "获取元素时，索引值不得>=listSize" << endl;
-            throw illegalParameterValue(s.str());
+            throw IllegalParameterValue(s.str());
         }
     } else {
         ostringstream s;
         s << "checkIndex第二个参数传入不正确，未指定正确的操作类型" << endl;
-        throw illegalParameterValue(s.str());
+        throw IllegalParameterValue(s.str());
     }
 
 
@@ -522,11 +477,11 @@ void arrayList<T>::meld(const arrayList<T> &arrayA, const arrayList<T> &arrayB) 
 template<class T>
 void arrayList<T>::merge(arrayList<T> &listA, arrayList<T> &listB) {
     int listSizeOne = listA.size(), listSizeTwo = listB.size();
-    int sumListSize=listSizeOne+listSizeTwo;
+    int sumListSize = listSizeOne + listSizeTwo;
     T *temp = new T[listSizeOne + listSizeTwo];
     copy(listA.begin(), listA.end(), temp);
     copy(listB.begin(), listB.end(), temp + listSizeOne);
-    sort(temp, temp+sumListSize);
+    sort(temp, temp + sumListSize);
     delete[]element;
     element = temp;
     listSize = arrayLength = listSizeOne + listSizeTwo;
@@ -544,18 +499,62 @@ mystd::iterator<T> arrayList<T>::it_end() const {
 
 template<class T>
 void arrayList<T>::split(arrayList<T> &listA, arrayList<T> &listB) {
-    for(int i=0;i<listSize;i++)
-    {
-        if(i%2==0)
-        {
+    for (int i = 0; i < listSize; i++) {
+        if (i % 2 == 0) {
             //此时的索引是偶数
             listA.push_back(element[i]);
-        }else
-        {
+        } else {
             //此时的索引是奇数
             listB.push_back(element[i]);
         }
     }
+
+}
+
+template<class T>
+T &arrayList<T>::get(const int &index) const {
+    checkIndex(index, "get");
+    return element[index];
+
+}
+
+template<class T>
+void arrayList<T>::erase(const int &index) {
+    checkIndex(index, "erase");
+    copy(element + index + 1, element + listSize,
+         element + index); //标准算法函数copy()的第一第二个参数是要复制元素的起始位置和终止位置，第三个参数是目标容器的目标地址
+    if (listSize - 1 < (arrayLength / 4)) {
+        //若线性表元素个数降至线性表容量的1/4以下时，创建新数组，长度为arrayLength/2，然后将老表的元素复制过去
+        T *temp = new T[arrayLength / 2];
+        copy(this->begin(), this->end(), temp);
+        delete[]element;
+        element = temp;
+        listSize--;
+        arrayLength = arrayLength / 2;
+        return;
+    }
+    element[--listSize].~T(); //由于移动元素会导致数组末尾多出一个未存放运算的空间，所以必须主动调用相应类型的析构函数将其释放
+
+}
+
+template<class T>
+void arrayList<T>::insert(const int &index, const T &theElement) {
+    checkIndex(index, "insert");        //先检查索引值是否合理
+    if (listSize == arrayLength) //数组已经满了，数组长度需要倍增后再插入新的元素
+    {
+        if (m_extraSize == 0) {
+            //调用构造函数时传入的extraSize比初始容量小或者未传入额外的参数则执行倍增操作，否则执行按用户指定的增加数组大小的操作
+            changeLength1D<T>(element, arrayLength, 2 * arrayLength);
+            arrayLength *= 2;
+        } else {
+            changeLength1D<T>(element, arrayLength, m_extraSize);
+            arrayLength = m_extraSize;
+        }
+    }
+    copy_backward(element + index, element + listSize,
+                  element + listSize + 1); //将指定区间内的元素向后挪，直到该区间末位置与第三个参数的地址相同为止
+    element[index] = theElement;
+    listSize++;
 
 }
 
@@ -570,7 +569,7 @@ ostream &operator<<(ostream &out, const arrayList<T> &x) {
 //以vector<>容器作为底层存储结构的模板链表类
 
 template<class T>
-class vectorList : public linearList<T> {
+class vectorList : public LinearList<T> {
 protected:
     void checkIndex(int theIndex, string actionType) const;
 
@@ -584,19 +583,13 @@ public:
     ~vectorList() { delete element; }
 
     //ADT方法
-    bool empty() const { return element->empty(); }
-
-    int size() const { return (int) element->size(); }
-
-    T &get(int theIndex) const;
-
-    int indexOf(const T &theElement) const;
-
-    void erase(int theIndex);
-
-    void insert(int theIndex, const T &theElement);
-
-    void output(ostream &out) const;
+    virtual bool empty() const { return element->empty(); }     //判断容器是否为空
+    virtual int size() const { return (int) element->size(); }  //返回容器元素个数
+    virtual int indexOf(const T &theElement) const;             //返回指定元素的索引
+    virtual T &get(const int &index) const;                     //返回索引值为index的对象
+    virtual void erase(const int &index);                       //删除索引为index的对象
+    virtual void insert(const int &index, const T &theElement); //在索引index处的后一个位置插入元素
+    virtual void output(ostream &out) const;                    //输出容器元素
 
     //增加的方法
     int capacity() const { return (int) element->capacity(); }
@@ -615,7 +608,7 @@ vectorList<T>::vectorList(int initialCapacity) {
     if (initialCapacity < 1) {
         ostringstream s;
         s << "初始容量=" << initialCapacity << "，此值必须>0";
-        throw illegalParameterValue(s.str());
+        throw IllegalParameterValue(s.str());
     }
     element = new vector<T>;//创建vector容器
     element->reserve(initialCapacity);//增加容量
@@ -627,10 +620,6 @@ vectorList<T>::vectorList(const vectorList<T> &theVectorList) {
     element = new vector<T>(*theVectorList.element);//在堆区创建一个vector容器，并用括号中的对象来初始化它，括号中的对象即传入函数的vectorList对象内部的vector容器
 }
 
-template<class T>
-T &vectorList<T>::get(int theIndex) const {
-    return element->at(theIndex);//若索引不合要求，则内部的vector容器会在执行at函数时抛出异常
-}
 
 template<class T>
 int vectorList<T>::indexOf(const T &theElement) const {
@@ -641,25 +630,12 @@ int vectorList<T>::indexOf(const T &theElement) const {
     return -1;
 }
 
-template<class T>
-void vectorList<T>::erase(int theIndex) {
-//vector内置的erase函数不能详细的抛出异常，当传入错误的索引时，即迭代器指向了一个不存在的元素时，程序会异常退出，所以在传入索引前要检查其合法性
-    checkIndex(theIndex, std::string());
-    element->erase(begin() + theIndex);//STL容器vector的函数erase()的参数是迭代器，意思是删除迭代器指向的数据，注意不是传递索引
-}
-
-template<class T>
-void vectorList<T>::insert(int theIndex, const T &theElement) {
-    checkIndex(theIndex, std::string());
-    element->insert(begin() + theIndex, theElement);
-}
 
 template<class T>
 void vectorList<T>::output(ostream &out) const {
-for(typename vector<T>::iterator it=this->element->begin();it!=this->element->end();it++)
-{
-    out<<*it<" ";
-}
+    for (typename vector<T>::iterator it = this->element->begin(); it != this->element->end(); it++) {
+        out << *it < " ";
+    }
 }
 
 template<class T>
@@ -672,7 +648,7 @@ void vectorList<T>::checkIndex(int theIndex, string actionType) const {
             if (theIndex < 0)s << "索引值不得<0" << endl;
             if (theIndex >= this->capacity())s << "索引值不得>=数组大小" << endl;
             if (theIndex > this->size())s << "索引值不得>数组元素个数" << endl;
-            throw illegalParameterValue(s.str());
+            throw IllegalParameterValue(s.str());
         }
     } else if (actionType == "erase" || actionType == "get" || actionType == "replace") {
         if (theIndex >= this->size()) {
@@ -681,13 +657,34 @@ void vectorList<T>::checkIndex(int theIndex, string actionType) const {
                 s << "删除元素时，索引值不得>=listSize" << endl;
             else if (actionType == "replace")s << "替换元素时，索引值不得>=listSize" << endl;
             else if (actionType == "get")s << "获取元素时，索引值不得>=listSize" << endl;
-            throw illegalParameterValue(s.str());
+            throw IllegalParameterValue(s.str());
         }
     } else {
         ostringstream s;
         s << "checkIndex第二个参数传入不正确，未指定正确的操作类型" << endl;
-        throw illegalParameterValue(s.str());
+        throw IllegalParameterValue(s.str());
     }
+
+}
+
+template<class T>
+T &vectorList<T>::get(const int &index) const {
+    return element->at(index);//若索引不合要求，则内部的vector容器会在执行at函数时抛出异常
+
+}
+
+template<class T>
+void vectorList<T>::erase(const int &index) {
+//vector内置的erase函数不能详细的抛出异常，当传入错误的索引时，即迭代器指向了一个不存在的元素时，程序会异常退出，所以在传入索引前要检查其合法性
+    checkIndex(index, std::string());
+    element->erase(begin() + index);//STL容器vector的函数erase()的参数是迭代器，意思是删除迭代器指向的数据，注意不是传递索引
+
+}
+
+template<class T>
+void vectorList<T>::insert(const int &index, const T &theElement) {
+    checkIndex(index, std::string());
+    element->insert(begin() + index, theElement);
 
 }
 
