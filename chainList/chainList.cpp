@@ -1,41 +1,13 @@
 #include<iostream>
 #include "CircularListWithHeader.h"
 #include "extendedChainList.h"
-#include "chainListMain.h"
-#include "D:\ClionProjects\Data_Structures_And_Algorithms\linearList\arrayAndVectorList\globalFunction.h"
+#include "DoublyLinkedList.h"
 #include<ctime>
 
 //全局模板函数在使用的文件前必须要前向声明
+
 template<class T>
 void chainToArray(const chainList<T> &theChain, arrayList<T> &theArray);
-
-void testExtendedChainListSplit();
-
-void testCircularReverse();
-
-void testCircularShift();
-
-void testCircularMeld();
-
-void testChainListRankSort();
-
-void testCircularListWithHeaderRemoveRange();
-
-void testCircularSplit();
-
-void testCircularListWithHeaderLeftShift();
-
-void testCircularSwapContainer();
-
-void testCircularInsertSort();
-
-
-int main() {
-    //setbuf(stdout, NULL);
-
-
-    return 0;
-}
 
 void testExtendedChainListSplit() {
     srand((unsigned int) time(0));
@@ -57,7 +29,7 @@ void testExtendedChainListSplit() {
 
 }
 
-void testCircularShift() {
+void testExtendedCircularShift() {
     extendedChainList<int> chain;
     chain.push_back(7);
     chain.push_back(3);
@@ -209,8 +181,7 @@ void testCircularSplit() {
 
 }
 
-void testCircularInsertSort()
-{
+void testCircularInsertSort() {
     CircularListWithHeader<int> chain;
 
     chain.push_back(12);
@@ -222,6 +193,47 @@ void testCircularInsertSort()
     chain.push_back(75);
 
     chain.insertSort();
-    cout<<chain;
+    cout << chain;
 
 }
+
+void testCircularOverwriteErase() {
+    CircularListWithHeader<int> chain;
+
+    chain.push_back(12);
+    chain.push_back(13);
+    chain.push_back(14);
+    chain.push_back(1);
+    chain.push_back(126);
+    chain.push_back(123);
+    chain.push_back(75);
+
+    chain.overwriteErase(3);
+    cout << chain;
+
+}
+
+void testDoubly() {
+        DoublyLinkedList<int> doubly(2);
+        doubly.push_back(43);
+        doubly.push_back(25);
+        doubly.push_back(234985);
+        doubly.push_back(2435);
+        doubly.push_back(6423);
+        doubly.push_back(543);
+        doubly.insert(0,12);
+        cout<<doubly;
+}
+
+
+int main() {
+    //setbuf(stdout, NULL);
+    try{
+        testDoubly();
+
+    }catch(const IllegalParameterValue& exceptionObject){
+        cerr<<exceptionObject.what();
+    }
+    return 0;
+}
+

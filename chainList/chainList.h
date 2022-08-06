@@ -1,8 +1,6 @@
 #pragma once
 
-#include "D:\ClionProjects\Data_Structures_And_Algorithms\virtualBaseClassLinearList.h"
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\linearList\arrayAndVectorList\arrayList.hpp"
-#include "../namespaces.h"
 #include <sstream>
 #include <iostream>
 #include <string>
@@ -13,7 +11,6 @@
 #include <queue>
 
 using namespace std;
-using ExceptionSpace::IllegalParameterValue;
 
 
 //定义链表类
@@ -24,7 +21,7 @@ class chainList : public LinearList<T> {
     friend bool operator<(const chainList<T> &leftChain, const chainList<T> &rightChain) {
         char c;
         T t;
-        if (typeid(t) != typeid(c))throw IllegalParameterValue("使用<比较两个链表时，不能比较除了char类型以外的数据类型");
+        if (typeid(t) != typeid(c))throw ExceptionSpace::IllegalParameterValue("使用<比较两个链表时，不能比较除了char类型以外的数据类型");
         ChainNode<T> *it = leftChain.begin();
         ChainNode<T> *it2 = rightChain.begin();
         char *p = new char[leftChain.size()];
@@ -68,7 +65,7 @@ public:
     //ADT方法
     virtual bool empty() const { return listSize == 0; }    //检测是否为空
     virtual int size() const;                               //返回容器元素个数
-    virtual T &get(const int &theIndex) const;                     //得到索引值为theIndex的元素
+    virtual T &get(const int &theIndex);                     //得到索引值为theIndex的元素
     virtual int indexOf(const T &theElement) const;         //返回元素theElement首次出现的索引值
     virtual void erase(const int &theIndex);                       //删除索引为theIndex的元素
     virtual void insert(const int &theIndex, const T &theElement); //在指定位置插入元素
@@ -214,7 +211,7 @@ int chainList<T>::size() const {
 }
 
 template<class T>
-T &chainList<T>::get(const int &theIndex) const {
+T &chainList<T>::get(const int &theIndex){
     checkIndex(theIndex, "get");
     ChainNode<T> *currentNode = firstNode;
     for (int i = 0; i < theIndex; i++) {

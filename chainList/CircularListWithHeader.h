@@ -12,10 +12,6 @@ using ExceptionSpace::IllegalParameterValue;
 
 template<class T>
 class CircularListWithHeader : public LinearList<T> {
-    /*
-     * void checkIndex(int theIndex, string actionType) const;代码与基类保持一致
-     * */
-
 public:
     typedef ChainNode<T> *NodePointer;
     typedef ChainNode<T> Node;
@@ -54,7 +50,7 @@ public://公有接口
 
 
     //ADT函数
-    virtual T &get(const int &theIndex) const;                    //currentNode可以直接等于firstNode->next
+    virtual T &get(const int &theIndex);                    //currentNode可以直接等于firstNode->next
     virtual int indexOf(const T &theElement) const;        //返回元素对应的索引
     virtual bool empty() const;                            //检测容器是否为空
     virtual int size() const;                              //返回容器中元素的数量
@@ -91,6 +87,8 @@ public://公有接口
 
     void bubbleSort();
 
+    void overwriteErase(const int &theIndex);//删除theNode指向的节点，将theNode节点的后继节点的数据往前挪一位，并删除后继节点
+
 private:
 
     ChainNode<T> &getNode(const int &theIndex);
@@ -106,8 +104,6 @@ private:
     ChainNode<T> *indexToAddress(const int &theIndex) const;
 
     bool bubble(const int &n);
-
-protected:
 
 };
 
@@ -145,7 +141,7 @@ CircularListWithHeader<T>::~CircularListWithHeader() {
 }
 
 template<class T>
-T &CircularListWithHeader<T>::get(const int &theIndex) const {
+T &CircularListWithHeader<T>::get(const int &theIndex)  {
     checkIndex(theIndex, "get");
     NodePointer currentNode = nodeHeader->next;
     for (int i = 0; i < theIndex; i++) {
@@ -209,6 +205,8 @@ void CircularListWithHeader<T>::insert(const int &theIndex, const T &theElement)
 
 template<class T>
 void CircularListWithHeader<T>::output(ostream &out) const {
+
+    if(listSize==0){cout<<"当前链表为空，无法输出"<<endl;return;}
     for (NodePointer currentNode = nodeHeader->next; currentNode != nodeHeader; currentNode = currentNode->next) {
         out << currentNode->element << " ";
     }
@@ -512,7 +510,7 @@ ostream &operator<<(ostream &out, const CircularListWithHeader<T> &chain) {
 
 template<class T>
 void CircularListWithHeader<T>::checkIndex(int theIndex, std::string actionType) const {
-//确保索引在0到listsize-1之间
+    //确保索引在窒执行特殊操作时，索引在正确的范围内
     if (actionType == "insert") {
         if (theIndex < 0 || theIndex > this->size()) {
             ostringstream s;
@@ -582,4 +580,14 @@ bool CircularListWithHeader<T>::bubble(const int &n) {
         }
     }
     return sorted;
+}
+
+template<class T>
+void CircularListWithHeader<T>::overwriteErase(const int &theIndex) {
+    checkIndex(theIndex,"erase");
+    NodePointer theNode=this->indexToAddress(theIndex);
+    theNode->element=theNode->next->element;
+    NodePointer deleteNode=theNode->next;
+    theNode->next=theNode->next->next;
+    delete deleteNode;
 }

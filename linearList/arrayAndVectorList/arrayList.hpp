@@ -8,15 +8,20 @@
 #include <iterator>//输出流迭代器
 #include <vector>
 #include "myIterator.h"
-#include "globalFunction.h"
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\virtualBaseClassLinearList.h"
-#include "../namespaces.h"
+#include "D:\ClionProjects\Data_Structures_And_Algorithms\namespaces.h"
 
 using ExceptionSpace::IllegalParameterValue;
 
-//全局模板函数的前向声明
-template<class T>
-void changeLength1D(T *&a, int oldLength, int newLength);
+//全局模板函数必须在普通函数中经调用实例化才可使用
+void initializeTemplateFunction() {
+
+    //本函数无需调用，仅用来实例化模板函数
+    int *p= nullptr;
+    int oldLength=0;
+    int newLength=0;
+    GlobalSpace::changeLength1D<int>(p,oldLength,newLength);
+}
 
 using namespace std;
 
@@ -185,7 +190,7 @@ void arrayList<T>::trimToSize() {
         return;
     }
 
-    changeLength1D<T>(element, arrayLength, listSize);
+    GlobalSpace::changeLength1D<T>(element, arrayLength, listSize);
     arrayLength = listSize;
 
 }
@@ -197,11 +202,11 @@ void arrayList<T>::setCapacity(int newCapacity) {
     }
     if (newCapacity < listSize) {
 //两个都变
-        changeLength1D<T>(element, arrayLength, newCapacity);
+        GlobalSpace::changeLength1D<T>(element, arrayLength, newCapacity);
         arrayLength = listSize = newCapacity;
     }
     if (newCapacity > listSize) {
-        changeLength1D<T>(element, arrayLength, newCapacity);
+        GlobalSpace::changeLength1D<T>(element, arrayLength, newCapacity);
         arrayLength = newCapacity;
     }
 }
@@ -243,7 +248,7 @@ template<class T>
 void arrayList<T>::push_back(const T theElement) {
     if (listSize + 1 > arrayLength) {
         //执行倍增操作之后将元素添加到最后一个元素的后面
-        changeLength1D<T>(element, arrayLength, 2 * arrayLength);
+        GlobalSpace::changeLength1D<T>(element, arrayLength, 2 * arrayLength);
         element[listSize] = theElement;
         listSize++;
         arrayLength = 2 * arrayLength;
@@ -544,10 +549,10 @@ void arrayList<T>::insert(const int &index, const T &theElement) {
     {
         if (m_extraSize == 0) {
             //调用构造函数时传入的extraSize比初始容量小或者未传入额外的参数则执行倍增操作，否则执行按用户指定的增加数组大小的操作
-            changeLength1D<T>(element, arrayLength, 2 * arrayLength);
+            GlobalSpace::changeLength1D<T>(element, arrayLength, 2 * arrayLength);
             arrayLength *= 2;
         } else {
-            changeLength1D<T>(element, arrayLength, m_extraSize);
+            GlobalSpace::changeLength1D<T>(element, arrayLength, m_extraSize);
             arrayLength = m_extraSize;
         }
     }

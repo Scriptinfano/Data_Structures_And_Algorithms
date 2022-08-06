@@ -1,7 +1,7 @@
 #pragma once
 #include<iostream>
 using namespace std;
-#include"chainListMain.h"
+#include"chainList.h"
 
 
 template<class T>
@@ -29,7 +29,7 @@ public:
 
     int size() const { return chainList<T>::listSize; }
 
-    T &get(const int &theIndex) const { return chainList<T>::get(theIndex); }
+    T &get(const int &theIndex){ return chainList<T>::get(theIndex); }
 
     int indexOf(const T &theElement) const { return chainList<T>::indexOf(theElement); }
 
@@ -43,13 +43,13 @@ public:
 
     void output(ostream &out) const { chainList<T>::output(out); }
 
-    void circularShift(int theOffset);
-
     //ÆäËûº¯Êý
     void zero() {
         chainList<T>::firstNode = nullptr;
         chainList<T>::listSize = 0;
     }
+
+    void circularShift(int theOffset);
 
     void meld(const extendedChainList<T> &chainA, const extendedChainList<T> &chainB);
 
