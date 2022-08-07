@@ -214,25 +214,45 @@ void testCircularOverwriteErase() {
 }
 
 void testDoubly() {
-        DoublyLinkedList<int> doubly(2);
-        doubly.push_back(43);
-        doubly.push_back(25);
-        doubly.push_back(234985);
-        doubly.push_back(2435);
-        doubly.push_back(6423);
-        doubly.push_back(543);
-        doubly.insert(0,12);
-        cout<<doubly;
+    DoublyLinkedList<double> doubly;
+
+    doubly.push_back(12);
+    doubly.push_back(13);
+    doubly.push_back(14);//
+    doubly.push_back(1);
+    doubly.push_back(126);//
+    doubly.push_back(123);
+    doubly.push_back(75);
+    doubly.push_back(6);
+    doubly.push_back(7);
+    doubly.push_back(5);//
+    doubly.push_back(6);
+    doubly.push_back(7);
+
+
+    DoublyLinkedList<double> doubly2;
+    doubly2.push_back(1);
+    doubly2.push_back(2);
+    doubly2.push_back(3);//
+    doubly2.push_back(4);
+    doubly2.push_back(5);//
+
+
+    doubly.meld(doubly2);
+    cout << doubly;
+
+
 }
 
 
 int main() {
     //setbuf(stdout, NULL);
-    try{
+    try {
         testDoubly();
 
-    }catch(const IllegalParameterValue& exceptionObject){
-        cerr<<exceptionObject.what();
+    } catch (const IllegalParameterValue &exceptionObject) {
+        cerr << exceptionObject.what();
+        exit(0);
     }
     return 0;
 }

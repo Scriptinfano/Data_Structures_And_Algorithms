@@ -79,14 +79,18 @@ public://构造，析构，拷贝构造
 
 
     ~DoublyLinkedList() {
-        NodePointer p = nodeHeader->getNext();
-        NodePointer deleteNode = nullptr;
-        while (p != nodeHeader) {
-            deleteNode = p;
-            p = p->getNext();
-            delete deleteNode;
+        if (listSize == 0) {
+            delete nodeHeader;
+        } else {
+            NodePointer p = nodeHeader->getNext();
+            NodePointer deleteNode;
+            while (p != nodeHeader) {
+                deleteNode = p;
+                p = p->getNext();
+                delete deleteNode;
+            }
+            delete nodeHeader;
         }
-        delete nodeHeader;
     }
 
 public://公有用户接口函数
@@ -103,7 +107,7 @@ public://公有用户接口函数
     //特殊操作接口
     void set(const int &theIndex, const T &theElement);   //替换指定元素
 
-    T at(const int &theIndex);//以值的形式返回某节点元素的值
+    T at(const int &theIndex) const;//以值的形式返回某节点元素的值
 
     void push_back(const T &theElement);//向容器中添加一个元素
 
@@ -113,7 +117,7 @@ public://公有用户接口函数
 
     void swapElement(const int &indexA, const int &indexB);//交换两个节点的数据
 
-    void leftShift(const int &offset);//将链表中的元素向左移动offset个位置
+    void leftShift(const int &offset);//将链表向左移动，从左边出去的元素会从右边进来
 
     void reverse();//原地颠倒链表中的元素，不分配任何新的节点空间
 
@@ -131,8 +135,10 @@ public://公有用户接口函数
 
     void overwriteErase(const int &theIndex);//删除theNode指向的节点，将theNode节点的后继节点的数据往前挪一位，并删除后继节点
 
+    void pop_front();
+
 public://重载为成员函数的运算符重载函数
-    T &operator[](const int &theIndex);
+    T &operator[](const int &theIndex) const;
 
 
 private://私有内部接口
@@ -222,8 +228,8 @@ void DoublyLinkedList<T>::insert(const int &theIndex, const T &theElement) {
 template<class T>
 void DoublyLinkedList<T>::output(ostream &out) const {
     if (nodeHeader->getNext() == nullptr) {
-        cout << "当前链表为空，无法输出" << endl;
-    }else{
+        throw IllegalParameterValue("当前链表为空，无法执行输出操作");
+    } else {
         NodePointer p = nodeHeader->getNext();
         for (int i = 0; i < listSize; i++) {
             out << p->getElement() << " ";
@@ -257,37 +263,142 @@ void DoublyLinkedList<T>::set(const int &theIndex, const T &theElement) {
 
 template<class T>
 void DoublyLinkedList<T>::removeRange(const int &beginIndex, const int &endIndex) {
-
+    checkIndex(beginIndex, "get");
+    checkIndex(endIndex, "get");
+    NodePointer beginNode = &(this->getNode(beginIndex));
+    NodePointer endNode = &(this->getNode(endIndex));
+    NodePointer deleteNode;
+    int count = 0;
+    while (beginNode != endNode->getNext()) {
+        deleteNode = beginNode;
+        beginNode = beginNode->getNext();
+        delete deleteNode;
+        count++;
+    }
+    this->getNode(beginIndex).thePrevious()->setNext(this->getNode(endIndex).getNext());
+    this->getNode(endIndex).theNext()->setPrevious(this->getNode(beginIndex).getPrevious());
+    listSize -= count;
 }
 
 template<class T>
 void DoublyLinkedList<T>::swapContainer(DoublyLinkedList<T> &theChain) {
-
+    NodePointer sourceBegin = nodeHeader->getNext();
+    NodePointer sourceEnd = nodeHeader->getPrevious();
+    NodePointer targetHeader = theChain.getHeader();
+    nodeHeader->setNext(targetHeader->getNext());
+    nodeHeader->setPrevious(targetHeader->getPrevious());
+    targetHeader->thePrevious()->setNext(nodeHeader);
+    targetHeader->theNext()->setPrevious(nodeHeader);
+    targetHeader->setNext(sourceBegin);
+    targetHeader->setPrevious(sourceEnd);
+    sourceBegin->setPrevious(targetHeader);
+    sourceEnd->setNext(targetHeader);
 }
 
 template<class T>
 void DoublyLinkedList<T>::swapElement(const int &indexA, const int &indexB) {
-
+    checkIndex(indexA, "get");
+    checkIndex(indexB, "get");
+    T temp = this->getNode(indexA).getElement();
+    this->getNode(indexA).setElement(this->getNode(indexB).getElement());
+    this->getNode(indexB).setElement(temp);
 }
 
 template<class T>
 void DoublyLinkedList<T>::leftShift(const int &offset) {
+    if (offset < 0)throw ExceptionSpace::IllegalParameterValue("调用leftshift()时偏移量传递错误");
+    int netOffset = offset % listSize;
+    for (int i = 0; i < netOffset; i++) {
+        T temp = this->at(0);
+        this->pop_front();
+        this->push_back(temp);
+    }
 
 }
 
 template<class T>
 void DoublyLinkedList<T>::reverse() {
-
+    NodePointer p = nodeHeader;
+    NodePointer temp;
+    do {
+        temp = p->getNext();
+        p->setNext(p->getPrevious());
+        p->setPrevious(temp);
+        p = p->getNext();
+    } while (p != nodeHeader);
 }
 
 template<class T>
 void DoublyLinkedList<T>::meld(DoublyLinkedList<T> &theChain) {
+    int sizeA=this->size();
+    int sizeB=theChain.size();
 
+    if (this->size() == 0 && theChain.size() == 0)return;
+    NodePointer p = nodeHeader->getNext();
+    NodePointer j = theChain.getHeader()->getNext();
+
+    while (p->getNext() != nodeHeader)p = p->getNext();
+    while (j->getNext() != theChain.getHeader())j = j->getNext();
+    p->setNext(nullptr);
+    j->setNext(nullptr);
+
+    p = nodeHeader->getNext();
+    j = theChain.getHeader()->getNext();
+    NodePointer t, c, temp, temp2;
+    do {
+        temp = p->getNext();
+        t = p;
+        p = p->getNext();
+        temp2 = j->getNext();
+        c = j;
+        j = j->getNext();
+        t->setNext(c);
+        c->setNext(temp);
+        p->setPrevious(c);
+        c->setPrevious(t);
+    } while (p->getNext() != nullptr && j->getNext() != nullptr);
+    if(p->getNext()== nullptr&&j->getNext()!= nullptr)
+    {
+        p->setNext(j);
+        j->setPrevious(p);
+        while(j->getNext()!= nullptr)
+        {
+            j=j->getNext();
+        }
+        j->setNext(nodeHeader);
+        nodeHeader->setPrevious(j);
+
+    }else if(p->getNext()!= nullptr&&j->getNext()== nullptr)
+    {
+        temp=p->getNext();
+        p->setNext(j);
+        j->setPrevious(p);
+        j->setNext(temp);
+        temp->setPrevious(j);
+        p=temp;
+        while(p->getNext()!= nullptr)
+        {
+            p=p->getNext();
+        }
+        p->setNext(nodeHeader);
+    }else if(p->getNext()== nullptr&&j->getNext()== nullptr){
+        p->setNext(j);
+        j->setPrevious(p);
+        j->setNext(nodeHeader);
+        nodeHeader->setPrevious(j);
+    }else
+    {
+        throw IllegalParameterValue("未考虑到的情况触发");
+    }
+    theChain.getHeader()->setNext(nullptr);
+    theChain.getHeader()->setPrevious(nullptr);
+    listSize+=sizeB;
+    theChain.setSize(0);
 }
 
 template<class T>
 vector<DoublyLinkedList<T>> *DoublyLinkedList<T>::split() {
-    return nullptr;
+
 }
 
 template<class T>
@@ -317,6 +428,7 @@ void DoublyLinkedList<T>::overwriteErase(const int &theIndex) {
 
 template<class T>
 DoublyNode<T> &DoublyLinkedList<T>::getNode(const int &theIndex) const {
+    checkIndex(theIndex, "get");
     NodePointer p = nodeHeader->getNext();
     for (int i = 0; i < theIndex; i++) {
         p = p->getNext();
@@ -328,12 +440,14 @@ template<class T>
 void
 DoublyLinkedList<T>::setNode(const int &theIndex, const T &theElement, DoublyLinkedList::NodePointer const &thePrevious,
                              DoublyLinkedList::NodePointer const &theNext) {
-
+    this->getNode(theIndex).set(thePrevious, theElement, theNext);
 }
 
 template<class T>
 void DoublyLinkedList<T>::logicalClear() {
-
+    nodeHeader->setNext(nullptr);
+    nodeHeader->setPrevious(nullptr);
+    listSize = 0;
 }
 
 template<class T>
@@ -348,15 +462,16 @@ void DoublyLinkedList<T>::checkIndex(int theIndex, std::string actionType) const
             throw ExceptionSpace::IllegalParameterValue(s.str());
         }
     } else if (actionType == "erase" || actionType == "get" || actionType == "replace") {
-        if (!(theIndex >= 0&&theIndex<this->size())) {
+        if (this->size() == 0)throw ExceptionSpace::IllegalParameterValue("容器为空，无法对容器执行删除，获取，替换操作");
+        if (!(theIndex >= 0 && theIndex < this->size())) {
             ostringstream s;
-            if(theIndex>=this->size())
-            {
+            if (theIndex >= this->size()) {
                 if (actionType == "erase")
                     s << "删除元素时，索引值不得>=listSize" << endl;
                 else if (actionType == "replace")s << "替换元素时，索引值不得>=listSize" << endl;
                 else if (actionType == "get")s << "获取元素时，索引值不得>=listSize" << endl;
-            }else{
+            } else {
+                //theIndex<0的情况
                 if (actionType == "erase")
                     s << "删除元素时，索引值不得<0" << endl;
                 else if (actionType == "replace")s << "替换元素时，索引值不得<0" << endl;
@@ -374,7 +489,8 @@ void DoublyLinkedList<T>::checkIndex(int theIndex, std::string actionType) const
 
 template<class T>
 DoublyNode<T> *DoublyLinkedList<T>::indexToAddress(const int &theIndex) const {
-    return nullptr;
+    checkIndex(theIndex, "get");
+    return &(this->getNode(theIndex));
 }
 
 template<class T>
@@ -383,7 +499,7 @@ bool DoublyLinkedList<T>::bubble(const int &n) {
 }
 
 template<class T>
-T DoublyLinkedList<T>::at(const int &theIndex) {
+T DoublyLinkedList<T>::at(const int &theIndex) const {
     checkIndex(theIndex, "get");
     NodePointer p = nodeHeader->getNext();
     for (int i = 0; i < theIndex; i++) {
@@ -393,6 +509,11 @@ T DoublyLinkedList<T>::at(const int &theIndex) {
 }
 
 template<class T>
-T &DoublyLinkedList<T>::operator[](const int &theIndex) {
+T &DoublyLinkedList<T>::operator[](const int &theIndex) const {
     return this->get(theIndex);
+}
+
+template<class T>
+void DoublyLinkedList<T>::pop_front() {
+    this->erase(0);
 }
