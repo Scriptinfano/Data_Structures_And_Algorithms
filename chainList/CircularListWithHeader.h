@@ -2,7 +2,7 @@
 
 #include<vector>
 #include<sstream>
-#include "D:\ClionProjects\Data_Structures_And_Algorithms\virtualBaseClassLinearList.h"
+#include "../virtualBaseClassLinearList.h"
 #include "../namespaces.h"
 
 using namespace std;

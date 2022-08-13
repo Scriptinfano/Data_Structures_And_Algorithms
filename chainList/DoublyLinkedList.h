@@ -1,8 +1,8 @@
 #pragma once
 
 #include <iostream>
-#include "D:\ClionProjects\Data_Structures_And_Algorithms\virtualBaseClassLinearList.h"
-#include "D:\ClionProjects\Data_Structures_And_Algorithms\namespaces.h"
+#include "../virtualBaseClassLinearList.h"
+#include "../namespaces.h"
 #include<sstream>
 #include<vector>
 

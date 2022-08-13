@@ -1,6 +1,6 @@
 #pragma once
 
-#include "D:\ClionProjects\Data_Structures_And_Algorithms\linearList\arrayAndVectorList\arrayList.hpp"
+#include "../linearList/arrayAndVectorList/arrayList.hpp"
 #include <sstream>
 #include <iostream>
 #include <string>

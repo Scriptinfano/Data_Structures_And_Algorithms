@@ -11,13 +11,67 @@ namespace ExceptionSpace {
         string message;
 
     public:
-        IllegalParameterValue() : message("未传递错误信息，未知错误") {}
-
-        IllegalParameterValue(string_view theMessage) : message(theMessage) {}
-
-        void OutMessage() const { cout << message << endl; }
+        explicit IllegalParameterValue(string_view theMessage = "非法参数传递") : message(theMessage) {}
 
         string_view what() const { return message; }
+    };
+
+    class matrixIndexOutOfBounds {
+    private:
+        string message;
+    public:
+        explicit matrixIndexOutOfBounds(string_view theMessage = "矩阵下标引用错误，超出了可引用的界限") : message(theMessage) {}
+
+        string_view what() const { return message; }
+    };
+
+    class matrixSizeMismatch {
+    protected:
+        string message;
+    public:
+        explicit matrixSizeMismatch(string_view theMessage = "矩阵大小规格不匹配") : message(theMessage) {}
+
+        string_view what() const { return message; }
+    };
+
+    class matrixSizeMismatchOfPlus : public matrixSizeMismatch {
+    public:
+        explicit matrixSizeMismatchOfPlus(string_view theMessage = "执行矩阵加法时，两个矩阵的大小规格必须完全相同") : matrixSizeMismatch(
+                theMessage) {}
+    };
+
+    class matrixSizeMismatchOfMultiply : public matrixSizeMismatch {
+    public:
+        explicit matrixSizeMismatchOfMultiply(string_view theMessage = "执行矩阵乘法时，第一个矩阵的列数必须和第二个矩阵的行数必须相同")
+                : matrixSizeMismatch(
+                theMessage) {}
+    };
+
+    class matrixSizeMismatchOfInitialize : public matrixSizeMismatch {
+    public:
+        explicit matrixSizeMismatchOfInitialize(string_view theMessage = "执行矩阵初始化时，传入的矩阵必须和当前的矩阵大小规格完全相同")
+                : matrixSizeMismatch(
+                theMessage) {}
+    };
+
+    class matrixSizeMismatchOfSubtraction : public matrixSizeMismatch {
+    public:
+        explicit matrixSizeMismatchOfSubtraction(string_view theMessage = "执行矩阵减法时，传入的矩阵必须和当前的矩阵大小规格完全相同")
+                : matrixSizeMismatch(
+                theMessage) {}
+    };
+
+    class uninitializedMatrix {
+    private:
+        string message;
+    public:
+        explicit uninitializedMatrix(string_view theMessage = "使用未初始化的矩阵执行了矩阵运算") : message(theMessage) {}
+    };
+    class reinitializedMatrix {
+    private:
+        string message;
+    public:
+        explicit reinitializedMatrix(string_view theMessage = "已经初始化过的矩阵不能再次初始化") : message(theMessage) {}
     };
 
 }
