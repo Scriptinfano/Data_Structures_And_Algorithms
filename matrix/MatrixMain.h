@@ -107,6 +107,7 @@ matrix<T> matrix<T>::operator+(const matrix<T> &theMatrix) const {
 
     if (rows != theMatrix.rows || columns != theMatrix.columns)throw matrixSizeMismatchOfPlus();
     matrix<T> result(rows, columns);
+    result.initialize();
     for (int i = 0; i < rows * columns; i++) {
         result.element[i] = element[i] + theMatrix.element[i];
     }
@@ -119,6 +120,7 @@ matrix<T> matrix<T>::operator-(const matrix<T> &theMatrix) const {
 
     if (rows != theMatrix.rows || columns != theMatrix.columns)throw matrixSizeMismatchOfSubtraction();
     matrix<T> result(rows, columns);
+    result.initialized();
     for (int i = 0; i < rows * columns; i++) {
         result.element[i] = element[i] - theMatrix.element[i];
     }
@@ -131,6 +133,7 @@ matrix<T> matrix<T>::operator*(const matrix<T> &theMatrix) const {
 
     if (columns != theMatrix.rows)throw matrixSizeMismatchOfMultiply();
     matrix<T> temp(rows, theMatrix.columns);
+    temp.initialize();
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < theMatrix.columns; j++) {
             T sum = 0;
