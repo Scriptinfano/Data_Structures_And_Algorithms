@@ -66,12 +66,16 @@ namespace ExceptionSpace {
         string message;
     public:
         explicit uninitializedMatrix(string_view theMessage = "使用未初始化的矩阵执行了矩阵运算") : message(theMessage) {}
+        string_view what() const { return message; }
+
     };
     class reinitializedMatrix {
     private:
         string message;
     public:
         explicit reinitializedMatrix(string_view theMessage = "已经初始化过的矩阵不能再次初始化") : message(theMessage) {}
+        string_view what() const { return message; }
+
     };
 
 }

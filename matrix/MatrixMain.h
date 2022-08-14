@@ -180,12 +180,13 @@ template<class T>
 matrix<T> matrix<T>::transpose() {
     if (!initialized)throw uninitializedMatrix();
     matrix<T> temp(columns, rows);
+    temp.initialize();
     for (int i = 0; i < columns; i++) {
         for (int j = 0; j < rows; j++) {
-
+            temp(j + 1, i + 1) = element[i * columns + j];
         }
     }
-
+return temp;
 }
 
 template<class T>
@@ -196,4 +197,5 @@ void matrix<T>::initialize() {
             element[i * columns + j] = 0;
         }
     }
+    initialized=true;
 }

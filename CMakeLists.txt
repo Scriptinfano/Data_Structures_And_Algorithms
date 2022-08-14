@@ -17,3 +17,4 @@ add_executable(calculationOfSuffixExpressions Applications/calculationOfSuffixEx
 add_executable(calculationOfSuffixExpressionsUltra Applications/calculationOfSuffixExpressions/calculationOfSuffixExpressionsUltra.cpp)
 add_executable(BasicOperation matrix/BasicOperation.cpp)
 add_executable(MatrixMain matrix/MatrixMain.cpp)
+add_executable(diagonalMatrix matrix/diagonalMatrix.cpp)
