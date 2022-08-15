@@ -51,7 +51,7 @@ int main() {
         cerr << theException.what() << endl;
     } catch (const uninitializedMatrix &theException) {
         cerr << theException.what() << endl;
-    } catch (const reinitializedMatrix &theException) {
+    } catch (const reInitializedMatrix &theException) {
         cerr << theException.what() << endl;
     }
     return 0;

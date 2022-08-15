@@ -130,7 +130,6 @@ matrix<T> matrix<T>::operator-(const matrix<T> &theMatrix) const {
 template<class T>
 matrix<T> matrix<T>::operator*(const matrix<T> &theMatrix) const {
     if (!initialized || !theMatrix.initialized)throw uninitializedMatrix();
-
     if (columns != theMatrix.rows)throw matrixSizeMismatchOfMultiply();
     matrix<T> temp(rows, theMatrix.columns);
     temp.initialize();
@@ -157,7 +156,7 @@ matrix<T> &matrix<T>::operator+=(const T &theElement) const {
 
 template<class T>
 void matrix<T>::initialize(T *theElements, const int &row, const int &column) {
-    if (initialized)throw reinitializedMatrix();
+    if (initialized)throw reInitializedMatrix();
     if (row != rows || column != columns)throw matrixSizeMismatchOfInitialize();
     int index = 0;
     for (int i = 0; i < row; i++) {
@@ -189,16 +188,16 @@ matrix<T> matrix<T>::transpose() {
             temp(j + 1, i + 1) = element[i * columns + j];
         }
     }
-return temp;
+    return temp;
 }
 
 template<class T>
 void matrix<T>::initialize() {
-    if (initialized)throw reinitializedMatrix();//如果矩阵已经初始化了就不需要再初始化了
+    if (initialized)throw reInitializedMatrix();//如果矩阵已经初始化了就不需要再初始化了
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
             element[i * columns + j] = 0;
         }
     }
-    initialized=true;
+    initialized = true;
 }

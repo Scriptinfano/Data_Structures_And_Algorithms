@@ -69,11 +69,19 @@ namespace ExceptionSpace {
         string_view what() const { return message; }
 
     };
-    class reinitializedMatrix {
+    class reInitializedMatrix {
     private:
         string message;
     public:
-        explicit reinitializedMatrix(string_view theMessage = "已经初始化过的矩阵不能再次初始化") : message(theMessage) {}
+        explicit reInitializedMatrix(string_view theMessage = "已经初始化过的矩阵不能再次初始化") : message(theMessage) {}
+        string_view what() const { return message; }
+
+    };
+    class invalidValueSet {
+    private:
+        string message;
+    public:
+        explicit invalidValueSet(string_view theMessage = "改变特殊矩阵中元素的值时不能将零区元素设为除了零以外的其他数") : message(theMessage) {}
         string_view what() const { return message; }
 
     };
