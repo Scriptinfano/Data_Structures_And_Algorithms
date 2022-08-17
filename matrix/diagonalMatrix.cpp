@@ -182,7 +182,7 @@ int main() {
         cerr << theException.what() << endl;
     } catch (const reInitializedMatrix &theException) {
         cerr << theException.what() << endl;
-    }catch(const invalidValueSet&theException)
+    }catch(const invalidMatrixValueSet&theException)
     {
         cerr << theException.what() << endl;
     }

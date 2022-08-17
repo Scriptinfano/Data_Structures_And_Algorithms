@@ -16,13 +16,23 @@ namespace ExceptionSpace {
         string_view what() const { return message; }
     };
 
-    class matrixIndexOutOfBounds {
-    private:
+    class outOfBounds {
+    protected:
         string message;
     public:
-        explicit matrixIndexOutOfBounds(string_view theMessage = "矩阵下标引用错误，超出了可引用的界限") : message(theMessage) {}
+        explicit outOfBounds(string_view theMessage = "访问超出界限") : message(theMessage) {}
 
         string_view what() const { return message; }
+    };
+
+    class matrixIndexOutOfBounds : public outOfBounds {
+    public:
+        explicit matrixIndexOutOfBounds(string_view theMessage = "矩阵下标引用错误，导致访问超出界限") : outOfBounds(theMessage) {}
+    };
+
+    class iteratorOutOfBounds:public outOfBounds{
+    public:
+        explicit iteratorOutOfBounds(string_view theMessage="迭代器超出可访问界限"): outOfBounds(theMessage){}
     };
 
     class matrixSizeMismatch {
@@ -66,22 +76,27 @@ namespace ExceptionSpace {
         string message;
     public:
         explicit uninitializedMatrix(string_view theMessage = "使用未初始化的矩阵执行了矩阵运算") : message(theMessage) {}
+
         string_view what() const { return message; }
 
     };
+
     class reInitializedMatrix {
     private:
         string message;
     public:
         explicit reInitializedMatrix(string_view theMessage = "已经初始化过的矩阵不能再次初始化") : message(theMessage) {}
+
         string_view what() const { return message; }
 
     };
-    class invalidValueSet {
+
+    class invalidMatrixValueSet {
     private:
         string message;
     public:
-        explicit invalidValueSet(string_view theMessage = "改变特殊矩阵中元素的值时不能将零区元素设为除了零以外的其他数") : message(theMessage) {}
+        explicit invalidMatrixValueSet(string_view theMessage = "改变特殊矩阵中元素的值时不能将零区元素设为除了零以外的其他数") : message(theMessage) {}
+
         string_view what() const { return message; }
 
     };

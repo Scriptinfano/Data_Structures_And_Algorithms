@@ -11,16 +11,16 @@
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\virtualBaseClassLinearList.h"
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\namespaces.h"
 
-using ExceptionSpace::IllegalParameterValue;
+using namespace ExceptionSpace;
 
 //全局模板函数必须在普通函数中经调用实例化才可使用
 void initializeTemplateFunction() {
 
     //本函数无需调用，仅用来实例化模板函数
-    int *p= nullptr;
-    int oldLength=0;
-    int newLength=0;
-    GlobalSpace::changeLength1D<int>(p,oldLength,newLength);
+    int *p = nullptr;
+    int oldLength = 0;
+    int newLength = 0;
+    GlobalSpace::changeLength1D<int>(p, oldLength, newLength);
 }
 
 using namespace std;
@@ -29,7 +29,7 @@ using namespace std;
 template<class T>
 class arrayList : public LinearList<T> {
 protected:
-    void checkIndex(int theIndex, std::string actionType) const;
+    void checkIndex(const int& theIndex, const string &actionType) const;
 
 
     int arrayLength; //数组长度，相当于容器的容量
@@ -47,7 +47,7 @@ public:
     // ADT方法（实现基类的纯虚函数）
     virtual bool empty() const { return listSize == 0; }    //检测是否为空
     virtual int size() const;                               //返回容器元素个数
-    virtual T &get(const int &index) const;                     //返回索引值为index的对象
+    virtual T get(const int &index) const;                     //返回索引值为index的对象
     virtual int indexOf(const T &theElement) const;         //返回元素的索引值
     virtual void erase(const int &index);                       //删除索引为index的对象
     virtual void insert(const int &index, const T &theElement); //在索引index处的后一个位置插入元素
@@ -75,6 +75,8 @@ public:
 
     void set(int theIndex, const T &theElement);//用指定元素替换指定索引值的元素
 
+    void set(mystd::iterator<T> &iter, const T &theElement);//重载上面的set函数，利用传入的自定义迭代器实现元素替换
+
     int lastIndexOf(const T &theElement);//返回指定元素最后出现时的索引，若元素不存在则返回-1
 
     void reverse();//原地反转数组元素
@@ -82,6 +84,9 @@ public:
     void leftShift(int offset);//将线性表的元素向左移动offset个位置
 
     void removeRange(int beginIndex, int endIndex);//移除索引范围内的元素
+
+    void removeRange(const mystd::iterator<T> &iter_begin,
+                     const mystd::iterator<T> &iter_end);//重载上面的removeRange函数，利用自定义迭代器标记范围，删除范围之内的元素
 
     void circularShift(int offset);//循环移动线性表内的元素，按顺时针方向移动
 
@@ -94,6 +99,7 @@ public:
 
     void split(arrayList<T> &listA, arrayList<T> &listB);//将调用函数的对象中索引为偶数的元素放入listA，将索引为奇数的元素放入listB
 
+    T*address(const int &theIndex)const;
     //其他作为成员函数重载的运算符函数
     bool operator==(arrayList<T> &array);
 
@@ -342,6 +348,7 @@ void arrayList<T>::removeRange(int beginIndex, int endIndex) {
         for (int x = endIndex + 1; x < listSize; x++) {
             temp[i] = element[x];
         }
+        delete[]element;
         element = temp;
         arrayLength = newLength;
         listSize = newLength;
@@ -371,7 +378,7 @@ void arrayList<T>::reverse() {
 }
 
 template<class T>
-void arrayList<T>::checkIndex(int theIndex, std::string actionType) const {
+void arrayList<T>::checkIndex(const int& theIndex, const string &actionType) const {
 //确保索引在0到listsize-1之间
     if (actionType == "insert") {
         if (theIndex < 0 || theIndex >= this->capacity() || theIndex > this->size()) {
@@ -517,7 +524,7 @@ void arrayList<T>::split(arrayList<T> &listA, arrayList<T> &listB) {
 }
 
 template<class T>
-T &arrayList<T>::get(const int &index) const {
+T arrayList<T>::get(const int &index) const {
     checkIndex(index, "get");
     return element[index];
 
@@ -561,6 +568,45 @@ void arrayList<T>::insert(const int &index, const T &theElement) {
     element[index] = theElement;
     listSize++;
 
+}
+
+template<class T>
+void arrayList<T>::set(mystd::iterator<T> &iter, const T &theElement) {
+    if (iter < mystd::iterator<T>(begin()) || iter > mystd::iterator<T>(end()))
+        throw iteratorOutOfBounds();
+    *iter = theElement;
+}
+
+template<class T>
+void arrayList<T>::removeRange(const mystd::iterator<T> &iter_begin, const mystd::iterator<T> &iter_end) {
+    if (iter_begin >= mystd::iterator<T>(begin()) && iter_begin < iter_end && iter_end < mystd::iterator<T>(end())) {
+        ptrdiff_t distance = iter_end - iter_begin;
+
+        int newLength = listSize - (distance + 1);
+        T *temp = new T[newLength];
+        mystd::iterator<T> iter(begin());
+        mystd::iterator<T>iter2(end());
+        int i = 0;
+        while (iter != iter_begin) {
+            temp[i++] = *iter;
+            iter++;
+        }
+        iter += (distance + 1);
+        while (iter != iter2) {
+            temp[i++] = *iter;
+            iter++;
+        }
+        delete[]element;
+        element = temp;
+        arrayLength = newLength;
+        listSize = newLength;
+    } else throw iteratorOutOfBounds();
+}
+
+template<class T>
+T *arrayList<T>::address(const int &theIndex) const {
+    checkIndex(theIndex,"get");
+    return &element[theIndex];
 }
 
 

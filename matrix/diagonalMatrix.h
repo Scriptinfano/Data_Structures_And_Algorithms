@@ -289,7 +289,7 @@ public:
                 this->element[2 * this->dimension + i - 2] = theElement;
                 break;
             default: {
-                if (theElement != 0)throw invalidValueSet();
+                if (theElement != 0)throw invalidMatrixValueSet();
             }
         }
     }
