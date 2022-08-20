@@ -18,3 +18,4 @@ add_executable(calculationOfSuffixExpressionsUltra Applications/calculationOfSuf
 add_executable(BasicOperation matrix/BasicOperation.cpp)
 add_executable(MatrixMain matrix/MatrixMain.cpp)
 add_executable(diagonalMatrix matrix/diagonalMatrix.cpp)
+add_executable(betterBinSort_radixSort sortAlgorithm/betterBinSort_radixSort.cpp)

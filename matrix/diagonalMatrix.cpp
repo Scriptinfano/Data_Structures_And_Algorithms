@@ -79,99 +79,199 @@ void testDiagonalMultiply() {
 
 }
 
-void testTripleInitialize()
-{
+void testTripleInitialize() {
     tripleDiagonalMatrix<int> triple(4);
     int element[][4] = {
-            {7, 4, 0,0},
-            {8, 9, 12,0},
-            {0, 5, 6,17},
-            {0, 0, 3,2},
+            {7, 4, 0,  0},
+            {8, 9, 12, 0},
+            {0, 5, 6,  17},
+            {0, 0, 3,  2},
 
     };
     triple.initialize((int *) element, 4);
     cout << triple;
 
 }
-void testTriplePlus()
-{
+
+void testTriplePlus() {
     tripleDiagonalMatrix<int> triple(4);
     int element[][4] = {
-            {7, 4, 0,0},
-            {8, 9, 12,0},
-            {0, 5, 6,17},
-            {0, 0, 3,2},
+            {7, 4, 0,  0},
+            {8, 9, 12, 0},
+            {0, 5, 6,  17},
+            {0, 0, 3,  2},
 
     };
     triple.initialize((int *) element, 4);
 
     tripleDiagonalMatrix<int> triple2(4);
     int element2[][4] = {
-            {12, 3, 0,0},
-            {22, 36, 16,0},
-            {0, 13, 51,63},
-            {0, 0, 67,52},
+            {12, 3,  0,  0},
+            {22, 36, 16, 0},
+            {0,  13, 51, 63},
+            {0,  0,  67, 52},
     };
     triple2.initialize((int *) element2, 4);
 
-    tripleDiagonalMatrix<int>*result=triple+triple2;
-    cout<<*result;
+    tripleDiagonalMatrix<int> *result = triple + triple2;
+    cout << *result;
 
 }
-void testTripleSub()
-{
+
+void testTripleSub() {
     tripleDiagonalMatrix<int> triple(4);
     int element[][4] = {
-            {7, 4, 0,0},
-            {8, 9, 12,0},
-            {0, 5, 6,17},
-            {0, 0, 3,2},
+            {7, 4, 0,  0},
+            {8, 9, 12, 0},
+            {0, 5, 6,  17},
+            {0, 0, 3,  2},
 
     };
     triple.initialize((int *) element, 4);
 
     tripleDiagonalMatrix<int> triple2(4);
     int element2[][4] = {
-            {12, 3, 0,0},
-            {22, 36, 16,0},
-            {0, 13, 51,63},
-            {0, 0, 67,52},
+            {12, 3,  0,  0},
+            {22, 36, 16, 0},
+            {0,  13, 51, 63},
+            {0,  0,  67, 52},
     };
     triple2.initialize((int *) element2, 4);
-    tripleDiagonalMatrix<int>*result=triple-triple2;
-    cout<<*result;
+    tripleDiagonalMatrix<int> *result = triple - triple2;
+    cout << *result;
 
 }
-void testTripleMultiply()
-{
+
+void testTripleMultiply() {
     tripleDiagonalMatrix<int> triple(4);
     int element[][4] = {
-            {7, 4, 0,0},
-            {8, 9, 12,0},
-            {0, 5, 6,17},
-            {0, 0, 3,2},
+            {7, 4, 0,  0},
+            {8, 9, 12, 0},
+            {0, 5, 6,  17},
+            {0, 0, 3,  2},
 
     };
     triple.initialize((int *) element, 4);
 
     tripleDiagonalMatrix<int> triple2(4);
     int element2[][4] = {
-            {12, 3, 0,0},
-            {22, 36, 16,0},
-            {0, 13, 51,63},
-            {0, 0, 67,52},
+            {12, 3,  0,  0},
+            {22, 36, 16, 0},
+            {0,  13, 51, 63},
+            {0,  0,  67, 52},
     };
     triple2.initialize((int *) element2, 4);
 
-    tripleDiagonalMatrix<int>*result=triple*triple2;
-    cout<<*result;
+    tripleDiagonalMatrix<int> *result = triple * triple2;
+    cout << *result;
 
+}
+
+void testTripleTranspose() {
+    tripleDiagonalMatrix<int> triple(4);
+    int element[][4] = {
+            {7, 4, 0,  0},
+            {8, 9, 12, 0},
+            {0, 5, 6,  17},
+            {0, 0, 3,  2},
+
+    };
+    triple.initialize((int *) element, 4);
+    auto result = triple.transpose();
+    cout << *result;
+}
+
+void testLowerInitialize() {
+    lowerTriangularMatrix<int> lower(4);
+    int element[][4] = {
+            {7,  0,  0, 0},
+            {8,  9,  0, 0},
+            {4,  5,  6, 0},
+            {15, 23, 3, 2},
+    };
+    lower.initialize((int *) element, 4);
+    cout << "输出常规下三角矩阵" << endl;
+    cout << lower << endl;
+    cout << "输出空下三角矩阵" << endl;
+    lowerTriangularMatrix<int> lower2(4);
+    lower2.initialize();
+    cout << lower2 << endl;
+}
+
+void testLowerCopyConstruction() {
+    lowerTriangularMatrix<int> lower(4);
+    int element[][4] = {
+            {7,  0,  0, 0},
+            {8,  9,  0, 0},
+            {4,  5,  6, 0},
+            {15, 23, 3, 2},
+    };
+    lower.initialize((int *) element, 4);
+    lowerTriangularMatrix<int> lower2(lower);
+    cout << "输出拷贝构造之后的矩阵：" << endl;
+    cout << lower2 << endl;
+}
+
+void testLowerMatrixPlus() {
+    lowerTriangularMatrix<int> lower(4);
+    int element[][4] = {
+            {7,  0,  0, 0},
+            {8,  9,  0, 0},
+            {4,  5,  6, 0},
+            {15, 23, 3, 2},
+    };
+    lower.initialize((int *) element, 4);
+    lowerTriangularMatrix<int> lower2(4);
+    int element2[][4] = {
+            {15, 0,  0,  0},
+            {45, 65, 0,  0},
+            {15, 35, 56, 0},
+            {15, 53, 13, 22},
+    };
+    lower2.initialize((int *) element2, 4);
+    auto result = lower + lower2;
+    cout << *result << endl;
+}
+
+void testLowerMatrixMultiply() {
+    lowerTriangularMatrix<int> lower(4);
+    int element[][4] = {
+            {7,  0,  0, 0},
+            {8,  9,  0, 0},
+            {4,  5,  6, 0},
+            {15, 23, 3, 2},
+    };
+    lower.initialize((int *) element, 4);
+    lowerTriangularMatrix<int> lower2(4);
+    int element2[][4] = {
+            {14, 0,  0,  0},
+            {45, 65, 0,  0},
+            {15, 35, 56, 0},
+            {15, 53, 13, 22},
+    };
+    lower2.initialize((int *) element2, 4);
+    auto result = lower * lower2;
+    cout << *result << endl;
+
+}
+
+void testLowerMatrixTranspose() {
+    lowerTriangularMatrix<int> lower(4);
+    int element[][4] = {
+            {7,  0,  0, 0},
+            {8,  9,  0, 0},
+            {4,  5,  6, 0},
+            {15, 23, 3, 2},
+    };
+    lower.initialize((int *) element, 4);
+    auto result = lower.transpose();
+    cout << *result<<endl;
 }
 
 int main() {
     setbuf(stdout, nullptr);
     try {
-        testTripleMultiply();
+        testLowerMatrixTranspose();
     } catch (const matrixSizeMismatch &theException) {
         cerr << theException.what() << endl;
     } catch (const IllegalParameterValue &theException) {
@@ -182,8 +282,7 @@ int main() {
         cerr << theException.what() << endl;
     } catch (const reInitializedMatrix &theException) {
         cerr << theException.what() << endl;
-    }catch(const invalidMatrixValueSet&theException)
-    {
+    } catch (const invalidMatrixValueSet &theException) {
         cerr << theException.what() << endl;
     }
     return 0;
