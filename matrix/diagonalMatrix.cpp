@@ -265,13 +265,88 @@ void testLowerMatrixTranspose() {
     };
     lower.initialize((int *) element, 4);
     auto result = lower.transpose();
-    cout << *result<<endl;
+    cout << *result << endl;
+}
+
+void testTripleAsIrregularArrayInitializeAndCopyConstruction() {
+    tripleDiagonalMatrixAsIrregularArray<int> triple(4);
+    int element[][4] = {
+            {7, 4, 0, 0},
+            {8, 9, 9, 0},
+            {0, 5, 6, 5},
+            {0, 0, 3, 2},
+    };
+    triple.initialize((int *) element, 4);
+    cout << triple << endl;
+
+    cout << "输出拷贝构造对象" << endl;
+    tripleDiagonalMatrixAsIrregularArray<int> triple2(triple);
+    cout << triple2;
+
+
+}
+
+void testTripleAsIrregularArrayPlus() {
+    tripleDiagonalMatrixAsIrregularArray<int> triple(4);
+    int element[][4] = {
+            {7, 4, 0, 0},
+            {8, 9, 9, 0},
+            {0, 5, 6, 5},
+            {0, 0, 3, 2},
+    };
+    triple.initialize((int *) element, 4);
+
+    tripleDiagonalMatrixAsIrregularArray<int> triple2(4);
+    int element2[][4] = {
+            {12, 3,  0,  0},
+            {22, 36, 16, 0},
+            {0,  13, 51, 63},
+            {0,  0,  67, 52},
+    };
+    triple2.initialize((int *) element2, 4);
+
+    cout << "矩阵一如下：" << endl;
+    cout << triple << endl;
+    cout << "矩阵二如下：" << endl;
+    cout << triple2 << endl;
+    cout << "矩阵一和矩阵二做矩阵加法所得的新矩阵如下：" << endl;
+    auto result = triple + triple2;
+    cout << *result << endl;
+}
+
+void testTripleAsIrregularArrayMultiply() {
+    tripleDiagonalMatrixAsIrregularArray<int> triple(4);
+    int element[][4] = {
+            {7, 4, 0, 0},
+            {8, 9, 9, 0},
+            {0, 5, 6, 5},
+            {0, 0, 3, 2},
+    };
+    triple.initialize((int *) element, 4);
+
+    tripleDiagonalMatrixAsIrregularArray<int> triple2(4);
+    int element2[][4] = {
+            {12, 3,  0,  0},
+            {22, 36, 16, 0},
+            {0,  13, 51, 63},
+            {0,  0,  67, 52},
+    };
+    triple2.initialize((int *) element2, 4);
+
+    cout << "矩阵一如下：" << endl;
+    cout << triple << endl;
+    cout << "矩阵二如下：" << endl;
+    cout << triple2 << endl;
+    cout << "矩阵一和矩阵二做矩阵乘法所得的新矩阵如下：" << endl;
+    auto result = triple * triple2;
+    cout << *result << endl;
+
 }
 
 int main() {
     setbuf(stdout, nullptr);
     try {
-        testLowerMatrixTranspose();
+        testTripleAsIrregularArrayPlus();
     } catch (const matrixSizeMismatch &theException) {
         cerr << theException.what() << endl;
     } catch (const IllegalParameterValue &theException) {
