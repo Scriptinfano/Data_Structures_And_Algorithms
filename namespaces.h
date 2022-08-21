@@ -2,27 +2,25 @@
 
 #include <iostream>
 #include <string_view>
-
+#include <exception>
 using namespace std;
 
 namespace ExceptionSpace {
-    class IllegalParameterValue {
+    class IllegalParameterValue:public exception {
     private:
         string message;
 
     public:
         explicit IllegalParameterValue(string_view theMessage = "非法参数传递") : message(theMessage) {}
 
-        string_view what() const { return message; }
     };
 
-    class outOfBounds {
+    class outOfBounds: public exception{
     protected:
         string message;
     public:
         explicit outOfBounds(string_view theMessage = "访问超出界限") : message(theMessage) {}
 
-        string_view what() const { return message; }
     };
 
     class matrixIndexOutOfBounds : public outOfBounds {
@@ -71,34 +69,25 @@ namespace ExceptionSpace {
                 theMessage) {}
     };
 
-    class uninitializedMatrix {
+    class uninitializedMatrix:public exception {
     private:
         string message;
     public:
         explicit uninitializedMatrix(string_view theMessage = "使用未初始化的矩阵执行了矩阵运算") : message(theMessage) {}
-
-        string_view what() const { return message; }
-
     };
 
-    class reInitializedMatrix {
+    class reInitializedMatrix:public exception{
     private:
         string message;
     public:
         explicit reInitializedMatrix(string_view theMessage = "已经初始化过的矩阵不能再次初始化") : message(theMessage) {}
-
-        string_view what() const { return message; }
-
     };
 
-    class invalidMatrixValueSet {
+    class invalidMatrixValueSet :public exception{
     private:
         string message;
     public:
         explicit invalidMatrixValueSet(string_view theMessage = "改变特殊矩阵中元素的值时不能将零区元素设为除了零以外的其他数") : message(theMessage) {}
-
-        string_view what() const { return message; }
-
     };
 
 }

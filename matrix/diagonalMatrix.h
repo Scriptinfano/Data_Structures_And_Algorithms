@@ -65,11 +65,11 @@ class diagonalMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
     }
 
 public:
-    diagonalMatrix(int theDimention = 10) {
-        if (theDimention < 1) {
+    diagonalMatrix(int theDimension = 10) {
+        if (theDimension < 1) {
             throw IllegalParameterValue("matrix的大小必须大于0");
         }
-        this->dimension = theDimention;//在模板继承中要访问基类中的数据必须使用this标注
+        this->dimension = theDimension;//在模板继承中要访问基类中的数据必须使用this标注
         this->element = new T[this->dimension];
         this->initialized = false;
     }
@@ -221,11 +221,11 @@ class tripleDiagonalMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
     }
 
 public:
-    tripleDiagonalMatrix(int theDimention = 10) {
-        if (theDimention < 1) {
+    tripleDiagonalMatrix(int theDimension = 10) {
+        if (theDimension < 1) {
             throw IllegalParameterValue("matrix的大小必须大于0");
         }
-        this->dimension = theDimention;
+        this->dimension = theDimension;
         this->element = new T[3 * this->dimension - 2];//三对角矩阵的非零元素的个数是3*n-2
         this->initialized = false;
     }
@@ -419,11 +419,11 @@ class lowerTriangularMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
     }
 
 public:
-    lowerTriangularMatrix(int theDimention = 10) {
-        if (theDimention < 1) {
+    lowerTriangularMatrix(int theDimension = 10) {
+        if (theDimension < 1) {
             throw IllegalParameterValue("matrix的大小必须大于0");
         }
-        this->dimension = theDimention;
+        this->dimension = theDimension;
         this->element = new T[this->dimension * (this->dimension + 1) / 2];//上三角矩阵和下三角矩阵的元素总数都是n*(n+1)/2
         this->initialized = false;
     }
@@ -587,11 +587,11 @@ class upperDiagonalMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
     }
 
 public:
-    upperDiagonalMatrix(int theDimention = 10) {
-        if (theDimention < 1) {
+    upperDiagonalMatrix(int theDimension = 10) {
+        if (theDimension < 1) {
             throw IllegalParameterValue("matrix的大小必须大于0");
         }
-        this->dimension = theDimention;
+        this->dimension = theDimension;
         this->element = new T[this->dimension * (this->dimension + 1) / 2];//上三角矩阵和下三角矩阵的元素总数都是n*(n+1)/2
         this->initialized = false;
     }
