@@ -343,10 +343,116 @@ void testTripleAsIrregularArrayMultiply() {
 
 }
 
+void testTripleAsIrregularArrayTranspose() {
+    tripleDiagonalMatrixAsIrregularArray<int> triple(4);
+    int element[][4] = {
+            {7, 4, 0, 0},
+            {8, 9, 9, 0},
+            {0, 5, 6, 5},
+            {0, 0, 3, 2},
+    };
+    triple.initialize((int *) element, 4);
+    auto result = triple.transpose();
+    cout << *result;
+}
+
+void testLowerTriangleAsIrregularArrayInitialize() {
+    //测试初始化
+    lowerTriangleAsIrregularArray<int> triple(4);
+    int element[][4] = {
+            {7, 0, 0, 0},
+            {8, 9, 0, 0},
+            {2, 5, 6, 0},
+            {5, 2, 3, 2},
+    };
+    triple.initialize((int *) element, 4);
+    lowerTriangleAsIrregularArray<int> triple2(4);
+    triple2.initialize();
+    cout << triple << endl;
+    cout << "初始化空矩阵" << endl;
+    cout << triple2 << endl;
+
+}
+
+void testLowerTriangleAsIrregularArrayCopyConstruction() {
+    //测试拷贝构造
+    lowerTriangleAsIrregularArray<int> triple(4);
+    int element[][4] = {
+            {7, 0, 0, 0},
+            {8, 9, 0, 0},
+            {2, 5, 6, 0},
+            {5, 2, 3, 2},
+    };
+    triple.initialize((int *) element, 4);
+    lowerTriangleAsIrregularArray<int> triple2(triple);
+    cout << "原矩阵" << endl;
+    cout << triple << endl;
+    cout << "拷贝构造之后的新矩阵" << endl;
+    cout << triple2 << endl;
+}
+
+void testLowerTriangleAsIrregularArrayPlus() {
+    lowerTriangleAsIrregularArray<int> triple(4);
+    int element[][4] = {
+            {7, 0, 0, 0},
+            {8, 9, 0, 0},
+            {2, 5, 6, 0},
+            {5, 2, 3, 2},
+    };
+    triple.initialize((int *) element, 4);
+
+    lowerTriangleAsIrregularArray<int> triple2(4);
+    int element2[][4] = {
+            {4,  0,  0,  0},
+            {45, 46, 0,  0},
+            {5,  6,  15, 0},
+            {15, 14, 3,  2},
+    };
+    triple2.initialize((int *) element2, 4);
+    auto result = triple + triple2;
+    cout << *result;
+}
+
+void testLowerTriangleAsIrregularArrayMultiply() {
+    lowerTriangleAsIrregularArray<int> triple(4);
+    int element[][4] = {
+            {7, 0, 0, 0},
+            {8, 9, 0, 0},
+            {2, 5, 6, 0},
+            {5, 2, 3, 2},
+    };
+    triple.initialize((int *) element, 4);
+
+    lowerTriangleAsIrregularArray<int> triple2(4);
+    int element2[][4] = {
+            {4,  0,  0,  0},
+            {45, 46, 0,  0},
+            {5,  6,  15, 0},
+            {15, 14, 3,  2},
+    };
+    triple2.initialize((int *) element2, 4);
+    auto result = triple * triple2;
+    cout << *result;
+
+}
+
+void testLowerTriangleAsIrregularArrayTranspose() {
+    lowerTriangleAsIrregularArray<int> triple(4);
+    int element[][4] = {
+            {7, 0, 0, 0},
+            {8, 9, 0, 0},
+            {2, 5, 6, 0},
+            {5, 2, 3, 2},
+    };
+    triple.initialize((int *) element, 4);
+    auto result = triple.transpose();
+    cout<<*result;
+}
+
 int main() {
     setbuf(stdout, nullptr);
     try {
-        testTripleAsIrregularArrayPlus();
+        testLowerTriangleAsIrregularArrayTranspose();
     } catch (const matrixSizeMismatch &theException) {
         cerr << theException.what() << endl;
     } catch (const IllegalParameterValue &theException) {
@@ -359,6 +465,8 @@ int main() {
         cerr << theException.what() << endl;
     } catch (const invalidMatrixValueSet &theException) {
         cerr << theException.what() << endl;
+    } catch (const exception &theException) {
+        cerr << theException.what();
     }
     return 0;
 }

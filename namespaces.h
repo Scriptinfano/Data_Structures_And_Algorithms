@@ -12,7 +12,10 @@ namespace ExceptionSpace {
 
     public:
         explicit IllegalParameterValue(string_view theMessage = "非法参数传递") : message(theMessage) {}
-
+        const char * what() const noexcept override//重写父类函数
+        {
+            return message.c_str();
+        }
     };
 
     class outOfBounds: public exception{
@@ -20,6 +23,10 @@ namespace ExceptionSpace {
         string message;
     public:
         explicit outOfBounds(string_view theMessage = "访问超出界限") : message(theMessage) {}
+        const char * what() const noexcept override
+        {
+            return message.c_str();
+        }
 
     };
 
@@ -33,13 +40,16 @@ namespace ExceptionSpace {
         explicit iteratorOutOfBounds(string_view theMessage="迭代器超出可访问界限"): outOfBounds(theMessage){}
     };
 
-    class matrixSizeMismatch {
+    class matrixSizeMismatch:public exception {
     protected:
         string message;
     public:
         explicit matrixSizeMismatch(string_view theMessage = "矩阵大小规格不匹配") : message(theMessage) {}
 
-        string_view what() const { return message; }
+        const char * what() const noexcept override
+        {
+            return message.c_str();
+        }
     };
 
     class matrixSizeMismatchOfPlus : public matrixSizeMismatch {
@@ -67,6 +77,7 @@ namespace ExceptionSpace {
         explicit matrixSizeMismatchOfSubtraction(string_view theMessage = "执行矩阵减法时，传入的矩阵必须和当前的矩阵大小规格完全相同")
                 : matrixSizeMismatch(
                 theMessage) {}
+
     };
 
     class uninitializedMatrix:public exception {
@@ -74,6 +85,11 @@ namespace ExceptionSpace {
         string message;
     public:
         explicit uninitializedMatrix(string_view theMessage = "使用未初始化的矩阵执行了矩阵运算") : message(theMessage) {}
+        const char * what() const noexcept override
+        {
+            return message.c_str();
+        }
+
     };
 
     class reInitializedMatrix:public exception{
@@ -81,6 +97,10 @@ namespace ExceptionSpace {
         string message;
     public:
         explicit reInitializedMatrix(string_view theMessage = "已经初始化过的矩阵不能再次初始化") : message(theMessage) {}
+        const char * what() const noexcept override
+        {
+            return message.c_str();
+        }
     };
 
     class invalidMatrixValueSet :public exception{
@@ -88,6 +108,11 @@ namespace ExceptionSpace {
         string message;
     public:
         explicit invalidMatrixValueSet(string_view theMessage = "改变特殊矩阵中元素的值时不能将零区元素设为除了零以外的其他数") : message(theMessage) {}
+        const char * what() const noexcept override
+        {
+            return message.c_str();
+        }
+
     };
 
 }
