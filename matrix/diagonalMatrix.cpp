@@ -446,7 +446,7 @@ void testLowerTriangleAsIrregularArrayTranspose() {
     };
     triple.initialize((int *) element, 4);
     auto result = triple.transpose();
-    cout<<*result;
+    cout << *result;
 }
 
 int main() {

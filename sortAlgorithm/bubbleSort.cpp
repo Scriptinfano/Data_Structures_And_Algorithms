@@ -50,7 +50,7 @@ bool betterBubble(T a[],int n)
 }
 
 template<class T>
-bool betterBubbleSort(T a[],int n)
+void betterBubbleSort(T a[],int n)
 {
     for(int i=n;i>1&& betterBubble(a,i);i--);
 }
