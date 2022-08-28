@@ -243,7 +243,7 @@ public:
 
             listSize -= count;
         } else {
-            throw ExceptionSpace::IllegalParameterValue("???removeRange?????????????????");
+            throw ExceptionSpace::IllegalParameterValue("removeRange(const int &beginIndex, const int &endIndex)参数传递错误");
         }
 
     }
