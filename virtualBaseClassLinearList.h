@@ -10,7 +10,7 @@ public:
     //数据域未知，指针域明确的构造函数
     ChainNode() = default;
 
-    ChainNode(const ChainNode<T> *theNext) : element(new T), next(theNext) {}
+    ChainNode(ChainNode<T> *theNext) : element(*(new T)), next(theNext) {}
 
     //指定数据域和指针域的标准构造函数
     ChainNode(const T &theElement, ChainNode<T> *theNext = nullptr) : element(theElement), next(theNext) {}

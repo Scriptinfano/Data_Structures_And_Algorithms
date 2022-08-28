@@ -3,591 +3,582 @@
 #include<vector>
 #include<sstream>
 #include "../virtualBaseClassLinearList.h"
-#include "../namespaces.h"
+#include "../selfDefineExceptionSpace.h"
 
 using namespace std;
 using ExceptionSpace::IllegalParameterValue;
 
-//ÓµÓĞÍ·½ÚµãµÄÑ­»·Á´±íÀà£¬Í·½ÚµãµÄÊı¾İÓò²»´æ´¢Êı¾İ£¬Í·½ÚµãµÄÏÂÒ»¸ö½Úµã²ÅÊÇÊµ¼Ê´æ´¢Êı¾İµÄ½Úµã£¬ÇÒ±»³ÆÎªÊ×½Úµã
-
+//å¸¦å¤´ç»“ç‚¹çš„ç¯å½¢é“¾è¡¨
 template<class T>
 class CircularListWithHeader : public LinearList<T> {
 public:
     typedef ChainNode<T> *NodePointer;
     typedef ChainNode<T> Node;
 
-    //½Úµã¼°½ÚµãÖ¸Õë±ğÃû
     typedef CircularListWithHeader<T> CircularList;
     typedef CircularListWithHeader<T> *CircularPointer;
 
-public://¹«ÓĞ³ÉÔ±±äÁ¿
-    NodePointer nodeHeader;//ÓÃ»ùÀàÖĞµÄÊ×½ÚµãµØÖ·×÷ÎªÑ­»·Á´±íÍ·½ÚµãµØÖ·±äÁ¿£¬´Ë´¦¸ø±äÁ¿Æğ¸ö±ğÃû·½±ãÒıÓÃ
-    int listSize;
+private:
+    NodePointer nodeHeader;//å¤´èŠ‚ç‚¹æŒ‡é’ˆ
+    int listSize;//èŠ‚ç‚¹ä¸ªæ•°
 
-public://¹«ÓĞ½Ó¿Ú
-    //¹¹ÔìÍ·½Úµã(¿ÉÌá¹©µØÖ·)£¬½¨Á¢¿Õ±í£¬Í·½ÚµãÖĞ²»´æ´¢ÈÎºÎÊı¾İ£¬ÆäÖ¸ÕëÓò±£´æ×ÔÉíµØÖ·
-    CircularListWithHeader(NodePointer p = new Node, int theListSize = 0) : nodeHeader(p), listSize(theListSize) {
-        if (theListSize > 0) {
-            NodePointer begin = nodeHeader->next;
-            for (int i = 0; i < theListSize - 1; i++)
-                begin = begin->next;
-            begin->next = nodeHeader;
-        } else {
-            nodeHeader->next = nodeHeader;
-        }
+public:
+    //ä¸æ„é€ é¦–èŠ‚ç‚¹åªæ„é€ å¤´èŠ‚ç‚¹çš„æ„é€ å‡½æ•°
+    explicit CircularListWithHeader() : listSize(0) {
+        nodeHeader = new Node(nodeHeader);
     }
 
-    //¿ÉÒÔÖ±½Ó¹¹ÔìÊ×½ÚµãµÄ¹¹Ôìº¯Êı
-    CircularListWithHeader(const T &theElement, NodePointer p = new Node) : nodeHeader(p), listSize(1) {
+    //æ„é€ é¦–èŠ‚ç‚¹çš„æ„é€ å‡½æ•°ï¼Œå¯æŒ‡å®šé¦–èŠ‚ç‚¹çš„å…ƒç´ å€¼å’Œå¤´èŠ‚ç‚¹çš„åœ°å€
+    explicit CircularListWithHeader(const T &theElement, NodePointer p = new Node) : nodeHeader(p), listSize(1) {
         nodeHeader->next = new Node(theElement, nodeHeader);
     }
 
-    //¿½±´¹¹Ôìº¯Êı
-    CircularListWithHeader(const CircularListWithHeader<T> &theChainList);
+    //æŒ‡å®šå¤´èŠ‚ç‚¹å’Œé¦–èŠ‚ç‚¹åœ°å€çš„æ„é€ å‡½æ•°ï¼Œåœ¨éœ€è¦é¦–èŠ‚ç‚¹å…ƒç´ å€¼æ—¶ä½¿ç”¨
+    explicit CircularListWithHeader(const T &theElement, NodePointer header, NodePointer headNode = new Node) : nodeHeader(header), listSize(1) {
+        nodeHeader->next = headNode;
+        headNode->element = theElement;
+        headNode->next = nodeHeader;
+    }
 
-    //Îö¹¹º¯Êı
-    ~CircularListWithHeader();
+    //æŒ‡å®šå¤´èŠ‚ç‚¹å’Œé¦–èŠ‚ç‚¹åœ°å€çš„æ„é€ å‡½æ•°ï¼Œåœ¨ä¸éœ€è¦æä¾›é¦–å±Šç‚¹å…ƒç´ å€¼æ—¶ä½¿ç”¨
+    explicit CircularListWithHeader(NodePointer header, NodePointer headNode) : nodeHeader(header), listSize(1) {
+        nodeHeader->next = headNode;
+        headNode->next = nodeHeader;
+    }
 
+    //åªéœ€è¦æŒ‡å®šé¦–èŠ‚ç‚¹çš„æ„é€ å‡½æ•°
+    explicit CircularListWithHeader(NodePointer headNode) {
+        nodeHeader = new Node(headNode);
+        headNode->next = nodeHeader;
+        listSize = 1;
+    }
 
-    //ADTº¯Êı
-    virtual T &get(const int &theIndex);                    //currentNode¿ÉÒÔÖ±½ÓµÈÓÚfirstNode->next
-    virtual int indexOf(const T &theElement) const;        //·µ»ØÔªËØ¶ÔÓ¦µÄË÷Òı
-    virtual bool empty() const;                            //¼ì²âÈİÆ÷ÊÇ·ñÎª¿Õ
-    virtual int size() const;                              //·µ»ØÈİÆ÷ÖĞÔªËØµÄÊıÁ¿
-    virtual void clear();                                  //Çë¿ÕÈİÆ÷
-    virtual void erase(const int &theIndex);                      //É¾³ıË÷ÒıÎªindexµÄÔªËØ
-    virtual void insert(const int &theIndex, const T &theElement);//ÔÚË÷ÒıÎªindexµÄÎ»ÖÃÉÏ²åÈëÔªËØ
-    virtual void output(ostream &out) const;               //Êä³öÈİÆ÷ÖĞËùÓĞÔªËØ
-
-    //ÆäËûº¯Êı
-    void push_back(const T &theElement);
-
-    void set(const int &theIndex, const T &theElement);//Ìæ»»Ö¸¶¨ÔªËØ
-
-    void removeRange(const int &beginIndex, const int &endIndex);//É¾³ıÖ¸¶¨·¶Î§ÄÚµÄÔªËØ
-
-    void swapContainer(CircularListWithHeader<T> &theChain);//½»»»Á½¸öÁ´±íÖĞµÄÔªËØ
-
-    void swapElement(const int &indexA, const int &indexB);//½»»»Á½¸ö½ÚµãµÄÊı¾İ
-
-    void leftShift(const int &offset);//½«Á´±íÖĞµÄÔªËØÏò×óÒÆ¶¯offset¸öÎ»ÖÃ
-
-    void reverse();//Ô­µØµßµ¹Á´±íÖĞµÄÔªËØ£¬²»·ÖÅäÈÎºÎĞÂµÄ½Úµã¿Õ¼ä
-
-    void meld(CircularListWithHeader<T> &chainA,
-              CircularListWithHeader<T> &chainB);//ÓëÅÉÉúÀà·½·¨meld()ÀàËÆ£¬ºÏ²¢ºóµÄÁ´±íÓ¦¸ÃÊÇÁ´±íaºÍbµÄ½Úµã¿Õ¼ä£¬ºÏ²¢Ö®ºóÊäÈëÁ´±íchainAºÍchainBÊÇ¿Õ±í£¬»áÎïÀíÉ¾³ıÊäÈëµÄÁ½¸ö±í
-
-    vector<CircularListWithHeader<T>> *split();//Éú³ÉÁ½¸öÀ©Õ¹Á´±íaºÍb£¬aÖĞ°üº¬Ë÷ÒıÎªÆæÊıµÄÔªËØ£¬bÖĞ°üº¬ÆäÓàÔªËØ£¬aºÍbµÄ´æ´¢¿Õ¼ä¼´*thisµÄ´æ´¢¿Õ¼ä
-
-    void test();//ÓÃÀ´²âÊÔË½ÓĞº¯ÊıµÄ¹«ÓĞ½Ó¿Ú
-
-    void insertSort();//ÀûÓÃ²åÈëÅÅĞò·¨¶ÔÁ´±íÔªËØ½øĞĞÅÅÁĞ
-
-    void selectionSort();
-
-    void bubbleSort();
-
-    void overwriteErase(const int &theIndex);//É¾³ıtheNodeÖ¸ÏòµÄ½Úµã£¬½«theNode½ÚµãµÄºó¼Ì½ÚµãµÄÊı¾İÍùÇ°Å²Ò»Î»£¬²¢É¾³ıºó¼Ì½Úµã
-
-private:
-
-    ChainNode<T> &getNode(const int &theIndex);
-
-    void setNode(const int &theIndex, const T &theElement, NodePointer &theNext);//ÉèÖÃÖ¸¶¨Ë÷ÒıÎªIndexµÄ½ÚµãµÄÊı¾İÓòºÍÖ¸ÕëÓò
-
-    void logicalClear();//Âß¼­Çå¿ÕÁ´±íÔªËØ£¬½«´æ´¢Á´±íÊ×½ÚµãµÄ³ÉÔ±±äÁ¿Ö¸ÕëfirstNodeÖÃÎªnullptr£¬ÔÙ½«listSizeÖÃÎª0
-
-    void setSize(int newSize);
-
-    void checkIndex(int theIndex, std::string actionType) const;
-
-    ChainNode<T> *indexToAddress(const int &theIndex) const;
-
-    bool bubble(const int &n);
-
-};
-
-template<class T>
-CircularListWithHeader<T>::CircularListWithHeader(const CircularListWithHeader<T> &theChainList) {
-    this->listSize = theChainList.size();
-    if (this->size() == 0) {
-        //Á´±ítheChainListÎª¿Õ£¬²»ĞèÒª¸´ÖÆ¹¹Ôì
+    //æ„é€ å…·æœ‰newSizeä¸ªèŠ‚ç‚¹çš„é“¾è¡¨ï¼Œç„¶åå°†é“¾è¡¨çš„æ‰€æœ‰å…ƒç´ éƒ½è®¾ä¸ºtheElement
+    CircularListWithHeader(const T theElement, const int &newSize) {
         nodeHeader = new Node;
-        nodeHeader->next = nodeHeader;
-    } else {
-        nodeHeader = new Node;
-        NodePointer sourceNode = theChainList.nodeHeader->next;
-        nodeHeader->next = new Node(sourceNode->element, nodeHeader);
-        sourceNode = sourceNode->next;
-        NodePointer targetNode = nodeHeader->next;
-        while (sourceNode != theChainList.nodeHeader) {
-            targetNode->next = new Node(sourceNode->element, nodeHeader);
-            targetNode = targetNode->next;
-            sourceNode = sourceNode->next;
-        }
-    }
-}
-
-template<class T>
-CircularListWithHeader<T>::~CircularListWithHeader() {
-    NodePointer p = nodeHeader->next;
-    NodePointer deleteNode = nullptr;
-    while (p != nodeHeader) {
-        deleteNode = p;
-        p = p->next;
-        delete deleteNode;
-    }
-    delete nodeHeader;
-}
-
-template<class T>
-T &CircularListWithHeader<T>::get(const int &theIndex)  {
-    checkIndex(theIndex, "get");
-    NodePointer currentNode = nodeHeader->next;
-    for (int i = 0; i < theIndex; i++) {
-        currentNode = currentNode->next;
-    }
-    return currentNode->element;
-
-}
-
-template<class T>
-int CircularListWithHeader<T>::indexOf(const T &theElement) const {
-    NodePointer currentNode = nodeHeader->next;
-    int index = 0;
-    while (currentNode->element != theElement) {
-        currentNode = currentNode->next;
-        index++;
-    }
-    if (currentNode == nodeHeader) {
-        return -1;
-    } else return index;
-
-}
-
-template<class T>
-void CircularListWithHeader<T>::erase(const int &theIndex) {
-    checkIndex(theIndex, "erase");
-    NodePointer deleteNode;
-    if (theIndex == 0 && listSize == 1) {
-        deleteNode = nodeHeader->next;
-        nodeHeader->next = nodeHeader;
-    } else if (theIndex == 0 && listSize > 1) {
-        deleteNode = nodeHeader->next;
-        nodeHeader->next = nodeHeader->next->next;
-    } else {
-        NodePointer p = nodeHeader->next;
-        //ÕÒµ½ÒªÉ¾³ı½ÚµãµÄÇ°Çı½Úµã
-        for (int i = 0; i < theIndex - 1; i++)
-            p = p->next;
-        deleteNode = p->next;
-        p->next = p->next->next;
-    }
-    listSize--;
-    delete deleteNode;
-}
-
-template<class T>
-void CircularListWithHeader<T>::insert(const int &theIndex, const T &theElement) {
-    checkIndex(theIndex, "insert");
-    if (theIndex == 0) {
-        if (listSize == 0)
-            nodeHeader->next = new Node(theElement, nodeHeader);
-        else nodeHeader->next = new Node(theElement, nodeHeader->next);
-    } else {
-        NodePointer p = nodeHeader->next;
-        for (int i = 0; i < theIndex - 1; i++)
-            p = p->next;
-        p->next = new Node(theElement, p->next);
-    }
-    listSize++;
-}
-
-template<class T>
-void CircularListWithHeader<T>::output(ostream &out) const {
-
-    if(listSize==0){cout<<"µ±Ç°Á´±íÎª¿Õ£¬ÎŞ·¨Êä³ö"<<endl;return;}
-    for (NodePointer currentNode = nodeHeader->next; currentNode != nodeHeader; currentNode = currentNode->next) {
-        out << currentNode->element << " ";
-    }
-
-}
-
-template<class T>
-void CircularListWithHeader<T>::setSize(int newSize) {
-    if (newSize < this->size() && newSize > 0) {
-        NodePointer p = nodeHeader->next;
-        NodePointer j = p->next;
+        NodePointer p = nodeHeader;
         for (int i = 0; i < newSize; i++) {
-            j = j->next;
+            p->next = new Node(theElement, nodeHeader);
             p = p->next;
         }
-        p->next = nodeHeader;
-        ChainNode<T> *deleteNode = j;
-        ChainNode<T> *currentNode = deleteNode;
-        int count = 0;//¼ÇÂ¼É¾³ı½ÚµãµÄÊıÁ¿
-        while (currentNode != nodeHeader) {
-            currentNode = currentNode->next;
-            delete deleteNode;
-            deleteNode = currentNode;
-            count++;
-
-        }
-        listSize -= count;
-    } else {
-        throw IllegalParameterValue("µ÷ÓÃvoid chainList<T>::setSize(int newSize)º¯ÊıÊ±£¬²ÎÊı´«µİ´íÎó");
+        listSize = newSize;
     }
-}
 
-template<class T>
-void CircularListWithHeader<T>::push_back(const T &theElement) {
-    NodePointer newNode = new Node(theElement, nodeHeader);
-    if (listSize == 0)nodeHeader->next = newNode;
-    else {
+    //æ‹·è´æ„é€ å‡½æ•°
+    CircularListWithHeader(const CircularListWithHeader<T> &theChainList) {
+        if (theChainList.size() == 0) {
+            //é“¾è¡¨theChainListä¸ºç©ºï¼Œä¸éœ€è¦å¤åˆ¶æ„é€ 
+            nodeHeader = new Node;
+            nodeHeader->next = nodeHeader;
+            listSize = 0;
+        } else {
+            listSize = theChainList.size();
+            nodeHeader = new Node;
+            NodePointer sourceNode = &(theChainList.getNode(0));//sourceNodeæŒ‡å‘è¢«æ‹·è´é“¾è¡¨çš„é¦–èŠ‚ç‚¹
+            nodeHeader->next = new Node(sourceNode->element, nodeHeader);
+            sourceNode = sourceNode->next;
+            NodePointer targetNode = nodeHeader->next;
+            while (sourceNode != theChainList.nodeHeader) {
+                targetNode->next = new Node(sourceNode->element, nodeHeader);
+                targetNode = targetNode->next;
+                sourceNode = sourceNode->next;
+            }
+        }
+    }
+
+    //ææ„å‡½æ•°
+    ~CircularListWithHeader() {
         NodePointer p = nodeHeader->next;
-        for (int i = 0; i < listSize - 1; i++) {
-            p = p->next;
-        }
-        p->next = newNode;
-    }
-    listSize++;
-
-}
-
-template<class T>
-void CircularListWithHeader<T>::set(const int &theIndex, const T &theElement) {
-    checkIndex(theIndex, "replace");
-    this->get(theIndex) = theElement;
-}
-
-template<class T>
-void CircularListWithHeader<T>::removeRange(const int &beginIndex, const int &endIndex) {
-    if (beginIndex >= 0 && beginIndex < endIndex && endIndex <= listSize - 1) {
-        NodePointer pBegin = nodeHeader->next, pEnd = nodeHeader->next;
-        for (int i = 0; i < beginIndex - 1; i++)
-            pBegin = pBegin->next;
-        for (int i = 0; i < endIndex - 1; i++)
-            pEnd = pEnd->next;
-        NodePointer p = pBegin->next, j = pEnd->next, deleteNode = nullptr;
-        int count = endIndex - beginIndex + 1;
-        pBegin->next = j->next;
-        j->next = nullptr;
-        while (p != nullptr) {
+        NodePointer deleteNode = nullptr;
+        while (p != nodeHeader) {
             deleteNode = p;
             p = p->next;
             delete deleteNode;
         }
-
-        listSize -= count;
-    } else {
-        throw ExceptionSpace::IllegalParameterValue("Ê¹ÓÃremoveRangeº¯ÊıÊ±Ë÷Òı´«ÈëÓĞÎó");
+        delete nodeHeader;
     }
-}
 
-template<class T>
-void CircularListWithHeader<T>::swapContainer(CircularListWithHeader<T> &theChain) {
-    int tempSize = listSize;
-    listSize = theChain.listSize;
-    theChain.listSize = tempSize;
 
-    NodePointer tempHeader;
-    tempHeader = nodeHeader;
-    nodeHeader = theChain.nodeHeader;
-    theChain.nodeHeader = tempHeader;
+    //ADTæ–¹æ³•
 
-}
-
-template<class T>
-void CircularListWithHeader<T>::leftShift(const int &offset) {
-    NodePointer p = nodeHeader->next;
-    NodePointer j = nodeHeader->next;
-    for (int i = 0; i < offset - 1; i++) {
-        p = p->next;
+    //å¾—åˆ°æŒ‡å®šç´¢å¼•å€¼çš„èŠ‚ç‚¹ä¸­çš„å…ƒç´ å€¼
+    virtual T get(const int &theIndex) const {
+        checkIndex(theIndex, "get");
+        NodePointer currentNode = nodeHeader->next;
+        for (int i = 0; i < theIndex; i++) {
+            currentNode = currentNode->next;
+        }
+        return currentNode->element;
     }
-    nodeHeader->next = p->next;
-    p->next = nullptr;
-    NodePointer deleteNode;
-    while (j != nullptr) {
-        deleteNode = j;
-        j = j->next;
+
+    //å¾—åˆ°ç¬¬ä¸€ä¸ªèŠ‚ç‚¹å…ƒç´ å€¼ç­‰äºtheElementçš„èŠ‚ç‚¹çš„ç´¢å¼•å€¼
+    virtual int indexOf(const T &theElement) const {
+        NodePointer currentNode = nodeHeader->next;
+        int index = 0;
+        while (currentNode->element != theElement) {
+            currentNode = currentNode->next;
+            index++;
+        }
+        if (currentNode == nodeHeader) {
+            return -1;
+        } else return index;
+    }
+
+    //åˆ¤æ–­å®¹å™¨æ˜¯å¦ä¸ºç©º
+    [[nodiscard]] virtual bool empty() const {
+        return this->listSize == 0;
+    }
+
+    //è¿”å›å®¹å™¨ä¸­å…ƒç´ çš„ä¸ªæ•°
+    [[nodiscard]] virtual int size() const {
+        return listSize;
+    }
+
+    //æ¸…ç©ºå®¹å™¨ä¸­æ‰€æœ‰çš„èŠ‚ç‚¹
+    virtual void clear() {
+        NodePointer p = nodeHeader->next;
+        nodeHeader->next = nodeHeader;
+        NodePointer deleteNode;
+        while (p != nodeHeader) {
+            deleteNode = p;
+            p = p->next;
+            delete deleteNode;
+        }
+        listSize = 0;
+    }
+
+    //åˆ é™¤æŒ‡å®šç´¢å¼•çš„èŠ‚ç‚¹
+    virtual void erase(const int &theIndex) {
+        checkIndex(theIndex, "erase");
+        NodePointer deleteNode;
+        if (theIndex == 0 && listSize == 1) {
+            deleteNode = nodeHeader->next;
+            nodeHeader->next = nodeHeader;
+        } else if (theIndex == 0 && listSize > 1) {
+            deleteNode = nodeHeader->next;
+            nodeHeader->next = nodeHeader->next->next;
+        } else {
+            NodePointer p = nodeHeader->next;
+            for (int i = 0; i < theIndex - 1; i++)
+                p = p->next;
+            deleteNode = p->next;
+            p->next = p->next->next;
+        }
+        listSize--;
         delete deleteNode;
+
     }
-    listSize -= offset;
 
-}
+    //åœ¨æŒ‡å®šç´¢å¼•çš„èŠ‚ç‚¹ä¹‹å‰æ’å…¥èŠ‚ç‚¹
+    virtual void insert(const int &theIndex, const T &theElement) {
+        checkIndex(theIndex, "insert");
+        if (theIndex == 0) {
+            if (listSize == 0)
+                nodeHeader->next = new Node(theElement, nodeHeader);
+            else nodeHeader->next = new Node(theElement, nodeHeader->next);
+        } else {
+            NodePointer p = nodeHeader->next;
+            for (int i = 0; i < theIndex - 1; i++)
+                p = p->next;
+            p->next = new Node(theElement, p->next);
+        }
+        listSize++;
 
-template<class T>
-void CircularListWithHeader<T>::reverse() {
-    NodePointer p = nodeHeader->next;
-    NodePointer first = p;
-    NodePointer j = p->next;
-    NodePointer temp = nullptr;
-    while (j != nodeHeader) {
-        temp = j->next;
-        j->next = p;
-        p = j;
-        j = temp;
     }
-    nodeHeader->next = p;
-    first->next = nodeHeader;
 
+    //è¾“å‡ºæ‰€æœ‰èŠ‚ç‚¹å…ƒç´ å€¼
+    virtual void output(ostream &out) const {
+        if (listSize == 0) {
+            cout << "å½“å‰é“¾è¡¨ä¸ºç©ºï¼Œæ— æ³•è¾“å‡º" << endl;
+            return;
+        }
+        for (NodePointer currentNode = nodeHeader->next; currentNode != nodeHeader; currentNode = currentNode->next) {
+            out << currentNode->element << " ";
+        }
 
-}
-
-template<class T>
-void CircularListWithHeader<T>::meld(CircularListWithHeader<T> &chainA, CircularListWithHeader<T> &chainB) {
-    if (chainA.size() == 0 && chainB.size() == 0)return;
-
-    NodePointer p = chainA.nodeHeader->next;
-    NodePointer j = chainB.nodeHeader->next;
-    NodePointer aBegin = chainA.nodeHeader;
-
-    //ÏÈ½«Ñ­»·Á´±í±äÎªµ¥Á´±í
-    while (p->next != chainA.nodeHeader) {
-        p = p->next;
     }
-    p->next = nullptr;
-    while (j->next != chainB.nodeHeader) {
-        j = j->next;
+
+    //å¸¸è§„æ¥å£
+
+    NodePointer getHeader() { return nodeHeader; }
+
+    void push_back(const T &theElement) {
+        NodePointer newNode = new Node(theElement, nodeHeader);
+        if (listSize == 0)nodeHeader->next = newNode;
+        else {
+            NodePointer p = nodeHeader->next;
+            for (int i = 0; i < listSize - 1; i++) {
+                p = p->next;
+            }
+            p->next = newNode;
+        }
+        listSize++;
+
+
     }
-    j->next = nullptr;
 
-    p = chainA.nodeHeader->next;
-    j = chainB.nodeHeader->next;
-    NodePointer t, c, temp, temp2;
-    t = c = temp = temp2 = nullptr;
-
-    do {
-        temp = p->next;
-        t = p;
-        p = p->next;
-        temp2 = j->next;
-        c = j;
-        j = j->next;
-        t->next = c;
-        c->next = temp;
-    } while (temp != nullptr && temp2 != nullptr);
-    if (temp == nullptr && temp2 != nullptr)
-        c->next = temp2;
-
-    nodeHeader = aBegin;
-    NodePointer begin = nodeHeader;
-    while (begin->next != nullptr) {
-        begin = begin->next;
+    //å°†æŒ‡å®šç´¢å¼•çš„èŠ‚ç‚¹çš„å…ƒç´ å€¼è®¾ä¸ºtheElement
+    void setElement(const int &theIndex, const T &theElement) {
+        checkIndex(theIndex, "replace");
+        this->setElement(theIndex,theElement);
     }
-    begin->next = nodeHeader;
 
-    listSize = chainA.size() + chainB.size();
-    chainA.logicalClear();
-    chainB.logicalClear();
+    //ç§»é™¤ä¸¤ä¸ªæŒ‡å®šç´¢å¼•ä¹‹é—´çš„æ‰€æœ‰å…ƒç´ 
+    void removeRange(const int &beginIndex, const int &endIndex) {
+        if (beginIndex >= 0 && beginIndex < endIndex && endIndex <= listSize - 1) {
+            NodePointer pBegin = nodeHeader->next, pEnd = nodeHeader->next;
+            for (int i = 0; i < beginIndex - 1; i++)
+                pBegin = pBegin->next;
+            for (int i = 0; i < endIndex - 1; i++)
+                pEnd = pEnd->next;
+            NodePointer p = pBegin->next, j = pEnd->next, deleteNode = nullptr;
+            int count = endIndex - beginIndex + 1;
+            pBegin->next = j->next;
+            j->next = nullptr;
+            while (p != nullptr) {
+                deleteNode = p;
+                p = p->next;
+                delete deleteNode;
+            }
 
+            listSize -= count;
+        } else {
+            throw ExceptionSpace::IllegalParameterValue("???removeRange?????????????????");
+        }
 
-}
+    }
 
-template<class T>
-void CircularListWithHeader<T>::logicalClear() {
-    nodeHeader->next = nodeHeader;
-    listSize = 0;
-}
+    //äº¤æ¢ä¸¤ä¸ªå®¹å™¨ä¸­èŠ‚ç‚¹
+    void swapContainer(CircularListWithHeader<T> &theChain) {
+        int tempSize = listSize;
+        listSize = theChain.listSize;
+        theChain.listSize = tempSize;
 
-template<class T>
-vector<CircularListWithHeader<T>> *
-CircularListWithHeader<T>::split()//Éú³ÉÁ½¸öÀ©Õ¹Á´±íaºÍb£¬aÖĞ°üº¬Ë÷ÒıÎªÆæÊıµÄÔªËØ£¬bÖĞ°üº¬ÆäÓàÔªËØ£¬aºÍbµÄ´æ´¢¿Õ¼ä¼´*thisµÄ´æ´¢¿Õ¼ä
-{
-    auto *p = new vector<CircularList>;
+        NodePointer tempHeader;
+        tempHeader = nodeHeader;
+        nodeHeader = theChain.nodeHeader;
+        theChain.nodeHeader = tempHeader;
+    }
 
-    //ÒÔÏÂÊÇÁ½ÖÖÌØÊâÇé¿ö
-    if (this->size() < 2)return nullptr;
-    if (this->size() == 2) {
-        CircularList c1, c2;
-        c1.nodeHeader->next = nodeHeader->next;
-        c2.nodeHeader->next = nodeHeader->next->next;
-        c1.nodeHeader->next->next = c1.nodeHeader;
-        c2.nodeHeader->next->next = c2.nodeHeader;
-        p->push_back(c1);
-        p->push_back(c2);
-        this->logicalClear();
+    //äº¤æ¢æŒ‡å®šç´¢å¼•çš„ä¸¤ä¸ªèŠ‚ç‚¹çš„å…ƒç´ å€¼
+    void swapElement(const int &indexA, const int &indexB) {
+        checkIndex(indexA, "replace");
+        checkIndex(indexB, "replace");
+        T temp = this->get(indexA);
+        this->setElement(indexA,this->get(indexB));
+        this->setElement(indexB,temp);
+
+    }
+
+    //å°†å…ƒç´ æ•´ä½“å‘å·¦ç§»åŠ¨
+    void leftShift(const int &offset) {
+        NodePointer p = nodeHeader->next;
+        NodePointer j = nodeHeader->next;
+        for (int i = 0; i < offset - 1; i++) {
+            p = p->next;
+        }
+        nodeHeader->next = p->next;
+        p->next = nullptr;
+        NodePointer deleteNode;
+        while (j != nullptr) {
+            deleteNode = j;
+            j = j->next;
+            delete deleteNode;
+        }
+        listSize -= offset;
+
+    }
+
+    //åè½¬å®¹å™¨å…ƒç´ 
+    void reverse() {
+        NodePointer p = nodeHeader->next;
+        NodePointer first = p;
+        NodePointer j = p->next;
+        NodePointer temp = nullptr;
+        while (j != nodeHeader) {
+            temp = j->next;
+            j->next = p;
+            p = j;
+            j = temp;
+        }
+        nodeHeader->next = p;
+        first->next = nodeHeader;
+
+    }
+
+    //å°†ä¼ å…¥çš„ä¸¤ä¸ªé“¾è¡¨çš„å…ƒç´ äº¤å‰å­˜å…¥è°ƒç”¨è¯¥å‡½æ•°çš„é“¾è¡¨ä¸­ï¼Œä¸”ä¸å¼€è¾Ÿæ–°çš„ç©ºé—´ï¼Œæœ€åé€»è¾‘åˆ é™¤ä¼ å…¥çš„ä¸¤ä¸ªé“¾è¡¨
+    void meld(CircularListWithHeader<T> &chainA, CircularListWithHeader<T> &chainB) {
+        if (chainA.size() == 0 && chainB.size() == 0)return;
+
+        NodePointer p = &chainA.getNode(0);
+        NodePointer j = &chainB.getNode(0);
+        NodePointer aBegin = chainA.getHeader();
+        NodePointer bBegin = chainB.getHeader();
+
+        while (p->next != aBegin) {
+            p = p->next;
+        }
+        p->next = nullptr;
+        while (j->next != bBegin) {
+            j = j->next;
+        }
+        j->next = nullptr;
+
+        p = aBegin->next;
+        j = bBegin->next;
+        NodePointer t, c, temp, temp2;
+        t = c = temp = temp2 = nullptr;
+
+        do {
+            temp = p->next;
+            t = p;
+            p = p->next;
+            temp2 = j->next;
+            c = j;
+            j = j->next;
+            t->next = c;
+            c->next = temp;
+        } while (temp != nullptr && temp2 != nullptr);
+        if (temp == nullptr && temp2 != nullptr)
+            c->next = temp2;
+
+        nodeHeader = aBegin;
+        NodePointer begin = nodeHeader;
+        while (begin->next != nullptr) {
+            begin = begin->next;
+        }
+        begin->next = nodeHeader;
+
+        listSize = chainA.size() + chainB.size();
+        chainA.logicalClear();
+        chainB.logicalClear();
+
+    }
+
+    //ç”Ÿæˆä¸¤ä¸ªæ‰©å±•é“¾è¡¨aå’Œbï¼Œaä¸­åŒ…å«cä¸­ç´¢å¼•ä¸ºå¥‡æ•°çš„å…ƒç´ ï¼Œbä¸­åŒ…å«cä¸­å…¶ä½™çš„å…ƒç´ ï¼Œè¿™ä¸ªæ–¹æ³•ä¸èƒ½æ”¹å˜cä¸­çš„å†…å­˜ç»“æ„
+    vector<CircularListWithHeader<T>> *split() {
+        auto p = new vector<CircularListWithHeader<T>>;
+
+        //é¦–å…ˆå¤„ç†ä¸¤ç§ç‰¹æ®Šæƒ…å†µ
+        if (this->size() < 2)return nullptr;//å½“é“¾è¡¨å…ƒç´ å°äº2æ—¶ç›´æ¥è¿”å›ç©ºæŒ‡é’ˆ
+        if (this->size() == 2) {
+            auto p1 = this->indexToAddress(0);
+            auto p2 = this->indexToAddress(1);
+            CircularListWithHeader c1(p1), c2(p2);
+            p->push_back(c1);
+            p->push_back(c2);
+            this->logicalClear();
+            return p;
+        }
+
+        //ä¸‹é¢çš„è¿™ä¸ªç®—æ³•å°†ä¼šæŠŠæ‰€æœ‰ç´¢å¼•ä¸ºå¶æ•°çš„å…ƒç´ å‘å‰æï¼Œä½¿å…¶ç´§æŒ¨åœ¨ä¸€èµ·ï¼Œè€Œç´¢å¼•ä¸ºå¥‡æ•°çš„å…ƒç´ å°†ä¼šä»¥å€’åºæ’åˆ—åœ¨ä¹‹å
+        //ä¸¾ä¾‹ï¼šä¸‹é¢çš„ç®—æ³•ä¼šå°†è¿™æ ·çš„æ•°ç»„{2, 7, 8, 9, 3, 5, 4, 6, 1}å˜ä¸º{2, 8, 3, 4, 1, 6, 5, 9, 7}
+        for (int x = 1; x + 1 <= listSize - 1; x++) {
+            int i = x;
+            while (i + 1 <= listSize - 1) {
+                this->swapElement(i, i + 1);
+                i += 2;
+            }
+        }
+
+        int sizeA, sizeB;//sizeAæ˜¯ç´¢å¼•ä¸ºå¶æ•°çš„å…ƒç´ çš„ä¸ªæ•°ï¼ŒsizeBæ˜¯ç´¢å¼•ä¸ºå¥‡æ•°çš„å…ƒç´ çš„ä¸ªæ•°
+        if (listSize % 2 == 0) { sizeA = listSize / 2; }
+        else { sizeA = (listSize / 2) + 1; }
+        sizeB = listSize - sizeA;
+
+        //ç°åœ¨æ‰€æœ‰ç´¢å¼•ä¸ºå¶æ•°çš„å…ƒç´ éƒ½åœ¨å‰é¢ï¼Œæ‰€æœ‰ç´¢å¼•ä¸ºå¥‡æ•°çš„å…ƒç´ éƒ½åœ¨åé¢ï¼ˆæ³¨æ„æ­¤æ—¶å¥‡æ•°åºåˆ—æ˜¯å€’åºï¼Œä¹‹åéœ€è¦åè½¬ï¼‰
+        //ç”¨æŒ‡é’ˆåˆ†åˆ«åˆ’å®šç´¢å¼•å€¼ä¸ºå¶æ•°å’Œå¥‡æ•°çš„åŒºåŸŸæ®µçš„å¼€å§‹å’Œæœ«å°¾
+        NodePointer beginA = nodeHeader->next;//æŒ‡å‘ç´¢å¼•ä¸ºå¶æ•°çš„åºåˆ—çš„ç¬¬ä¸€ä¸ªå…ƒç´ 
+        NodePointer endA = this->indexToAddress(sizeA - 1);
+        NodePointer beginB = this->indexToAddress(sizeA);//æŒ‡å‘ç´¢å¼•ä¸ºå¥‡æ•°çš„åºåˆ—çš„æœ€åä¸€ä¸ªå…ƒç´ 
+        NodePointer endB = this->indexToAddress(listSize - 1);//æŒ‡å‘ç´¢å¼•ä¸ºå¥‡æ•°çš„åºåˆ—çš„ç¬¬ä¸€ä¸ªå…ƒç´ 
+
+        //å°†å¶æ•°åŒºçš„å…ƒç´ æ‹¼æ¥åœ¨æ–°åˆ›å»ºçš„é“¾è¡¨ä¸­
+        CircularListWithHeader listA;//ä¿å­˜å¶æ•°åºåˆ—çš„é“¾è¡¨
+        NodePointer beginListA = listA.getHeader();
+        beginListA->next = beginA;
+        endA->next = beginListA;
+
+        //å°†å¥‡æ•°åŒºçš„å…ƒç´ æ‹¼æ¥åœ¨æ–°åˆ›å»ºçš„é“¾è¡¨ä¸­
+        CircularListWithHeader listB;
+        NodePointer beginListB = listB.getHeader();
+        beginListB->next = beginB;
+        endB->next = beginListB;
+
+        //åè½¬listB
+        listB.reverse();
+
+        p->push_back(listA);
+        p->push_back(listB);
         return p;
+
     }
-    for (int x = 1; x + 1 <= listSize - 1; x++) {
-        int i = x;
-        while (i + 1 <= listSize - 1) {
-            this->swapElement(i, i + 1);
-            i += 2;
+
+    void test() {
+        cout << "æš‚æ— æµ‹è¯•ä»£ç " << endl;
+    }
+
+    //æŒ‰ç…§æ’å…¥æ’åºæ³•æ’åˆ—å®¹å™¨ä¸­çš„å…ƒç´ 
+    void insertSort() {
+
+        for (int i = 1; i < this->size(); i++) {
+            T t = this->get(i);
+            int j = i - 1;
+            while (j >= 0 && t < this->get(j)) {
+                this->setElement(j + 1, this->get(j));
+                j--;
+            }
+            this->setElement(j + 1, t);
+        }
+
+    }
+
+    //æŒ‰ç…§é€‰æ‹©æ’åºæ³•å¯¹å®¹å™¨ä¸­çš„å…ƒç´ è¿›è¡Œæ’åº
+    void selectionSort() {
+        for (int i = 0; i < this->size() - 1; i++) {
+            int tempMin = i;
+            for (int j = i + 1; j < this->size(); j++) {
+                if (this->get(j) < this->get(tempMin))
+                    tempMin = j;
+            }
+            this->swapElement(tempMin, i);
         }
     }
 
-    int sizeA, sizeB;
-    if (listSize % 2 == 0) { sizeA = listSize / 2; }
-    else { sizeA = (listSize / 2) + 1; }
-    sizeB = listSize - sizeA;
-    NodePointer beginA = nodeHeader->next;
-    NodePointer endB = this->indexToAddress(sizeA);
-    NodePointer beginB = this->indexToAddress(listSize - 1);
+    //æŒ‰ç…§å†’æ³¡æ’åºæ³•å¯¹å®¹å™¨ä¸­çš„å…ƒç´ è¿›è¡Œæ’åº
+    void bubbleSort() {
+        for (int i = this->size(); i > 1 && this->bubble(i); i--);
 
-    CircularList listA(nodeHeader, sizeA);
-
-    NodePointer b_nodeHeader = new Node;
-    b_nodeHeader->next = endB;
-    CircularList listB(b_nodeHeader, sizeB);
-
-    listB.reverse();
-
-    p->push_back(listA);
-    p->push_back(listB);
-    return p;
-}
-
-template<class T>
-void CircularListWithHeader<T>::test() {
-}
-
-template<class T>
-void CircularListWithHeader<T>::insertSort() {
-
-    for (int i = 1; i < this->size(); i++) {
-        T t = this->get(i);
-        int j = i - 1;
-        while (j >= 0 && t < this->get(j)) {
-            this->get(j + 1) = this->get(j);
-            j--;
-        }
-        this->get(j + 1) = t;
     }
 
-}
-
-template<class T>
-void CircularListWithHeader<T>::selectionSort() {
-    for(int i=0;i<this->size()-1;i++)
-    {
-        int tempMin=i;
-        for(int j=i+1;j<this->size();j++)
-        {
-            if(this->get(j)<this->get(tempMin))
-                tempMin=j;
-        }
-        this->swapElement(tempMin,i);
-    }
-
-}
-
-template<class T>
-void CircularListWithHeader<T>::bubbleSort() {
-    for(int i=this->size();i>1&&this->bubble(i);i--);
-}
-
-template<class T>
-bool CircularListWithHeader<T>::empty() const {
-    return listSize == 0;
-}
-
-template<class T>
-int CircularListWithHeader<T>::size() const {
-    return listSize;
-}
-
-template<class T>
-void CircularListWithHeader<T>::clear() {
-    NodePointer p = nodeHeader->next;
-    nodeHeader->next = nodeHeader;
-    NodePointer deleteNode;
-    while (p != nodeHeader) {
-        deleteNode = p;
-        p = p->next;
+    //ç”¨è¦†ç›–çš„æ–¹å¼åˆ é™¤å®¹å™¨ä¸­çš„æŸä¸€ä¸ªé“¾è¡¨èŠ‚ç‚¹
+    void overwriteErase(const int &theIndex) {
+        /*
+         * è¦åˆ é™¤é“¾è¡¨ä¸­ç¬¬ä¸€ä¸ªèŠ‚ç‚¹ï¼Œå…ˆæŠŠç¬¬äºŒä¸ªèŠ‚ç‚¹çš„å…ƒç´ å€¼è¦†ç›–åˆ°ç¬¬ä¸€ä¸ªèŠ‚ç‚¹ï¼Œç„¶åæŠŠç¬¬äºŒä¸ªèŠ‚ç‚¹åˆ é™¤è¾¾åˆ°äº†
+         * åˆ é™¤ç¬¬ä¸€ä¸ªèŠ‚ç‚¹çš„ç›®çš„
+         * */
+        checkIndex(theIndex, "erase");
+        NodePointer theNode = this->indexToAddress(theIndex);
+        theNode->element = theNode->next->element;
+        NodePointer deleteNode = theNode->next;
+        theNode->next = theNode->next->next;
         delete deleteNode;
     }
-    listSize = 0;
-}
 
+private:
 
-//È«¾ÖÄ£°åº¯Êı
+    //è¿”å›æŒ‡å®šç´¢å¼•çš„èŠ‚ç‚¹å¼•ç”¨
+    ChainNode<T> &getNode(const int &theIndex)const {
+        NodePointer p = nodeHeader->next;
+        for (int i = 0; i < theIndex; i++) {
+            p = p->next;
+        }
+        return *p;
+    }
+
+    //å°†æŒ‡å®šç´¢å¼•çš„å…ƒç´ å€¼æ”¹ä¸ºtheElementï¼Œå¹¶å°†å…¶æŒ‡é’ˆåŸŸè®¾ä¸ºç»™å®šçš„åœ°å€
+    void setNode(const int &theIndex, const T &theElement, NodePointer &theNext) {
+        this->getNode(theIndex).element = theElement;
+        this->getNode(theIndex).next = theNext;
+
+    }
+
+    //é€»è¾‘ä¸Šæ¸…ç©ºé“¾è¡¨å…ƒç´ ï¼Œå®é™…ç©ºé—´å¹¶æœªé‡Šæ”¾
+    void logicalClear() {
+        nodeHeader->next = nodeHeader;
+        listSize = 0;
+    }
+
+    //å¼ºåˆ¶è®¾å®šé“¾è¡¨å…ƒç´ ä¸ªæ•°ï¼Œå¦‚æœæ–°é“¾è¡¨å…ƒç´ ä¸ªæ•°å¤§äºåŸå…ˆé“¾è¡¨å…ƒç´ ä¸ªæ•°åˆ™ä¸éœ€è¦åˆ é™¤ä»»ä½•å…ƒç´ 
+    //è‹¥æ–°é“¾è¡¨å…ƒç´ ä¸ªæ•°å°äºå½“å‰é“¾è¡¨å…ƒç´ ä¸ªæ•°ï¼Œåˆ™åˆ é™¤å¤šä½™çš„é“¾è¡¨èŠ‚ç‚¹
+    void setSize(int newSize) {
+        if (newSize < this->size() && newSize > 0) {
+            NodePointer p = nodeHeader->next;
+            NodePointer j = p->next;
+            for (int i = 0; i < newSize - 1; i++) {
+                j = j->next;
+                p = p->next;
+            }
+            p->next = nodeHeader;
+            //æ­¤æ—¶jæŒ‡å‘çš„èŠ‚ç‚¹åŠå…¶ä¹‹åçš„æ‰€æœ‰èŠ‚ç‚¹éƒ½æ˜¯è¦åˆ é™¤çš„èŠ‚ç‚¹
+            ChainNode<T> *deleteNode = j;
+            ChainNode<T> *currentNode = deleteNode;
+            int count = 0;//è®°å½•åˆ é™¤èŠ‚ç‚¹çš„æ•°é‡
+            while (currentNode != nodeHeader) {
+                currentNode = currentNode->next;
+                delete deleteNode;
+                deleteNode = currentNode;
+                count++;
+            }
+            listSize -= count;
+        } else {
+            //å‘é“¾è¡¨çš„åé¢è¡¥å……æ–°èŠ‚ç‚¹ï¼Œæ‰€æœ‰æ–°èŠ‚ç‚¹çš„å€¼éƒ½è®¾ä¸º0
+            int newListSize = newSize - listSize;
+            CircularListWithHeader circularList = new CircularListWithHeader<T>(0, newListSize);
+            this->getNode(listSize - 1).next = circularList.indexToAddress(0);
+            circularList.getNode(newListSize - 1).next = nodeHeader;
+            listSize += newListSize;
+            delete circularList.getHeader();
+        }
+
+    }
+
+    void checkIndex(int theIndex, std::string actionType) const {
+        //ç¡®ä¿ç´¢å¼•åœ¨çª’æ‰§è¡Œç‰¹æ®Šæ“ä½œæ—¶ï¼Œç´¢å¼•åœ¨æ­£ç¡®çš„èŒƒå›´å†…
+        if (actionType == "insert") {
+            if (theIndex < 0 || theIndex > this->size()) {
+                ostringstream s;
+                s << "æ’å…¥å…ƒç´ æ—¶ï¼Œ";
+                if (theIndex < 0)s << "ç´¢å¼•å€¼ä¸å¾—<0" << endl;
+                if (theIndex > this->size())s << "ç´¢å¼•å€¼ä¸å¾—>æ•°ç»„å…ƒç´ ä¸ªæ•°" << endl;
+                throw ExceptionSpace::IllegalParameterValue(s.str());
+            }
+        } else if (actionType == "erase" || actionType == "get" || actionType == "replace") {
+            if (theIndex >= this->size()) {
+                ostringstream s;
+                if (actionType == "erase")
+                    s << "åˆ é™¤å…ƒç´ æ—¶ï¼Œç´¢å¼•å€¼ä¸å¾—>=listSize" << endl;
+                else if (actionType == "replace")s << "æ›¿æ¢å…ƒç´ æ—¶ï¼Œç´¢å¼•å€¼ä¸å¾—>=listSize" << endl;
+                else if (actionType == "get")s << "è·å–å…ƒç´ æ—¶ï¼Œç´¢å¼•å€¼ä¸å¾—>=listSize" << endl;
+                throw ExceptionSpace::IllegalParameterValue(s.str());
+            }
+        } else {
+            ostringstream s;
+            s << "checkIndexç¬¬äºŒä¸ªå‚æ•°ä¼ å…¥ä¸æ­£ç¡®ï¼ŒæœªæŒ‡å®šæ­£ç¡®çš„æ“ä½œç±»å‹" << endl;
+            throw ExceptionSpace::IllegalParameterValue(s.str());
+        }
+    }
+
+    ChainNode<T> *indexToAddress(const int &theIndex) const {
+        NodePointer p = nodeHeader->next;
+        for (int i = 0; i < theIndex; i++)
+            p = p->next;
+        return p;
+
+    }
+
+    bool bubble(const int &n) {
+        bool sorted = false;
+        for (int i = 0; i < n; i++) {
+            if (this->get(i) > this->get(i + 1)) {
+                this->swapElement(i, i + 1);
+                sorted = true;
+            }
+        }
+        return sorted;
+
+    }
+
+    void addNode(const NodePointer &p) {
+        p->next = nodeHeader;
+        this->getNode(listSize - 1).next = p;
+        listSize++;
+    }
+
+};
+
 template<class T>
 ostream &operator<<(ostream &out, const CircularListWithHeader<T> &chain) {
     chain.output(out);
     return out;
-}
-
-template<class T>
-void CircularListWithHeader<T>::checkIndex(int theIndex, std::string actionType) const {
-    //È·±£Ë÷ÒıÔÚÖÏÖ´ĞĞÌØÊâ²Ù×÷Ê±£¬Ë÷ÒıÔÚÕıÈ·µÄ·¶Î§ÄÚ
-    if (actionType == "insert") {
-        if (theIndex < 0 || theIndex > this->size()) {
-            ostringstream s;
-            s << "²åÈëÔªËØÊ±£¬";
-            if (theIndex < 0)s << "Ë÷ÒıÖµ²»µÃ<0" << endl;
-            if (theIndex > this->size())s << "Ë÷ÒıÖµ²»µÃ>Êı×éÔªËØ¸öÊı" << endl;
-            throw ExceptionSpace::IllegalParameterValue(s.str());
-        }
-    } else if (actionType == "erase" || actionType == "get" || actionType == "replace") {
-        if (theIndex >= this->size()) {
-            ostringstream s;
-            if (actionType == "erase")
-                s << "É¾³ıÔªËØÊ±£¬Ë÷ÒıÖµ²»µÃ>=listSize" << endl;
-            else if (actionType == "replace")s << "Ìæ»»ÔªËØÊ±£¬Ë÷ÒıÖµ²»µÃ>=listSize" << endl;
-            else if (actionType == "get")s << "»ñÈ¡ÔªËØÊ±£¬Ë÷ÒıÖµ²»µÃ>=listSize" << endl;
-            throw ExceptionSpace::IllegalParameterValue(s.str());
-        }
-    } else {
-        ostringstream s;
-        s << "checkIndexµÚ¶ş¸ö²ÎÊı´«Èë²»ÕıÈ·£¬Î´Ö¸¶¨ÕıÈ·µÄ²Ù×÷ÀàĞÍ" << endl;
-        throw ExceptionSpace::IllegalParameterValue(s.str());
-    }
-}
-
-template<class T>
-void CircularListWithHeader<T>::swapElement(const int &indexA, const int &indexB) {
-    checkIndex(indexA, "replace");
-    checkIndex(indexB, "replace");
-    T temp = this->get(indexA);
-    this->get(indexA) = this->get(indexB);
-    this->get(indexB) = temp;
-}
-
-template<class T>
-void CircularListWithHeader<T>::setNode(const int &theIndex, const T &theElement,
-                                        CircularListWithHeader::NodePointer &theNext) {
-    this->getNode(theIndex).element = theElement;
-    this->getNode(theIndex).next = theNext;
-}
-
-template<class T>
-ChainNode<T> &CircularListWithHeader<T>::getNode(const int &theIndex) {
-    NodePointer p = nodeHeader->next;
-    for (int i = 0; i < theIndex; i++) {
-        p = p->next;
-    }
-    return *p;
-}
-
-template<class T>
-ChainNode<T> *CircularListWithHeader<T>::indexToAddress(const int &theIndex) const {
-    NodePointer p = nodeHeader->next;
-    for (int i = 0; i < theIndex; i++)
-        p = p->next;
-    return p;
-}
-
-template<class T>
-bool CircularListWithHeader<T>::bubble(const int &n) {
-    bool sorted=false;
-    for(int i=0;i<n;i++)
-    {
-        if(this->get(i)>this->get(i+1))
-        {
-            this->swapElement(i,i+1);
-            sorted= true;
-        }
-    }
-    return sorted;
-}
-
-template<class T>
-void CircularListWithHeader<T>::overwriteErase(const int &theIndex) {
-    checkIndex(theIndex,"erase");
-    NodePointer theNode=this->indexToAddress(theIndex);
-    theNode->element=theNode->next->element;
-    NodePointer deleteNode=theNode->next;
-    theNode->next=theNode->next->next;
-    delete deleteNode;
 }

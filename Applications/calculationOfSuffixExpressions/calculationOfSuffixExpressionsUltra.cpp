@@ -1,19 +1,22 @@
+/*
+ * è¯¥ç¨‹åºå¯ä»¥ç›´æ¥å°†ä¸­ç¼€è¡¨è¾¾å¼è®¡ç®—å‡ºæ¥ï¼Œä¹Ÿå°±æ˜¯å°†ä¸­ç¼€è¡¨è¾¾å¼è½¬åç¼€è¡¨è¾¾å¼å’Œåç¼€è¡¨è¾¾å¼çš„è¿ç®—ç»“åˆ*/
 #include<iostream>
-#include <utility>
 #include<vector>
 #include<stack>
 #include<string>
-#include "D:\ClionProjects\Data_Structures_And_Algorithms\namespaces.h"
+#include "D:\ClionProjects\Data_Structures_And_Algorithms\selfDefineExceptionSpace.h"
 
 using ExceptionSpace::IllegalParameterValue;
 using namespace std;
 
+//åˆ¤æ–­ä¼ å…¥çš„å­—ç¬¦ä¸²æ˜¯ä¸æ˜¯æ“ä½œç¬¦
 bool isNumber(string element) {
     if (element == "+" || element == "-" || element == "*" || element == "/" || element == "(" || element == ")")
         return false;
     return true;
 }
 
+//åˆ¤æ–­ä¼ å…¥çš„å­—ç¬¦ä¸²æ˜¯ä¸æ˜¯ä»£è¡¨å·¦å³æ‹¬å·
 bool isBracket(string element) {
     if (element == "(" || element == ")")
         return true;
@@ -31,15 +34,15 @@ double operateTwoNumbers(const double &numA, const double &numB, const string &t
         return numA / numB;
     } else {
         throw IllegalParameterValue(
-                "double operateTwoNumbers(const double &numA,const double &numB,const char &theOperator)º¯ÊıµÄµÚÈı¸ö²ÎÊı±ØĞë´ú±íÒ»¸ö²Ù×÷·û");
+                "double operateTwoNumbers(const double &numA,const double &numB,const char &theOperator)ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
     }
 }
 
-bool priorityComparison(string operatorA, string operatorB)//±È½ÏÁ½¸öÔËËã·ûµÄÓÅÏÈ¼¶
+bool priorityComparison(string operatorA, string operatorB)//æ¯”è¾ƒä¸¤ä¸ªè¿ç®—ç¬¦çš„ä¼˜å…ˆçº§
 {
-    //operatorA´ú±íÉ¨Ãèµ½µÄµ±Ç°ÔËËã·û£¬operatorB±íÊ¾¼´½«Òªµ¯³öµÄÔËËã·ûÕ»ÖĞµÄÔËËã·û
+    //operatorAä»£è¡¨æ‰«æåˆ°çš„å½“å‰è¿ç®—ç¬¦ï¼ŒoperatorBè¡¨ç¤ºå³å°†è¦å¼¹å‡ºçš„è¿ç®—ç¬¦æ ˆä¸­çš„è¿ç®—ç¬¦
     if (operatorA == "+" || operatorA == "-") {
-        return true;//´ËÊ±operatorBµÄÓÅÏÈ¼¶Ò»¶¨´óÓÚ»òµÈÓÚoperatorAµÄÓÅÏÈ¼¶
+        return true;
     } else {
         if (operatorB == "*" || operatorB == "/")
             return true;
@@ -48,25 +51,29 @@ bool priorityComparison(string operatorA, string operatorB)//±È½ÏÁ½¸öÔËËã·ûµÄÓÅÏ
 }
 
 int main() {
-    stack<string> numberStack;//²Ù×÷ÊıÕ»
-    stack<string> operatorStack;//ÔËËã·ûÕ»
+    stack<string> numberStack;//æ“ä½œæ•°æ ˆ
+    stack<string> operatorStack;//è¿ç®—ç¬¦æ ˆ
 
+    //ä¸­ç¼€è¡¨è¾¾å¼é›†åˆ
     vector<string> expressionVector{
             "2", "+", "3", "-", "4", "*", "3", "/", "4", "+", "7"
-    };//´ú±íÖĞ×º±í´ïÊ½
+    };
 
     for (int i = 0; i < expressionVector.size(); i++) {
-        string symbol = expressionVector[i];//´ú±í´ÓÖĞ×º±í´ïÊ½ÖĞÉ¨Ãèµ½µÄµ±Ç°·ûºÅ
+        string symbol = expressionVector[i];//ä»ä¸­ç¼€è¡¨è¾¾å¼é›†åˆä¸­æ‰«æåˆ°ç¬¦å·
         if (isNumber(symbol)) {
-            //µ±Ç°É¨Ãèµ½µÄÊÇ²Ù×÷Êı£¬Ö±½ÓÑ¹Èë²Ù×÷ÊıÕ»
+            //å¦‚æœè¯¥ç¬¦å·æ˜¯æ•°å­—åˆ™ç›´æ¥å‹å…¥æ“ä½œæ•°æ ˆ
             numberStack.push(symbol);
         } else {
-            //µ±Ç°É¨Ãèµ½µÄÊÇÔËËã·û»ò½çÏŞ·û
+            //å¦‚æœè¯¥ç¬¦å·æ˜¯è¿ç®—ç¬¦æˆ–ç•Œé™ç¬¦
             if (isBracket(symbol)) {
-                //µ±Ç°É¨Ãèµ½µÄÊÇ½çÏŞ·û
+                //è¯¥ç¬¦å·æ˜¯ç•Œé™ç¬¦çš„æƒ…å†µ
+
+                //å¦‚æœè¯¥ç•Œé™ç¬¦æ˜¯(ï¼Œåˆ™ç›´æ¥å°†ç¬¦å·å‹å…¥æ“ä½œç¬¦æ ˆ
                 if (symbol == "(")operatorStack.push(symbol);
                 else {
-                    //Óöµ½¡°)¡±ÔòÒÀ´Îµ¯³öÔËËã·ûÕ»ÄÚÔËËã·û£¬Ã¿µ¯³öÒ»¸öÔËËã·û¾Í´Ó²Ù×÷ÊıÖĞµ¯³öÁ½¸ö²Ù×÷ÊıÓë¸ÃÔËËã·û½øĞĞÔËËã£¬È»ºó½«ÔËËã½á¹ûÑ¹Èë²Ù×÷ÊıÕ»£¬Ö±µ½Óöµ½"("ÎªÖ¹
+                    //é‡åˆ°â€)â€œåˆ™ä¾æ¬¡å¼¹å‡ºè¿ç®—ç¬¦æ ˆå†…è¿ç®—ç¬¦ï¼Œæ¯å¼¹å‡ºä¸€ä¸ªè¿ç®—ç¬¦å°±ä»æ“ä½œæ•°ä¸­å¼¹å‡ºä¸¤ä¸ªæ“ä½œæ•°ï¼Œå¹¶åšè¿ç®—ï¼Œç„¶åå°†è¿ç®—ç»“æœå‹å…¥æ“ä½œæ•°æ ˆ
+                    //ç›´åˆ°é‡åˆ°(ç»ˆæ­¢è¿ç®—æ“ä½œï¼Œå½“å¼¹å‡º)æ—¶ä¸€å®šä¼šåœ¨åšä¸€ç³»åˆ—è¿ç®—ä¹‹åå†æ¬¡å¼¹å‡º(
                     while (operatorStack.top() != "(") {
                         double numA = stod(numberStack.top());
                         numberStack.pop();
@@ -77,11 +84,13 @@ int main() {
                         numberStack.push(to_string(result));
 
                     }
-                    operatorStack.pop();//µ¯³ö´ËÊ±Õ»¶¥µÄ"("
+                    operatorStack.pop();//å¼¹å‡ºæ­¤æ—¶æ ˆé¡¶çš„â€(â€œ
                 }
             } else {
-                //µ±Ç°É¨Ãèµ½µÄÊÇÔËËã·û
-                //ÒÀ´Îµ¯³öÔËËã·ûÕ»ÖĞÓÅÏÈ¼¶¸ßÓÚ»òµÈÓÚµ±Ç°ÔËËã·ûµÄËùÓĞÔËËã·û£¬Ã¿µ¯³öÒ»¸öÔËËã·û¾Í²ÎÓëÒ»´ÎÔËËã£¬ÈôÓöµ½"("»òÔËËã·ûÕ»Îª¿ÕÊ±Í£Ö¹£¬Í£Ö¹ºó½«É¨Ãèµ½µÄµ±Ç°ÔËËã·ûÑ¹ÈëÔËËã·ûÕ»
+                //å½“å‰æ‰«æåˆ°çš„æ˜¯è¿ç®—ç¬¦
+                /*
+                 * ä¾æ¬¡å¼¹å‡ºè¿ç®—ç¬¦æ ˆä¸­ä¼˜å…ˆçº§é«˜äºæˆ–ç­‰äºå½“å‰è¿ç®—ç¬¦çš„æ‰€æœ‰è¿ç®—ç¬¦ï¼Œæ¯å¼¹å‡ºä¸€ä¸ªè¿ç®—ç¬¦å°±å‚ä¸ä¸€æ¬¡
+                 * è¿ç®—ï¼Œè‹¥é‡åˆ°â€ï¼ˆâ€œæˆ–è¿ç®—ç¬¦æ ˆä¸ºç©ºæ—¶åœæ­¢ï¼Œåœæ­¢åå°†æ‰«æåˆ°çš„å½“å‰è¿ç®—ç¬¦å‹å…¥è¿ç®—ç¬¦æ ˆ*/
                 if (!operatorStack.empty()) {
                     while (!operatorStack.empty()) {
                         if (operatorStack.top() == "(" || !priorityComparison(symbol, operatorStack.top()))break;
@@ -99,7 +108,7 @@ int main() {
                             operatorStack.pop();
                             operatorStack.push(symbol);
                         } else {
-                            //Óöµ½ÁËÓÅÏÈ¼¶µÍÓÚµ±Ç°ÔËËã·ûÔËËã·û
+                            //é‡åˆ°äº†ä¼˜å…ˆçº§ä½äºå½“å‰è¿ç®—ç¬¦çš„è¿ç®—ç¬¦
                             operatorStack.push(symbol);
                         }
                     } else {
@@ -120,7 +129,7 @@ int main() {
         operatorStack.pop();
         numberStack.push(to_string(result));
     }
-    cout << "ÔËËã½á¹û=" << numberStack.top() << endl;
+    cout << "è¿ç®—ç»“æœ=" << numberStack.top() << endl;
     return 0;
 }
 

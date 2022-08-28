@@ -1,10 +1,10 @@
-/*»ùÊıÅÅĞòÊ¾Àı*/
+/*åŸºæ•°æ’åºç¤ºä¾‹*/
 #include <iostream>
 #include <string>
 #include <list>
 #include <vector>
 #include <cmath>
-#include "D:\ClionProjects\Data_Structures_And_Algorithms\namespaces.h"
+#include "D:\ClionProjects\Data_Structures_And_Algorithms\selfDefineExceptionSpace.h"
 
 using namespace std;
 using namespace ExceptionSpace;
@@ -41,34 +41,36 @@ bool fun(const int &x) {
 
 
 void binSort(list<studentRecord> &recordList, const int &dimension, const int &baseNumber) {
-    //»ùÊıÅÅĞòÒòÎªÃ¿Ò»´ÎÅÅĞò¶¼²»ÊÇÖ±½Ó¶ÔnumberÅÅĞò£¬¶øÊÇ¶Ô°´ÕÕÄ³ÖÖ»ùÊı·Ö½â³ÉµÄdigit½øĞĞÅÅĞò£¬ÀıÈçÓÃ»ùÊı10½«Êı×Ö928·Ö½â³ÉÈı¸ödigit£¬·Ö±ğÊÇ9\2\8
-    //½«number·Ö½âÎªdigitĞèÒª³ı·¨ºÍÈ¡Ä£²Ù×÷£¬Èç¹ûÓÃ»ùÊı10À´·Ö½â£¬´Ó×îµÍÎ»µ½×î¸ßÎ»µÄÊı×Ö·Ö½âÊ½£ºx%10 (x%100)/10 (x%1000)/100...
-    //Èç¹ûÓÃ»ùÊı100À´·Ö½â£¬Ôò´Ó×îµÍÎ»µ½×î¸ßÎ»µÄÊı×Ö·Ö½âÊ½£ºx%100 (x%10000)/100...
-    //¶ÔÒ»°ãµÄ»ùÊır£¬ÏàÓ¦µÄ·Ö½âÊ½Îª£ºx%r (x%r^2)/r (x%r^3)/r^2
-    //ËùÓĞÊı×ÖËùÔÚ·¶Î§[0£¬pow(10,dimension)-1] powµÄµÚÒ»¸ö²ÎÊıÊÇÃİµÄµ×Êı£¬µÚ¶ş¸ö²ÎÊıÊÇÃİµÄÖ¸Êı
-    if (!fun(baseNumber))throw IllegalParameterValue("µ÷ÓÃ»ùÊıÅÅĞòËã·¨Ê±£¬»ùÊıbaseNumber²»ÊÇ10µÄÃİ");
-    vector<list<studentRecord>> bin;//´´½¨´æ·ÅÏä×ÓµÄÈİÆ÷
+    //åŸºæ•°æ’åºå› ä¸ºæ¯ä¸€æ¬¡æ’åºéƒ½ä¸æ˜¯ç›´æ¥å¯¹numberæ’åºï¼Œè€Œæ˜¯å¯¹æŒ‰ç…§æŸç§åŸºæ•°åˆ†è§£æˆçš„digitè¿›è¡Œæ’åºï¼Œä¾‹å¦‚ç”¨åŸºæ•°10å°†æ•°å­—928åˆ†è§£æˆä¸‰ä¸ªdigitï¼Œåˆ†åˆ«æ˜¯9\2\8
+    //å°†numberåˆ†è§£ä¸ºdigitéœ€è¦é™¤æ³•å’Œå–æ¨¡æ“ä½œï¼Œå¦‚æœç”¨åŸºæ•°10æ¥åˆ†è§£ï¼Œä»æœ€ä½ä½åˆ°æœ€é«˜ä½çš„æ•°å­—åˆ†è§£å¼ï¼šx%10 (x%100)/10 (x%1000)/100...
+    //å¦‚æœç”¨åŸºæ•°100æ¥åˆ†è§£ï¼Œåˆ™ä»æœ€ä½ä½åˆ°æœ€é«˜ä½çš„æ•°å­—åˆ†è§£å¼ï¼šx%100 (x%10000)/100...
+    //å¯¹ä¸€èˆ¬çš„åŸºæ•°rï¼Œç›¸åº”çš„åˆ†è§£å¼ä¸ºï¼šx%r (x%r^2)/r (x%r^3)/r^2
+    //æ‰€æœ‰æ•°å­—æ‰€åœ¨èŒƒå›´[0ï¼Œpow(10,dimension)-1] powçš„ç¬¬ä¸€ä¸ªå‚æ•°æ˜¯å¹‚çš„åº•æ•°ï¼Œç¬¬äºŒä¸ªå‚æ•°æ˜¯å¹‚çš„æŒ‡æ•°
+    if (!fun(baseNumber))throw IllegalParameterValue("è°ƒç”¨åŸºæ•°æ’åºç®—æ³•æ—¶ï¼ŒåŸºæ•°baseNumberä¸æ˜¯10çš„å¹‚");
+    vector<list<studentRecord>> bin;//åˆ›å»ºå­˜æ”¾ç®±å­çš„å®¹å™¨
     bin.reserve(baseNumber);
     for (int i = 0; i < baseNumber; i++) {
         list<studentRecord> temp;
         bin.push_back(temp);
     }
 
-    for (int i = 0; i < dimension; i++)//×îÍâ²ãÑ­»·´ú±íÏä×ÓÅÅĞòµÄ×Ü´ÎÊı
+    for (int i = 0; i < dimension; i++)//æœ€å¤–å±‚å¾ªç¯ä»£è¡¨ç®±å­æ’åºçš„æ€»æ¬¡æ•°
     {
-        //Ïä×ÓÅÅĞòµÄµÚÒ»²½£º±éÀúÔªËØ½«ÔªËØ·Åµ½Ïä×ÓÈİÆ÷ÖĞ¶ÔÓ¦µÄÏä×ÓÖĞ
-        for (auto recordIterator(recordList.begin()); recordIterator != recordList.end(); recordIterator++)//µÚ¶ş²ãÑ­»·Òª½«Ã¿Ò»¸önumber×ö»ùÊı²ğ½â£¬¸ù¾İÕâ¸ö²ğ½â³öÀ´µÄÊı½øĞĞÏä×ÓÅÅĞò
+        //ç®±å­æ’åºçš„ç¬¬ä¸€æ­¥ï¼šéå†å…ƒç´ å°†å…ƒç´ æ”¾åˆ°ç®±å­å®¹å™¨ä¸­å¯¹åº”çš„ç®±å­ä¸­
+
+        //ç¬¬äºŒå±‚å¾ªç¯è¦å°†æ¯ä¸€ä¸ªnumberåšåŸºæ•°æ‹†è§£ï¼Œæ ¹æ®è¿™ä¸ªæ‹†è§£å‡ºæ¥çš„æ•°è¿›è¡Œç®±å­æ’åº
+        for (auto recordIterator(recordList.begin()); recordIterator != recordList.end(); recordIterator++)
         {
             int theScore = recordIterator->age;
             int pow1 = (int) pow(baseNumber, i + 1);
             int pow2 = (int) pow(baseNumber, i);
-            int theDigit = theScore % pow1 / pow2;//Ã¿¸öÊı×Ö¶ÔÓ¦µÄ¶¼ÊÇÕâ¸ödigit£¬±ØĞë°´ÕÕÕâ¸ödigitµÄ´óĞ¡À´½øĞĞÏä×ÓÅÅĞò
+            int theDigit = theScore % pow1 / pow2;//æ¯ä¸ªæ•°å­—å¯¹åº”çš„éƒ½æ˜¯è¿™ä¸ªdigitï¼Œå¿…é¡»æŒ‰ç…§è¿™ä¸ªdigitçš„å¤§å°æ¥è¿›è¡Œç®±å­æ’åº
             bin.at(theDigit).push_back(*recordIterator);
         }
 
         recordList.clear();
-        //Ïä×ÓÅÅĞòµÚ¶ş²½£º´ÓÏä×ÓÈİÆ÷ÖĞÊÕ¼¯Ïä×Ó
 
+        //ç®±å­æ’åºç¬¬äºŒæ­¥ï¼šä»ç®±å­å®¹å™¨ä¸­æ”¶é›†ç®±å­
         for (int j = 0; j < bin.size(); j++) {
             while (!(bin.at(j).empty())) {
                 auto temp = bin.at(j).front();
@@ -84,12 +86,12 @@ void binSort(list<studentRecord> &recordList, const int &dimension, const int &b
 int main() {
     setbuf(stdout, nullptr);
 
-    studentRecord stu1(9, "Ğ¡Ñ§ÉúÏ°½üÆ½");
-    studentRecord stu2(45, "ÀõÕ½Êé");
-    studentRecord stu3(49, "ÍõáªÉ½");
-    studentRecord stu4(80, "°İµÇ");
-    studentRecord stu5(32, "ÌØÂ³¶à");
-    studentRecord stu6(76, "ÌØÀÊÆÕ");
+    studentRecord stu1(9, "æŸå°å­¦ç”Ÿ");
+    studentRecord stu2(45, "ç‹—è…¿å­å®‰å€æ™‹ä¸‰");
+    studentRecord stu3(49, "æ™®å¤§å¸");
+    studentRecord stu4(80, "æ‹‰ç¨€ç™»");
+    studentRecord stu5(32, "å°åœŸè±†ç‰¹é²å¤š");
+    studentRecord stu6(76, "æ‡‚ç‹å·æ™®");
     list<studentRecord> recordList;
     recordList.push_back(stu1);
     recordList.push_back(stu2);
@@ -97,13 +99,13 @@ int main() {
     recordList.push_back(stu4);
     recordList.push_back(stu5);
     recordList.push_back(stu6);
-    cout << "ÅÅĞòÖ®Ç°µÄ½á¹û£º" << endl;
+    cout << "æ’åºä¹‹å‰çš„ç»“æœï¼š" << endl;
     for (auto record: recordList) {
         cout << record.name << " " << record.age << endl;
     }
     cout << "---------------------------" << endl;
     binSort(recordList, 2, 10);
-    cout << "ÅÅĞòÖ®ºóµÄ½á¹û£º" << endl;
+    cout << "æ’åºä¹‹åçš„ç»“æœï¼š" << endl;
     for (auto record: recordList) {
         cout << record.name << " " << record.age << endl;
     }

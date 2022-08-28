@@ -29,7 +29,7 @@ public:
 
     int size() const { return chainList<T>::listSize; }
 
-    T &get(const int &theIndex){ return chainList<T>::get(theIndex); }
+    virtual T get(const int &index)const{ return chainList<T>::get(index); }                     //返回索引值为index的对象
 
     int indexOf(const T &theElement) const { return chainList<T>::indexOf(theElement); }
 

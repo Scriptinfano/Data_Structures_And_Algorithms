@@ -3,7 +3,7 @@ project(Data_Structures_And_Algorithms)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(Data_Structures_And_Algorithms main.cpp)
+add_executable(Data_Structures_And_Algorithms main.cpp globalFunctionSpace.h)
 add_executable(selfDefineArray linearList/arrayAndVectorList/arrayListMain.cpp linearList/arrayAndVectorList/myIterator.h linearList/arrayAndVectorList/arrayList.hpp virtualBaseClassLinearList.h)
 add_executable(chainListMain chainList/chainList.cpp chainList/chainList.h virtualBaseClassLinearList.h D:/ClionProjects/Data_Structures_And_Algorithms/chainList/circularListWithHeader.h chainList/extendedChainList.h chainList/DoublyLinkedList.h)
 add_executable(main main.cpp)

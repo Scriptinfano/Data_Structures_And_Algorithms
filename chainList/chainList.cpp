@@ -59,6 +59,7 @@ void testChainListRankSort() {
 
 void testCircularListWithHeaderRemoveRange() {
     CircularListWithHeader<int> circular;
+
     circular.push_back(7);
     circular.push_back(9);
     circular.push_back(8);

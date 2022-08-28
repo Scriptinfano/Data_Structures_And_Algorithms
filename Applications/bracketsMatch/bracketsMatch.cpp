@@ -1,7 +1,7 @@
 #include<iostream>
 #include<vector>
 #include<stack>
-
+#include <stdexcept>
 using namespace std;
 
 bool bracketCheck(stack<char> &theStack, const vector<char> &theVector);
@@ -22,8 +22,8 @@ int main() {
     brackets.push_back('}');
     brackets.push_back('}');
 
-    bool matchSucces = bracketCheck(matchStack, brackets);
-    string out = matchSucces ? "匹配成功" : "匹配失败";
+    bool matchSuccess = bracketCheck(matchStack, brackets);
+    string out = matchSuccess ? "匹配成功" : "匹配失败";
     cout << out << endl;
 
 
@@ -66,5 +66,7 @@ bool bracketMatch(const char &stackElement, const char &vectorElement) {
     } else if (stackElement == '[') {
         if (vectorElement == ']')return true;
         else return false;
+    }else{
+        throw invalid_argument("bool bracketMatch(const char &stackElement, const char &vectorElement)的参数stackElement不符合设计需求");
     }
 }

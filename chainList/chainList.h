@@ -65,7 +65,7 @@ public:
     //ADT方法
     virtual bool empty() const { return listSize == 0; }    //检测是否为空
     virtual int size() const;                               //返回容器元素个数
-    virtual T &get(const int &theIndex);                     //得到索引值为theIndex的元素
+    virtual T get(const int &theIndex) const;                     //得到索引值为theIndex的元素
     virtual int indexOf(const T &theElement) const;         //返回元素theElement首次出现的索引值
     virtual void erase(const int &theIndex);                       //删除索引为theIndex的元素
     virtual void insert(const int &theIndex, const T &theElement); //在指定位置插入元素
@@ -112,8 +112,7 @@ public:
 
     void reverse();//原地颠倒链表中的元素，不分配任何新的节点空间
 
-    void meld(chainList<T> &chainA,
-              chainList<T> &chainB);//与派生类方法meld()类似，合并后的链表应该是链表a和b的节点空间，合并之后输入链表chainA和chainB是空表，会物理删除输入的两个表
+    void meld(chainList<T> &chainA,chainList<T> &chainB);//与派生类方法meld()类似，合并后的链表应该是链表a和b的节点空间，合并之后输入链表chainA和chainB是空表，会物理删除输入的两个表
 
     vector<chainList<T>> *split();//生成两个扩展链表a和b，a中包含索引为奇数的元素，b中包含其余元素，a和b的存储空间即*this的存储空间
 
@@ -211,7 +210,7 @@ int chainList<T>::size() const {
 }
 
 template<class T>
-T &chainList<T>::get(const int &theIndex){
+T chainList<T>::get(const int &theIndex) const {
     checkIndex(theIndex, "get");
     ChainNode<T> *currentNode = firstNode;
     for (int i = 0; i < theIndex; i++) {
@@ -329,7 +328,7 @@ void chainList<T>::push_back(const T &theElement) {
 template<class T>
 void chainList<T>::set(int theIndex, const T &theElement) {
     checkIndex(theIndex, "replace");
-    this->get(theIndex) = theElement;
+    (*this)[theIndex]=theElement;
 }
 
 template<class T>
@@ -354,7 +353,6 @@ void chainList<T>::removeRange(int beginIndex, int endIndex) {
         listSize -= count;
     } else {
         throw IllegalParameterValue("使用removeRange函数时索引传入有误");
-
     }
 }
 
@@ -661,7 +659,7 @@ void chainList<T>::rankSort() {
     for (int i = 0; i < this->size(); i++) {
         if (countArray[i] != 0) {
             for (int j = 0; j < countArray[i]; j++) {
-                this->get(index) = i;
+                this->set(index,i);
                 index++;
             }
         }
@@ -703,6 +701,3 @@ void chainToArray(const chainList<T> &theChain, arrayList<T> &theArray) {
         theArray.push_back(theChain.get(i));
     }
 }
-
-
-//扩展chainList，以扩充抽象基类extendedLinearList中新增的功能

@@ -2,7 +2,7 @@
 #include<vector>
 #include<stack>
 #include<string>
-#include "D:\ClionProjects\Data_Structures_And_Algorithms\namespaces.h"
+#include "D:\ClionProjects\Data_Structures_And_Algorithms\selfDefineExceptionSpace.h"
 
 using namespace std;
 using ExceptionSpace::IllegalParameterValue;
@@ -13,32 +13,28 @@ double operateTwoNumbers(const double &numA, const double &numB, const string &t
 
 int main() {
     stack<string> numberStack;
-    vector<string> expression{"15", "7", "1", "1", "+", "-", "/", "3", "*", "2", "1", "1", "+", "+",
-                              "-"};//´¢´æÊı×ÖÓëÔËËã·ûµÄÖĞ×º±í´ïÊ½
+    vector<string> expression{"15", "7", "1", "1", "+", "-", "/", "3", "*", "2", "1", "1", "+", "+","-"};//å‚¨å­˜æ•°å­—ä¸è¿ç®—ç¬¦çš„ä¸­ç¼€è¡¨è¾¾å¼
     double result = calculation(numberStack, expression);
-    cout << "ÔËËã½á¹û=" << result << endl;
+    cout << "è¿ç®—ç»“æœ=" << result << endl;
     return 0;
 }
 
 double calculation(stack<string> &theStack, const vector<string> &theVector) {
-    //¿ØÖÆÕû¸öËã·¨µÄÁ÷³Ì
-    //×¢ÒâÊ¹ÓÃstod()º¯Êı½«´ú±íÔËËãÊıµÄ×Ö·û´®×ª»»Îª¿É²ÎÓëÔËËãµÄdoubleĞÍÊı×Ö
-    //×¢ÒâÊ¹ÓÃyo_stringº¯Êı½«Êı×Ö(int,double,floatµÈÊı×Ö±äÁ¿)×ªÎªstring
     for (int i = 0; i < theVector.size(); i++) {
         if (theVector[i] == "+" || theVector[i] == "-" || theVector[i] == "*" || theVector[i] == "/") {
-            //µ¯³öÕ»ÖĞµÄÁ½¸öÔªËØ²¢ºÍµ±Ç°ÔËËã·û×öÔËËã
-            double numA = stod(theStack.top());
+            //å¦‚æœé‡åˆ°æ“ä½œç¬¦ï¼Œåˆ™å°†æ“ä½œç¬¦å–å‡ºå¹¶å¼¹å‡ºä¸¤ä¸ªæ“ä½œæ•°åšè¿ç®—
+            double numA = stod(theStack.top());//å–å‡ºç¬¬ä¸€ä¸ªæ“ä½œæ•°
             theStack.pop();
-            double numB = stod(theStack.top());
+            double numB = stod(theStack.top());//å–å‡ºç¬¬äºŒä¸ªæ“ä½œæ•°
             theStack.pop();
             double result = operateTwoNumbers(numA, numB, theVector[i]);
-            theStack.push(to_string(result));
+            theStack.push(to_string(result));//å°†è¿ç®—ç»“æœè½¬æ¢ä¸ºstringé‡æ–°å‹å…¥æ“ä½œæ•°æ ˆ
         } else {
-            //½«Êı×ÖÑ¹ÈëÕ»ÖĞ
+            //è‹¥é‡åˆ°æ•°å­—åˆ™å°†æ•°å­—å‹å…¥æ“ä½œæ•°æ ˆ
             theStack.push(theVector[i]);
         }
     }
-    return stod(theStack.top());
+    return stod(theStack.top());//stodå‡½æ•°å¯å°†å­—ç¬¦ä¸²è½¬æ¢ä¸ºdoubleå€¼
 }
 
 double operateTwoNumbers(const double &numA, const double &numB, const string &theOperator) {
@@ -51,7 +47,6 @@ double operateTwoNumbers(const double &numA, const double &numB, const string &t
     } else if (theOperator == "/") {
         return numA / numB;
     } else {
-        throw IllegalParameterValue(
-                "double operateTwoNumbers(const double &numA,const double &numB,const char &theOperator)º¯ÊıµÄµÚÈı¸ö²ÎÊı±ØĞë´ú±íÒ»¸ö²Ù×÷·û");
+        throw IllegalParameterValue("double operateTwoNumbers(const double &numA,const double &numB,const char &theOperator)å‘ç”Ÿæœªè€ƒè™‘åˆ°çš„æƒ…å†µ");
     }
 }

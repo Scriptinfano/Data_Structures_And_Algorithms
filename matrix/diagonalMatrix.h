@@ -1,10 +1,10 @@
-/*本程序主要演示特殊矩阵的压缩存储方法及其对应的映射函数
+/*该头文件设计了一些采用不同映射方式以及不同的内部存储结构的矩阵类，实现了矩阵以及矩阵之间的基本运算
  *在设计矩阵类时要注意矩阵的行下标和列下标都是从1开始的，和数组从0开始是不一样的 */
 #pragma once
 
 #include <iostream>
 #include <cmath>
-#include "D:\ClionProjects\Data_Structures_And_Algorithms\namespaces.h"
+#include "D:\ClionProjects\Data_Structures_And_Algorithms\selfDefineExceptionSpace.h"
 
 using namespace std;
 using namespace ExceptionSpace;
@@ -22,14 +22,11 @@ public:
 
     virtual void set(const int &i, const int &j, const T &theElement) = 0;//将下标为i,j的矩阵元素设为另一个值
 
-    virtual virtualDiagonalMatrixAsRegularArray<T> *
-    operator+(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const = 0;//矩阵加法
+    virtual virtualDiagonalMatrixAsRegularArray<T> *operator+(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const = 0;//矩阵加法
 
-    virtual virtualDiagonalMatrixAsRegularArray<T> *
-    operator-(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const = 0;//矩阵减法
+    virtual virtualDiagonalMatrixAsRegularArray<T> *operator-(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const = 0;//矩阵减法
 
-    virtual virtualDiagonalMatrixAsRegularArray<T> *
-    operator*(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const = 0;//矩阵乘法
+    virtual virtualDiagonalMatrixAsRegularArray<T> *operator*(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const = 0;//矩阵乘法
 
     virtual T operator()(int i, int j) const = 0;//得到索引为i,j的索引元素
 
@@ -398,7 +395,7 @@ template<class T>
 class upperDiagonalMatrix;//模板类的前置声明，在定义lowerTriangularMatrix类的transpose函数时会用到
 
 
-//采用行主映射的下三角矩阵
+//内部采用一维数组存储二维矩阵元素，映射方式采用行主映射的下三角矩阵
 template<class T>
 class lowerTriangularMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
     friend ostream &operator<<(ostream &out, const lowerTriangularMatrix<T> &theMatrix) {
@@ -569,7 +566,7 @@ public:
 };
 
 
-//采用行主映射的上三角矩阵
+//内部采用一维数组存储二维矩阵元素，映射方式采用行主映射的上三角矩阵
 template<class T>
 class upperDiagonalMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
     friend ostream &operator<<(ostream &out, const upperDiagonalMatrix<T> &theMatrix) {

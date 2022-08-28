@@ -4,7 +4,7 @@ using namespace std;
 
 
 template<class T>
-void myswap(T &a,T&b)
+void mySwap(T &a, T&b)
 {
     T temp;
     temp=a;
