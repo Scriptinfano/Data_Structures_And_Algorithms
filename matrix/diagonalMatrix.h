@@ -135,7 +135,7 @@ public:
     //矩阵减法
     virtual diagonalMatrix<T> *operator-(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const {
         if (!this->initialized || !theMatrix.initialized)throw uninitializedMatrix();
-        if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfPlus();
+        if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfSubtraction();
         auto result = new diagonalMatrix<T>(this->dimension);
         result->initialize();
         for (int i = 0; i < this->dimension; i++) {
@@ -313,7 +313,7 @@ public:
 
     virtual tripleDiagonalMatrix<T> *operator-(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const {
         if (!this->initialized || !theMatrix.initialized)throw uninitializedMatrix();
-        if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfPlus();
+        if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfSubtraction();
         auto result = new tripleDiagonalMatrix<T>(this->dimension);
         result->initialize();
         for (int i = 0; i < this->dimension; i++) {
@@ -497,7 +497,7 @@ public:
     //矩阵减法
     virtual lowerTriangularMatrix<T> *operator-(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const {
         if (!this->initialized || !theMatrix.initialized)throw uninitializedMatrix();
-        if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfPlus();
+        if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfSubtraction();
         auto result = new lowerTriangularMatrix<T>(this->dimension);
         result->initialize();
         for (int i = 0; i < this->dimension; i++) {
@@ -664,7 +664,7 @@ public:
     //矩阵减法
     virtual upperDiagonalMatrix<T> *operator-(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const {
         if (!this->initialized || !theMatrix.initialized)throw uninitializedMatrix();
-        if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfPlus();
+        if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfSubtraction();
         auto result = new upperDiagonalMatrix<T>(this->dimension);
         result->initialize();
         for (int i = 0; i < this->dimension; i++) {
@@ -896,7 +896,7 @@ public:
     operator-(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const//矩阵减法
     {
         if (!this->initialized || !theMatrix.isInitialized())throw uninitializedMatrix();
-        if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfPlus();
+        if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfSubtraction();
         auto result = new tripleDiagonalMatrixAsIrregularArray<T>(this->dimension);
         result->initialize();
         for (int i = 0; i < this->dimension; i++) {
@@ -934,6 +934,19 @@ public:
 
     virtual T operator()(int i, int j) const//得到索引为i,j的索引元素
     {
+        if (i < 1 || j < 1 || i > this->dimension || j > this->dimension)
+            throw matrixIndexOutOfBounds();
+        if (abs(i - j) > 1)return 0;
+        else {
+            T temp;
+            if (i == this->dimension && (j == this->dimension - 1 || j == this->dimension))//最后一行是特殊情况，特殊处理
+            {
+                temp = this->element[i - 1][j - 3];
+                return temp;
+            }
+            temp = this->element[i - 1][j - 1];
+            return temp;
+        }
 
     }
 
@@ -988,14 +1001,15 @@ public:
 template<class T>
 class upperTriangleAsIrregularArray;
 
+//内部使用二维不规则数组实现的，按照行主映射方式实现的下三角矩阵
 template<class T>
 class lowerTriangleAsIrregularArray : public virtualDiagonalMatrixAsIrregularArray<T> {
     friend ostream &operator<<(ostream &out, const lowerTriangleAsIrregularArray<T> &theMatrix) {
         int index = 0;
         for (int i = 0; i < theMatrix.getDimension(); i++) {
             for (int j = 0; j < theMatrix.getDimension(); j++) {
-                    out << theMatrix.get(i + 1, j + 1) << " ";
-                    index++;
+                out << theMatrix.get(i + 1, j + 1) << " ";
+                index++;
             }
             if (index % theMatrix.getDimension() == 0)out << endl;
         }
@@ -1081,7 +1095,7 @@ public:
     virtual lowerTriangleAsIrregularArray<T> *operator-(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const //矩阵减法
     {
         if (!this->initialized || !theMatrix.isInitialized())throw uninitializedMatrix();
-        if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfPlus();
+        if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfSubtraction();
         auto result = new lowerTriangleAsIrregularArray<T>(this->dimension);
         result->initialize();
         for (int i = 0; i < this->dimension; i++) {
@@ -1173,9 +1187,10 @@ public:
     }
 
 };
+
+//内部使用二维不规则数组实现的，按照行主映射方式实现的上三角矩阵
 template<class T>
-class upperTriangleAsIrregularArray:public virtualDiagonalMatrixAsIrregularArray<T>
-{
+class upperTriangleAsIrregularArray : public virtualDiagonalMatrixAsIrregularArray<T> {
 
     friend ostream &operator<<(ostream &out, const upperTriangleAsIrregularArray<T> &theMatrix) {
         int index = 0;
@@ -1196,7 +1211,7 @@ public:
         this->dimension = theDimension;
         this->element = new T *[theDimension];
         for (int i = 0; i < theDimension; i++) {
-            this->element[i] = new T[this->dimension-i];
+            this->element[i] = new T[this->dimension - i];
         }
         this->initialized = false;
     }
@@ -1206,7 +1221,7 @@ public:
         this->dimension = theMatrix.getDimension();
         this->element = new T *[this->dimension];
         for (int i = 0; i < this->dimension; i++) {
-            this->element[i] = new T[this->dimension-i];
+            this->element[i] = new T[this->dimension - i];
         }
         for (int i = 0; i < this->dimension; i++) {
             for (int j = 0; j < i + 1; ++j) {
@@ -1226,42 +1241,115 @@ public:
 
     virtual T get(const int &i, const int &j) const//返回下标为i,j的矩阵元素
     {
+        if (i < 1 || j < 1 || i > this->dimension || j > this->dimension) {
+            throw matrixIndexOutOfBounds();
+        }
+        if (i >= j) {
+            int result = this->element[i - 1][j - 1];
+            return result;
+        } else return 0;
 
     }
 
     virtual void set(const int &i, const int &j, const T &theElement)//将下标为i,j的矩阵元素设为另一个值
     {
+        if (i < 1 || j < 1 || i > this->dimension || j > this->dimension)
+            throw matrixIndexOutOfBounds();
+        if (i <= j)//上三角区的元素i<=j
+        {
+            this->element[i - 1][j - 1] = theElement;
+        } else {
+            if (theElement != 0)throw invalidMatrixValueSet();
+        }
 
     }
 
     virtual upperTriangleAsIrregularArray<T> *operator+(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const//矩阵加法
     {
-
+        if (!this->initialized || !theMatrix.isInitialized())throw uninitializedMatrix();
+        if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfPlus();
+        auto result = new upperTriangleAsIrregularArray<T>(this->dimension);
+        result->initialize();
+        for (int i = 0; i < this->dimension; i++) {
+            for (int j = 0; j < this->dimension; j++) {
+                int plusA = this->get(i + 1, j + 1);
+                int plusB = theMatrix.get(i + 1, j + 1);
+                result->set(i + 1, j + 1, plusA + plusB);
+            }
+        }
+        return result;
     }
 
     virtual upperTriangleAsIrregularArray<T> *operator-(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const //矩阵减法
     {
+        if (!this->initialized || !theMatrix.isInitialized())throw uninitializedMatrix();
+        if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfSubtraction();
+        auto result = new upperTriangleAsIrregularArray<T>(this->dimension);
+        result->initialize();
+        for (int i = 0; i < this->dimension; i++) {
+            for (int j = 0; j < this->dimension; j++) {
+                int plusA = this->get(i + 1, j + 1);
+                int plusB = theMatrix.get(i + 1, j + 1);
+                result->set(i + 1, j + 1, plusA - plusB);
+            }
+        }
+        return result;
 
     }
 
     virtual upperTriangleAsIrregularArray<T> *operator*(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const//矩阵乘法
     {
-
+        if (!this->initialized || !theMatrix.isInitialized())throw uninitializedMatrix();
+        if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfMultiply();
+        auto result = new upperTriangleAsIrregularArray<T>(this->dimension);
+        result->initialize();
+        for (int i = 0; i < this->dimension; i++) {
+            for (int j = 0; j < this->dimension; j++) {
+                T sum = 0;
+                for (int k = 0; k < this->dimension; k++) {
+                    if (i > j) {
+                        sum += 0;
+                    } else {
+                        sum += this->get(i + 1, k + 1) * theMatrix.get(k + 1, j + 1);
+                    }
+                }
+                result->set(i + 1, j + 1, sum);
+            }
+        }
+        return result;
     }
 
     virtual T operator()(int i, int j) const //得到索引为i,j的索引元素
     {
+        if (i < 1 || j < 1 || i > this->dimension || j > this->dimension) {
+            throw matrixIndexOutOfBounds();
+        }
+        if (i >= j) {
+            int result = this->element[i - 1][j - 1];
+            return result;
+        } else return 0;
 
     }
 
     virtual void initialize(T *theElements, const int &theDimension)//初始化矩阵，将传入的二维数组映射到内部的一维数组中
     {
-
+        if (this->initialized)throw reInitializedMatrix();
+        for (int i = 0; i < this->dimension; i++) {
+            for (int j = 0; j < this->dimension; j++) {
+                this->set(i + 1, j + 1, theElements[i * theDimension + j]);
+            }
+        }
+        this->initialized = true;
     }
 
     virtual void initialize() //重载初始化函数，目的是初始化一个空的矩阵，将矩阵所有元素置零
     {
-
+        for (int i = 0; i < this->dimension; i++) {
+            for (int j = 0; j < this->dimension - i; j++) {
+                this->element[i][j] = 0;
+            }
+        }
+        this->initialized = true;
     }
 
     virtual int size() const//返回矩阵中元素的个数

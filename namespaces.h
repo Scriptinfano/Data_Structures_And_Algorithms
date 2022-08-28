@@ -3,28 +3,30 @@
 #include <iostream>
 #include <string_view>
 #include <exception>
+
 using namespace std;
 
 namespace ExceptionSpace {
-    class IllegalParameterValue:public exception {
+    class IllegalParameterValue : public exception {
     private:
         string message;
 
     public:
         explicit IllegalParameterValue(string_view theMessage = "非法参数传递") : message(theMessage) {}
-        const char * what() const noexcept override//重写父类函数
+
+        const char *what() const noexcept override//重写父类函数
         {
             return message.c_str();
         }
     };
 
-    class outOfBounds: public exception{
+    class outOfBounds : public exception {
     protected:
         string message;
     public:
         explicit outOfBounds(string_view theMessage = "访问超出界限") : message(theMessage) {}
-        const char * what() const noexcept override
-        {
+
+        const char *what() const noexcept override {
             return message.c_str();
         }
 
@@ -35,19 +37,18 @@ namespace ExceptionSpace {
         explicit matrixIndexOutOfBounds(string_view theMessage = "矩阵下标引用错误，导致访问超出界限") : outOfBounds(theMessage) {}
     };
 
-    class iteratorOutOfBounds:public outOfBounds{
+    class iteratorOutOfBounds : public outOfBounds {
     public:
-        explicit iteratorOutOfBounds(string_view theMessage="迭代器超出可访问界限"): outOfBounds(theMessage){}
+        explicit iteratorOutOfBounds(string_view theMessage = "迭代器超出可访问界限") : outOfBounds(theMessage) {}
     };
 
-    class matrixSizeMismatch:public exception {
+    class matrixSizeMismatch : public exception {
     protected:
         string message;
     public:
         explicit matrixSizeMismatch(string_view theMessage = "矩阵大小规格不匹配") : message(theMessage) {}
 
-        const char * what() const noexcept override
-        {
+        const char *what() const noexcept override {
             return message.c_str();
         }
     };
@@ -80,36 +81,36 @@ namespace ExceptionSpace {
 
     };
 
-    class uninitializedMatrix:public exception {
+    class uninitializedMatrix : public exception {
     private:
         string message;
     public:
         explicit uninitializedMatrix(string_view theMessage = "使用未初始化的矩阵执行了矩阵运算") : message(theMessage) {}
-        const char * what() const noexcept override
-        {
+
+        const char *what() const noexcept override {
             return message.c_str();
         }
 
     };
 
-    class reInitializedMatrix:public exception{
+    class reInitializedMatrix : public exception {
     private:
         string message;
     public:
         explicit reInitializedMatrix(string_view theMessage = "已经初始化过的矩阵不能再次初始化") : message(theMessage) {}
-        const char * what() const noexcept override
-        {
+
+        const char *what() const noexcept override {
             return message.c_str();
         }
     };
 
-    class invalidMatrixValueSet :public exception{
+    class invalidMatrixValueSet : public exception {
     private:
         string message;
     public:
         explicit invalidMatrixValueSet(string_view theMessage = "改变特殊矩阵中元素的值时不能将零区元素设为除了零以外的其他数") : message(theMessage) {}
-        const char * what() const noexcept override
-        {
+
+        const char *what() const noexcept override {
             return message.c_str();
         }
 
@@ -130,33 +131,25 @@ namespace GlobalSpace {
 
 //改变二维数组的大小，内部每一个一维数组的大小也可以改变
     template<class T>
-    void changeLength2D(T **&a, int oldRows, int copyRows,
-                        int copyColumns, int newRows,
-                        int newColumns) {// Resize the two-dimensional arrayList a that has oldRows number of rows.
-        // The dimensions of the resized arrayList are newRows x newColumns.
-        // Copy the top left oldRows x newColumns sub arrayList into the resized arrayList.
-        // make sure new dimensions are adequate
+    void changeLength2D(T **&a, int oldRows, int copyRows, int copyColumns, int newRows, int newColumns) {
         if (copyRows > newRows || copyColumns > newColumns)
             throw ExceptionSpace::IllegalParameterValue("new dimensions are too small");
 
-        T **temp = new T *[newRows];              // arrayList for rows
-        // create row arrays for temp
+        T **temp = new T *[newRows];//创建保存新二维数组地址的指针
         for (int i = 0; i < newRows; i++)
-            temp[i] = new T[newColumns];
+            temp[i] = new T[newColumns];//为每一行分配空间
 
-        // copy from old space to new space, delete old space
+        //将老数组的元素按照copyRows x copyColumns的规格复制到新数组
         for (int i = 0; i < copyRows; i++) {
             copy(a[i], a[i] + copyColumns, temp[i]);
-            delete[] a[i];                      // deallocate old memory
+            delete[] a[i];//删除旧空间
         }
 
-        // delete remaining rows of a
+        //删除旧数组剩下的空间
         for (int i = copyRows; i < oldRows; i++)
             delete[] a[i];
 
         delete[] a;//存储每个一维数组首地址的数组还没有释放内存，此时释放所有存储一维数组地址的内存
-        a = temp;
+        a = temp;//让老数组的指针指向新数组的地址
     }
-
-
 }
