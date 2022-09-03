@@ -1,0 +1,267 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.22"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Data_Structures_And_Algorithms",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "BasicOperation::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-BasicOperation-Debug-0a66f4dad555f99394b2.json",
+					"name" : "BasicOperation",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "BinSort::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-BinSort-Debug-bfd408c7c853fc63b44e.json",
+					"name" : "BinSort",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Data_Structures_And_Algorithms::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Data_Structures_And_Algorithms-Debug-ef150ce8122abdb1b47a.json",
+					"name" : "Data_Structures_And_Algorithms",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "MatrixMain::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-MatrixMain-Debug-d0d2e799c552224d388c.json",
+					"name" : "MatrixMain",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "betterBinSort_radixSort::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-betterBinSort_radixSort-Debug-d24818cb639b917d865d.json",
+					"name" : "betterBinSort_radixSort",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "bracketsMatch::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-bracketsMatch-Debug-7b76fe1fc4cd68174a86.json",
+					"name" : "bracketsMatch",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "bubbleSort::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-bubbleSort-Debug-77f896acc6d8bbd9c9d7.json",
+					"name" : "bubbleSort",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "bucketSort::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-bucketSort-Debug-deee0f73c855fb97666e.json",
+					"name" : "bucketSort",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "calculationOfSuffixExpressions::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-calculationOfSuffixExpressions-Debug-085049345aff17077976.json",
+					"name" : "calculationOfSuffixExpressions",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "calculationOfSuffixExpressionsUltra::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-calculationOfSuffixExpressionsUltra-Debug-601d69ebd6959202677c.json",
+					"name" : "calculationOfSuffixExpressionsUltra",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "chainListMain::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-chainListMain-Debug-c457d350a0d2b4ae6d1a.json",
+					"name" : "chainListMain",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "countingSort::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-countingSort-Debug-d348ba8ed0c1fc0492e2.json",
+					"name" : "countingSort",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "diagonalMatrix::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-diagonalMatrix-Debug-764901175e07d3127bf3.json",
+					"name" : "diagonalMatrix",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "heapSort::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-heapSort-Debug-1c1c40ad07008c2477f6.json",
+					"name" : "heapSort",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "hornerRules::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-hornerRules-Debug-a9b7fcae8c3398b27162.json",
+					"name" : "hornerRules",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "insertSort::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-insertSort-Debug-387482b4d66e33417bac.json",
+					"name" : "insertSort",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "main::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-main-Debug-c8332c0b02a12c7167eb.json",
+					"name" : "main",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "mergeSort::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-mergeSort-Debug-d0e152997be36567aad3.json",
+					"name" : "mergeSort",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "quickSort::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-quickSort-Debug-7743eec379a66c493f56.json",
+					"name" : "quickSort",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rankSort::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rankSort-Debug-fc792be54243059c4b48.json",
+					"name" : "rankSort",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "selectionSort::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-selectionSort-Debug-badba2bf04b93804dd99.json",
+					"name" : "selectionSort",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "selfDefineArray::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-selfDefineArray-Debug-fd45ca1b3b39d2bd85fa.json",
+					"name" : "selfDefineArray",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "shellSort::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-shellSort-Debug-87c7dc0e46b13a06266d.json",
+					"name" : "shellSort",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "stackMain::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-stackMain-Debug-30817e448afab5780659.json",
+					"name" : "stackMain",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/ClionProjects/Data_Structures_And_Algorithms/cmake-build-debug-mingw",
+		"source" : "D:/ClionProjects/Data_Structures_And_Algorithms"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}
