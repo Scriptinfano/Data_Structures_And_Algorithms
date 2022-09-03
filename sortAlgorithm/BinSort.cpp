@@ -1,3 +1,4 @@
+//оДвсеепР
 #include <iostream>
 #include <string>
 #include <list>

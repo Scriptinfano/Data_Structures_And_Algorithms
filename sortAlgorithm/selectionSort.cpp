@@ -1,3 +1,4 @@
+//—°‘Ò≈≈–Ú
 #include<iostream>
 
 using namespace std;
@@ -78,8 +79,6 @@ void betterSelectionSort(T a[],int n)
     }
 }
 int main() {
-
-
-
+    int *P=new int[12];
     return 0;
 }

@@ -1,11 +1,12 @@
-/*
+/* 名次排序
  * 名次计算演示
  * 1、什么是元素在数组中的名次：一个元素在一个序列中的名次是所有比它小
  * 的元素个数加上在他左边出现的与他相同的元素个数*/
 #include<iostream>
 
 using namespace std;
-namespace mystd {
+namespace rankSortSpace {
+    //将a[]中各元素的名次算出来，然后将其按照对应保存在r[]数组中
     template<class T>
     void rank(T a[], int n, int r[]) {
         //r[]是记录名次的数组
@@ -15,8 +16,9 @@ namespace mystd {
             for (int j = 0; j < i; j++)
                 if (a[j] <= a[i])r[i]++;
                 else r[j]++;
-
     }
+
+    //按照名次重新对数组元素进行排序，下面这个函数是名次排序中的原地重排操作
 
     template<class T>
     void reArrange(T a[], int n, int r[]) {
@@ -29,12 +31,30 @@ namespace mystd {
             }
         }
     }
+
+    template<class T>
+    void reArrange2(T a[],int n,int r[])
+    {
+        T *u=new T[n];
+
+        //将a中的元素移到正确的位置上
+        for(int i = 0; i < n; i++)
+        {
+            u[r[i]]=a[i];
+        }
+        //将u中的元素移回去
+        for(int i=0;i<n;i++)
+        {
+            a[i]=u[i];
+        }
+        delete[]u;
+    }
 }
 
 int main() {
     int a[] = {1, 3, 4, 9, 2, 7, 8, 6};
     int *t = new int[8];
-    mystd::rank(a, 8, t);
+    rankSortSpace::rank(a, 8, t);
     for (int i = 0; i < 8; i++)
         cout << t[i] << " ";
 

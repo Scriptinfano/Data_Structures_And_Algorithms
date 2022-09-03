@@ -1,3 +1,4 @@
+//全局函数封装
 #pragma once
 #include "selfDefineExceptionSpace.h"
 using namespace ExceptionSpace;

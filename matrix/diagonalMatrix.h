@@ -200,6 +200,58 @@ public:
 
 };
 
+//按行的方式将对称矩阵的下三角区域存储在一维数组中
+template<class T>
+class LowerSymmetricMatrix:public virtualDiagonalMatrixAsRegularArray<T> {
+
+public:
+    virtual T get(const int &i, const int &j) const//返回下标为i,j的矩阵元素
+    {
+
+    }
+
+    virtual void set(const int &i, const int &j, const T &theElement)//将下标为i,j的矩阵元素设为另一个值
+    {
+
+    }
+
+    virtual LowerSymmetricMatrix<T> *operator+(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const//矩阵加法
+    {
+
+    }
+
+    virtual LowerSymmetricMatrix<T> *operator-(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const//矩阵减法
+    {
+
+    }
+    virtual LowerSymmetricMatrix<T> *operator*(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const//矩阵乘法
+    {
+
+    }
+    virtual T operator()(int i, int j) const//得到索引为i,j的索引元素
+    {
+
+    }
+
+    //其他常规接口
+    virtual void initialize(T *theElements, const int &theDimension)//初始化矩阵，将传入的二维数组映射到内部的一维数组中
+    {
+
+    }
+    virtual void initialize()//重载初始化函数，目的是初始化一个空的矩阵，将矩阵所有元素置零
+    {
+
+    }
+    virtual int size() const//返回矩阵中元素的个数
+    {
+
+    }
+    virtual virtualDiagonalMatrixAsRegularArray<T> *transpose()//矩阵的转置
+    {
+
+    }
+};
+
 //采用逐对角线映射的三对角矩阵，还有另外两种方法压缩存储三对角矩阵，即行主映射和列主映射
 template<class T>
 class tripleDiagonalMatrix : public virtualDiagonalMatrixAsRegularArray<T> {

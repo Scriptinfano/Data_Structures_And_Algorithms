@@ -1,4 +1,4 @@
-/*基数排序示例*/
+/*基数排序示例，更好的箱子排序*/
 #include <iostream>
 #include <string>
 #include <list>
@@ -33,7 +33,8 @@ ostream &operator<<(ostream &out, const studentRecord &theRecord) {
     return out;
 }
 
-bool fun(const int &x) {
+//判断数字是否是10的幂
+bool isPowerOfTen(const int &x) {
     int temp = x;
     while (temp > 1 && temp % 10 == 0) { temp /= 10; }
     return temp == 1;
@@ -46,9 +47,9 @@ void binSort(list<studentRecord> &recordList, const int &dimension, const int &b
     //如果用基数100来分解，则从最低位到最高位的数字分解式：x%100 (x%10000)/100...
     //对一般的基数r，相应的分解式为：x%r (x%r^2)/r (x%r^3)/r^2
     //所有数字所在范围[0，pow(10,dimension)-1] pow的第一个参数是幂的底数，第二个参数是幂的指数
-    if (!fun(baseNumber))throw IllegalParameterValue("调用基数排序算法时，基数baseNumber不是10的幂");
+    if (!isPowerOfTen(baseNumber))throw IllegalParameterValue("调用基数排序算法时，基数baseNumber不是10的幂");
     vector<list<studentRecord>> bin;//创建存放箱子的容器
-    bin.reserve(baseNumber);
+    bin.reserve(baseNumber);//在基数排序中，箱子的个数就是基数的大小
     for (int i = 0; i < baseNumber; i++) {
         list<studentRecord> temp;
         bin.push_back(temp);

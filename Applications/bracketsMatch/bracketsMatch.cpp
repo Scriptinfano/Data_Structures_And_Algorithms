@@ -33,19 +33,21 @@ int main() {
 bool bracketCheck(stack<char> &theStack, const vector<char> &theVector) {
 
     for (int i = 0; i < theVector.size(); i++) {
+        //遇到左括号就入栈
         if (theVector[i] == '{' || theVector[i] == '[' || theVector[i] == '(')
             theStack.push(theVector[i]);
         else {
+            //遇到了右括号但是栈里面有没有左括号，说明一定匹配失败
             if (theStack.empty())return false;
             else {
                 //弹出栈顶元素，判断元素是否和当前的元素匹配
                 bool match = bracketMatch(theStack.top(), theVector[i]);
                 if (match) {
-                    //匹配成功
+                    //匹配成功则弹栈
                     theStack.pop();
                     continue;
                 } else {
-                    //匹配失败
+                    //匹配失败则整个函数返回false表示匹配失败
                     return false;
                 }
             }

@@ -52,7 +52,7 @@ public:
         listSize = theList.listSize;
         element = new T[arrayLength];
         m_extraSize = theList.m_extraSize;
-        copy(theList.element, theList.element + listSize, element); //??????????????????????????????????????????????????????????????????????????
+        copy(theList.element, theList.element + listSize, element);
     }
 
 
@@ -74,6 +74,12 @@ public:
     virtual void output(std::ostream &out) const;
 
     //常规接口
+
+    T& getSelf(const int &theIndex){
+        checkIndex(theIndex, "get");
+        return element[theIndex];
+    }
+
     void trimToSize();//将数组多余的空间裁剪掉，使得数组大小等于元素数量
 
     void setCapacity(int newCapacity);//任意改变容器大小函数，小于数组元素个数时多余元素被删除
@@ -484,10 +490,8 @@ template<class T>
 void arrayList<T>::split(arrayList<T> &listA, arrayList<T> &listB) {
     for (int i = 0; i < listSize; i++) {
         if (i % 2 == 0) {
-            //??????????????
             listA.push_back(element[i]);
         } else {
-            //???????????????
             listB.push_back(element[i]);
         }
     }

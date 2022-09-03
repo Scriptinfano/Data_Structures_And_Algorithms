@@ -103,8 +103,12 @@ int main() {
                         double result = operateTwoNumbers(numB, numA, theOperator);
                         numberStack.push(to_string(result));
                     }
+                    //如果走完了while循环，说明此时operatorStack一定是空的，那么就一定会执行第113行代码，将当前扫描到的运算符压栈
+                    //如果在执行while循环的过程中遇到了左括号或者优先级不满足条件，那么此时operatorStack一定不为空，此时一定会进入下面的if语句
+                    //一旦进入下面的if语句，无非就两种情况，一种是在执行while循环中因为遇到了左括号，另一种是在执行while循环的过程中优先级不满足条件
                     if (!operatorStack.empty()) {
                         if (operatorStack.top() == "(") {
+                            //遇到左括号则应该先将左括号弹出然后再将当前运算符入栈
                             operatorStack.pop();
                             operatorStack.push(symbol);
                         } else {
@@ -121,6 +125,8 @@ int main() {
         }
     }
     while (!operatorStack.empty()) {
+        //stod函数将string类型的数字转换为double
+        //to_string函数将数字转换为字符串
         double numA = stod(numberStack.top());
         numberStack.pop();
         double numB = stod(numberStack.top());
