@@ -3,28 +3,36 @@
 #include <iostream>
 
 using namespace std;
+class TestUtil {
+public:
+    static void testStackBasicFunc() {
+        cout << "µÚÒ»¸ö²ÉÓÃ¼Ì³ÐÇ°ÃæµÄArrayListÀàÊµÏÖµÄÕ»" << endl;
+        DerivedArrayStack<int> stack(5);
+        stack.push(12);
+        stack.push(13);
+        stack.push(52);
+        while (!stack.empty()) {
+            cout << stack.getTop() << endl;
+            stack.pop();
+        }
 
+        cout << "µÚ¶þ¸öÖ±½ÓÊµÏÖÕ»µÄ²Ù×÷" << endl;
+        ArrayStack<int> stack2(5);
+        stack2.push(13);
+        stack2.push(14);
+        stack2.push(151);
+        stack2.push(143);
+        while (!stack2.empty()) {
+            cout << stack2.getTop() << endl;
+            stack2.pop();
+        }
+
+    }
+};
 int main() {
-    cout<<"ç¬¬ä¸€ä¸ªé‡‡ç”¨ç»§æ‰¿å‰é¢çš„ArrayListç±»å®žçŽ°çš„æ ˆï¼ˆæœ‰æ€§èƒ½æŸå¤±ï¼‰"<<endl;
-    DerivedArrayStack<int> stack(5);
-    stack.push(12);
-    stack.push(13);
-    stack.push(52);
-    while (!stack.empty()) {
-        cout << stack.getTop() << endl;
-        stack.pop();
-    }
-    cout<<"ç¬¬äºŒä¸ªç›´æŽ¥é‡‡ç”¨å†…éƒ¨æ•°ç»„å®žçŽ°çš„æ ˆ"<<endl;
-    ArrayStack<int> stack2(5);
-    stack2.push(13);
-    stack2.push(14);
-    stack2.push(151);
-    stack2.push(143);
-    while (!stack2.empty()) {
-        cout << stack2.getTop() << endl;
-        stack2.pop();
-    }
-
+    TestUtil util;
+    util.testStackBasicFunc();
 
     return 0;
 }
+

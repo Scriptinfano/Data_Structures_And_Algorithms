@@ -8,7 +8,7 @@
 using namespace std;
 
 namespace ExceptionSpace {
-
+//TODO 给下面的每个自定义异常类分类，将他们放在不同的命名空间中（命名空间是可以嵌套的）
 
     class IllegalParameterValue : public exception {
     private:
@@ -119,14 +119,41 @@ namespace ExceptionSpace {
 
     };
 
-    class StackEmptyException:public exception
-    {
+    class StackEmptyException : public exception {
     private:
         string message;
     public:
         explicit StackEmptyException(string_view theMessage = "栈为空，无法取得栈顶元素") : message(theMessage) {}
+
         const char *what() const noexcept override {
             return message.c_str();
         }
     };
+
+    class InvalidStackInitializeException : public exception {
+    private:
+        string message;
+    public:
+        explicit InvalidStackInitializeException(string_view theMessage = "初始化自定义栈时，栈的初始容量小于传入的容器元素个数") : message(theMessage) {}
+
+        const char *what() const noexcept override {
+            return message.c_str();
+        }
+    };
+
+    namespace LinkListExceptions {
+        //链表中的异常类
+        class LinklistEmptyException : public logic_error {
+        public:
+            explicit LinklistEmptyException(const string &theMessage = "未找到指定元素") : logic_error(theMessage) {}
+        };
+
+        class ElementNotFoundException : public logic_error {
+        public:
+            explicit ElementNotFoundException(const string &theMessage = "未找到指定元素") : logic_error(theMessage) {}
+        };
+
+    }
+
+
 }

@@ -1,6 +1,6 @@
+//定义最普通的链表类，这个类相较于本目录下定义的ChainListWithHead类的功能更丰富，他们都属于最基本的链表
 #pragma once
 
-#include "../linearList/arrayAndVectorList/arrayList.hpp"
 #include <sstream>
 #include <iostream>
 #include <string>
@@ -9,7 +9,8 @@
 #include <algorithm>
 #include <vector>
 #include <queue>
-
+#include "D:\ClionProjects\Data_Structures_And_Algorithms\chainList\ChainNode.h"
+#include "D:\ClionProjects\Data_Structures_And_Algorithms\linearList\arrayAndVectorList\arrayList.hpp"
 using namespace std;
 
 
@@ -95,6 +96,7 @@ private:
 public:
 
     //其他函数
+    void eraseAll(const T &theElement);//删除所有值为theElement的节点
 
     void push_back(const T &theElement);//向链表的尾部新加一个节点
 
@@ -112,7 +114,7 @@ public:
 
     void reverse();//原地颠倒链表中的元素，不分配任何新的节点空间
 
-    void meld(chainList<T> &chainA,chainList<T> &chainB);//与派生类方法meld()类似，合并后的链表应该是链表a和b的节点空间，合并之后输入链表chainA和chainB是空表，会物理删除输入的两个表
+    void meld(chainList<T> &chainA, chainList<T> &chainB);//与派生类方法meld()类似，合并后的链表应该是链表a和b的节点空间，合并之后输入链表chainA和chainB是空表，会物理删除输入的两个表
 
     vector<chainList<T>> *split();//生成两个扩展链表a和b，a中包含索引为奇数的元素，b中包含其余元素，a和b的存储空间即*this的存储空间
 
@@ -328,7 +330,7 @@ void chainList<T>::push_back(const T &theElement) {
 template<class T>
 void chainList<T>::set(int theIndex, const T &theElement) {
     checkIndex(theIndex, "replace");
-    (*this)[theIndex]=theElement;
+    (*this)[theIndex] = theElement;
 }
 
 template<class T>
@@ -659,7 +661,7 @@ void chainList<T>::rankSort() {
     for (int i = 0; i < this->size(); i++) {
         if (countArray[i] != 0) {
             for (int j = 0; j < countArray[i]; j++) {
-                this->set(index,i);
+                this->set(index, i);
                 index++;
             }
         }
@@ -684,6 +686,33 @@ void chainList<T>::bubbleSort() {
 template<class T>
 void chainList<T>::clear() {
     this->physicalClear();
+}
+
+template<class T>
+void chainList<T>::eraseAll(const T &theElement) {
+//TODO 删除所有元素为theElement的节点
+    if (listSize == 0 || firstNode == nullptr)return;
+    ChainNode<T> *p = firstNode;
+    ChainNode<T> *deleteNode = nullptr;
+    if (p->element == theElement) {
+        //首节点就是要删除的节点的情况
+        deleteNode = p;
+        firstNode = p->next;
+        p=firstNode;
+        delete deleteNode;
+        deleteNode = nullptr;
+    }
+    while (p->next != nullptr) {
+        p=p->next;
+        //p指向的节点之后的节点如果是指定元素，则删除p指向节点的后继节点
+        if (p->next->element == theElement){
+            deleteNode=p->next;
+            p->next=p->next->next;
+            delete deleteNode;
+            deleteNode= nullptr;
+        }
+    }
+
 }
 
 //全局函数，重载左移运算符使得cout<<对象名可输出链表元素

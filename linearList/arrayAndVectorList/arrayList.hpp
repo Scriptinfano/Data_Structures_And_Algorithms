@@ -6,9 +6,8 @@
 #include <vector>
 #include "myIterator.h"
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\globalFunctionSpace.h"
-#include "D:\ClionProjects\Data_Structures_And_Algorithms\virtualBaseClassLinearList.h"
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\selfDefineExceptionSpace.h"
-
+#include "D:\ClionProjects\Data_Structures_And_Algorithms\linearList\BaseLinearList.h"
 using namespace ExceptionSpace;
 
 void initializeTemplateFunction() {

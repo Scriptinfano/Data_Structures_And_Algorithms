@@ -1,6 +1,6 @@
 CMakeFiles/stackMain.dir/Stack/stackMain.cpp.obj: \
  D:\ClionProjects\Data_Structures_And_Algorithms\Stack\stackMain.cpp \
- D:\ClionProjects\Data_Structures_And_Algorithms\Stack\ArrayStack.h \
+ D:\ClionProjects\Data_Structures_And_Algorithms\Stack\DerivedArrayStack.h \
  D:\ClionProjects\Data_Structures_And_Algorithms\linearList\arrayAndVectorList\arrayList.hpp \
  E:/Clion/CLION2~1.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/iostream \
  E:/Clion/CLION2~1.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32/bits/c++config.h \
@@ -162,4 +162,5 @@ CMakeFiles/stackMain.dir/Stack/stackMain.cpp.obj: \
  D:\ClionProjects\Data_Structures_And_Algorithms\globalFunctionSpace.h \
  D:\ClionProjects\Data_Structures_And_Algorithms\selfDefineExceptionSpace.h \
  D:\ClionProjects\Data_Structures_And_Algorithms\virtualBaseClassLinearList.h \
- D:\ClionProjects\Data_Structures_And_Algorithms\Stack\StackADT.h
+ D:\ClionProjects\Data_Structures_And_Algorithms\Stack\StackADT.h \
+ D:\ClionProjects\Data_Structures_And_Algorithms\Stack\ArrayStack.h

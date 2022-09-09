@@ -1,35 +1,45 @@
 /*
- * é€šè¿‡å®ç°æ¥å£çš„æ–¹å¼æ¥å®ç°æ ˆç»“æ„*/
+ * Í¨¹ıÊµÏÖ½Ó¿ÚµÄ·½Ê½À´ÊµÏÖÕ»½á¹¹*/
 #pragma once
 
 #include "StackADT.h"
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\globalFunctionSpace.h"
+
 using namespace GlobalSpace;
+
 template<class T>
 class ArrayStack : public StackADT<T> {
 private:
-    int stackTop;//ä»£è¡¨æ ˆé¡¶å…ƒç´ åœ¨æ•´ä¸ªæ ˆä¸­çš„ç´¢å¼•ï¼Œæ³¨æ„è¿™ä¸ªç´¢å¼•æ˜¯ä»0å¼€å§‹çš„
-    int arrayLength;//æ ˆå®¹é‡
-    T *stack;//å…ƒç´ æ•°ç»„
+    int stackTop;//´ú±íÕ»¶¥ÔªËØÔÚÕû¸öÕ»ÖĞµÄË÷Òı£¬×¢ÒâÕâ¸öË÷ÒıÊÇ´Ó0¿ªÊ¼µÄ
+    int arrayLength;//Õ»ÈİÁ¿
+    T *stack;//ÔªËØÊı×é
 
 public:
-    //æ„é€ å‡½æ•°ä¸ææ„å‡½æ•°
+    //¹¹Ôìº¯ÊıÓëÎö¹¹º¯Êı
     ArrayStack(const int &initialCapacity) {
         if (initialCapacity < 1) {
             ostringstream message;
-            message << "åˆå§‹å®¹é‡å¿…é¡»å¤§äº0";
-            throw IllegalParameterValue(message.str());//str()å°†å­—ç¬¦ä¸²æµä¸­çš„æ•°æ®å¤åˆ¶åˆ°stringå¯¹è±¡ä¸­å¹¶è¿”å›
+            message << "³õÊ¼ÈİÁ¿±ØĞë´óÓÚ0";
+            throw IllegalParameterValue(message.str());//str()½«×Ö·û´®Á÷ÖĞµÄÊı¾İ¸´ÖÆµ½string¶ÔÏóÖĞ²¢·µ»Ø
         }
         arrayLength = initialCapacity;
         stack = new T[arrayLength];
-        stackTop=-1;
+        stackTop = -1;
     }
 
     ~ArrayStack() {
         delete[]stack;
     }
 
-    //å®ç°æ¥å£
+    //ÊµÏÖ½Ó¿Ú
+    void initializeStack(const vector<T> &array) override {
+        //if (array.size() > arrayLength)throw InvalidStackInitializeException();
+        if(array.empty())return;
+        for(T element:array){
+            this->push(element);
+        }
+    }
+
     bool empty() const override {
         return stackTop == -1;
     }
@@ -58,12 +68,11 @@ public:
 
     void push(const T &theElement) override {
 
-        if(stackTop==arrayLength-1)
-        {
-            changeLength1D(stack,arrayLength,2*arrayLength);
-            arrayLength*=2;
+        if (stackTop == arrayLength - 1) {
+            changeLength1D(stack, arrayLength, 2 * arrayLength);
+            arrayLength *= 2;
         }
-        //åœ¨æ ˆé¡¶æ’å…¥å…ƒç´ 
-        stack[++stackTop]=theElement;//stackTopä»£è¡¨æ ˆé¡¶å…ƒç´ çš„ç´¢å¼•ï¼Œæ‰€ä»¥åº”è¯¥å…ˆåŠ 1å¾—åˆ°æ ˆé¡¶å…ƒç´ ä¸Šé¢ä¸€ä¸ªä½ç½®çš„ç´¢å¼•
+        //ÔÚÕ»¶¥²åÈëÔªËØ
+        stack[++stackTop] = theElement;//stackTop´ú±íÕ»¶¥ÔªËØµÄË÷Òı£¬ËùÒÔÓ¦¸ÃÏÈ¼Ó1µÃµ½Õ»¶¥ÔªËØÉÏÃæÒ»¸öÎ»ÖÃµÄË÷Òı
     }
 };

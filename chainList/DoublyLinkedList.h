@@ -1,32 +1,33 @@
+
 #pragma once
 
 #include <iostream>
-#include "../virtualBaseClassLinearList.h"
-#include "../selfDefineExceptionSpace.h"
 #include<sstream>
 #include<vector>
-
+#include "D:\ClionProjects\Data_Structures_And_Algorithms\selfDefineExceptionSpace.h"
+#include "D:\ClionProjects\Data_Structures_And_Algorithms\linearList\BaseLinearList.h"
+#include "ChainNode.h"
 using namespace std;
 using ExceptionSpace::IllegalParameterValue;
 
 template<class T>
 class DoublyLinkedList : public LinearList<T> {
 
-    //å½“å…¨å±€å‹å…ƒå‡½æ•°çš„å‚æ•°æœ‰ç±»åæ—¶ï¼Œæ ¹æ®å‚æ•°æŸ¥æ‰¾è§„åˆ™å¯ç›´æ¥å°†å‹å…ƒå‡½æ•°çš„å®šä¹‰å†™åœ¨ç±»å†…ï¼Œç±»å¤–æ— éœ€å£°æ˜
+    //µ±È«¾ÖÓÑÔªº¯ÊıµÄ²ÎÊıÓĞÀàÃûÊ±£¬¸ù¾İ²ÎÊı²éÕÒ¹æÔò¿ÉÖ±½Ó½«ÓÑÔªº¯ÊıµÄ¶¨ÒåĞ´ÔÚÀàÄÚ£¬ÀàÍâÎŞĞèÉùÃ÷
     friend ostream &operator<<(ostream &out, const DoublyLinkedList<T> &theChain) {
         theChain.output(out);
         return out;
     }
 
-public://åˆ«å
+public://±ğÃû
     typedef DoublyNode<T> *NodePointer;
     typedef DoublyNode<T> Node;
     typedef DoublyLinkedList<T> DoublyList;
     typedef DoublyLinkedList<T> *DoublyPointer;
-private://ç§æœ‰æˆå‘˜å˜é‡
+private://Ë½ÓĞ³ÉÔ±±äÁ¿
     NodePointer nodeHeader;
     int listSize;
-public://è®¿é—®ç§æœ‰æ•°æ®æˆå‘˜çš„å…¬æœ‰æ¥å£
+public://·ÃÎÊË½ÓĞÊı¾İ³ÉÔ±µÄ¹«ÓĞ½Ó¿Ú
 
     void setHeader(const NodePointer &thePointer) { nodeHeader = thePointer; }
 
@@ -34,9 +35,9 @@ public://è®¿é—®ç§æœ‰æ•°æ®æˆå‘˜çš„å…¬æœ‰æ¥å£
 
     NodePointer getHeader() const { return nodeHeader; }
 
-public://æ„é€ ï¼Œææ„ï¼Œæ‹·è´æ„é€ 
+public://¹¹Ôì£¬Îö¹¹£¬¿½±´¹¹Ôì
 
-    //é»˜è®¤æ„é€ ï¼Œåˆ›å»ºç©ºè¡¨
+    //Ä¬ÈÏ¹¹Ôì£¬´´½¨¿Õ±í
     explicit DoublyLinkedList(NodePointer p = new Node) {
         nodeHeader = p;
         nodeHeader->setNext(nullptr);
@@ -44,7 +45,7 @@ public://æ„é€ ï¼Œææ„ï¼Œæ‹·è´æ„é€ 
         listSize = 0;
     }
 
-    //æ„é€ æœ‰é¦–èŠ‚ç‚¹çš„åŒå‘å¾ªç¯é“¾è¡¨
+    //¹¹ÔìÓĞÊ×½ÚµãµÄË«ÏòÑ­»·Á´±í
     explicit DoublyLinkedList(const T &theElement, NodePointer p = new Node) {
         nodeHeader = p;
         auto newNode = new Node(nodeHeader, theElement, nodeHeader);
@@ -93,13 +94,12 @@ public://æ„é€ ï¼Œææ„ï¼Œæ‹·è´æ„é€ 
         }
     }
 
-public://å…¬æœ‰ç”¨æˆ·æ¥å£å‡½æ•°
+public://¹«ÓĞÓÃ»§½Ó¿Úº¯Êı
 
-    //åŸºç¡€æ“ä½œæ¥å£
+    //»ù´¡²Ù×÷½Ó¿Ú
 
-    //è¿”å›æŒ‡å®šç´¢å¼•çš„å…ƒç´ å€¼
-    T get(const int &theIndex)const
-    {
+    //·µ»ØÖ¸¶¨Ë÷ÒıµÄÔªËØÖµ
+    T get(const int &theIndex) const {
         checkIndex(theIndex, "get");
         NodePointer p = nodeHeader->getNext();
         for (int i = 0; i < theIndex; i++) {
@@ -109,9 +109,8 @@ public://å…¬æœ‰ç”¨æˆ·æ¥å£å‡½æ•°
 
     }
 
-    //è¿”å›æŒ‡å®šå…ƒç´ å€¼çš„ç´¢å¼•å€¼
-    int indexOf(const T &theElement) const
-    {
+    //·µ»ØÖ¸¶¨ÔªËØÖµµÄË÷ÒıÖµ
+    int indexOf(const T &theElement) const {
         NodePointer p = nodeHeader->getNext();
         int i = 0;
         while (p != nodeHeader) {
@@ -123,15 +122,14 @@ public://å…¬æœ‰ç”¨æˆ·æ¥å£å‡½æ•°
 
     }
 
-    //åˆ¤æ–­å®¹å™¨æ˜¯å¦ä¸ºç©º
+    //ÅĞ¶ÏÈİÆ÷ÊÇ·ñÎª¿Õ
     bool empty() const { return listSize == 0; }
 
-    //è¿”å›å®¹å™¨ä¸­å…ƒç´ çš„ä¸ªæ•°
+    //·µ»ØÈİÆ÷ÖĞÔªËØµÄ¸öÊı
     int size() const { return listSize; }
 
-    //æ¸…ç©ºå®¹å™¨ä¸­çš„å…ƒç´ 
-    void clear()
-    {
+    //Çå¿ÕÈİÆ÷ÖĞµÄÔªËØ
+    void clear() {
         NodePointer p = nodeHeader->getNext();
         NodePointer deleteNode;
         while (p != nodeHeader) {
@@ -145,9 +143,8 @@ public://å…¬æœ‰ç”¨æˆ·æ¥å£å‡½æ•°
 
     }
 
-    //åˆ é™¤æŒ‡å®šç´¢å¼•å€¼çš„å…ƒç´ 
-    void erase(const int &theIndex)
-    {
+    //É¾³ıÖ¸¶¨Ë÷ÒıÖµµÄÔªËØ
+    void erase(const int &theIndex) {
         checkIndex(theIndex, "erase");
         NodePointer deleteNode;
         if (theIndex == 0 && listSize == 1) {
@@ -170,9 +167,8 @@ public://å…¬æœ‰ç”¨æˆ·æ¥å£å‡½æ•°
 
     }
 
-    //åœ¨æŒ‡å®šç´¢å¼•å€¼çš„å…ƒç´ ä¹‹å‰æ’å…¥æŒ‡å®šå…ƒç´ 
-    void insert(const int &theIndex, const T &theElement)
-    {
+    //ÔÚÖ¸¶¨Ë÷ÒıÖµµÄÔªËØÖ®Ç°²åÈëÖ¸¶¨ÔªËØ
+    void insert(const int &theIndex, const T &theElement) {
         checkIndex(theIndex, "insert");
         NodePointer previousNode = this->getNode(theIndex).getPrevious();
         NodePointer nextNode = previousNode->getNext();
@@ -182,11 +178,10 @@ public://å…¬æœ‰ç”¨æˆ·æ¥å£å‡½æ•°
 
     }
 
-    //è¾“å‡ºæ‰€æœ‰å…ƒç´ 
-    void output(ostream &out) const
-    {
+    //Êä³öËùÓĞÔªËØ
+    void output(ostream &out) const {
         if (nodeHeader->getNext() == nullptr) {
-            throw IllegalParameterValue("å½“å‰é“¾è¡¨ä¸ºç©ºï¼Œæ— æ³•æ‰§è¡Œè¾“å‡ºæ“ä½œ");
+            throw IllegalParameterValue("µ±Ç°Á´±íÎª¿Õ£¬ÎŞ·¨Ö´ĞĞÊä³ö²Ù×÷");
         } else {
             NodePointer p = nodeHeader->getNext();
             for (int i = 0; i < listSize; i++) {
@@ -198,19 +193,16 @@ public://å…¬æœ‰ç”¨æˆ·æ¥å£å‡½æ•°
 
     }
 
-    void set(const int &theIndex, const T &theElement)
-    {
-        NodePointer p=nodeHeader;
-        for(int i=0;i<theIndex+1;i++)
-        {
+    void set(const int &theIndex, const T &theElement) {
+        NodePointer p = nodeHeader;
+        for (int i = 0; i < theIndex + 1; i++) {
             p->setNext(p->getNext());
         }
         p->setElement(theElement);
 
     }
 
-    T at(const int &theIndex) const
-    {
+    T at(const int &theIndex) const {
         checkIndex(theIndex, "get");
         NodePointer p = nodeHeader->getNext();
         for (int i = 0; i < theIndex; i++) {
@@ -220,8 +212,7 @@ public://å…¬æœ‰ç”¨æˆ·æ¥å£å‡½æ•°
 
     }
 
-    void push_back(const T &theElement)
-    {
+    void push_back(const T &theElement) {
         NodePointer newNode;
         if (listSize == 0) {
             newNode = new Node(nodeHeader, theElement, nodeHeader);
@@ -237,8 +228,7 @@ public://å…¬æœ‰ç”¨æˆ·æ¥å£å‡½æ•°
 
     }
 
-    void removeRange(const int &beginIndex, const int &endIndex)
-    {
+    void removeRange(const int &beginIndex, const int &endIndex) {
         checkIndex(beginIndex, "get");
         checkIndex(endIndex, "get");
         NodePointer beginNode = &(this->getNode(beginIndex));
@@ -257,8 +247,7 @@ public://å…¬æœ‰ç”¨æˆ·æ¥å£å‡½æ•°
 
     }
 
-    void swapContainer(DoublyLinkedList<T> &theChain)
-    {
+    void swapContainer(DoublyLinkedList<T> &theChain) {
         NodePointer sourceBegin = nodeHeader->getNext();
         NodePointer sourceEnd = nodeHeader->getPrevious();
         NodePointer targetHeader = theChain.getHeader();
@@ -273,8 +262,7 @@ public://å…¬æœ‰ç”¨æˆ·æ¥å£å‡½æ•°
 
     }
 
-    void swapElement(const int &indexA, const int &indexB)
-    {
+    void swapElement(const int &indexA, const int &indexB) {
         checkIndex(indexA, "get");
         checkIndex(indexB, "get");
         T temp = this->getNode(indexA).getElement();
@@ -283,9 +271,8 @@ public://å…¬æœ‰ç”¨æˆ·æ¥å£å‡½æ•°
 
     }
 
-    void leftShift(const int &offset)
-    {
-        if (offset < 0)throw ExceptionSpace::IllegalParameterValue("ï¿½ï¿½ï¿½ï¿½leftshift()Ê±Æ«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ´ï¿½ï¿½ï¿½");
+    void leftShift(const int &offset) {
+        if (offset < 0)throw ExceptionSpace::IllegalParameterValue("????leftshift()?????????????");
         int netOffset = offset % listSize;
         for (int i = 0; i < netOffset; i++) {
             T temp = this->at(0);
@@ -294,8 +281,7 @@ public://å…¬æœ‰ç”¨æˆ·æ¥å£å‡½æ•°
         }
     }
 
-    void reverse()
-    {
+    void reverse() {
         NodePointer p = nodeHeader;
         NodePointer temp;
         do {
@@ -307,10 +293,9 @@ public://å…¬æœ‰ç”¨æˆ·æ¥å£å‡½æ•°
 
     }
 
-    void meld(DoublyLinkedList<T> &theChain)
-    {
-        int sizeA=this->size();
-        int sizeB=theChain.size();
+    void meld(DoublyLinkedList<T> &theChain) {
+        int sizeA = this->size();
+        int sizeB = theChain.size();
 
         if (this->size() == 0 && theChain.size() == 0)return;
         NodePointer p = nodeHeader->getNext();
@@ -336,42 +321,37 @@ public://å…¬æœ‰ç”¨æˆ·æ¥å£å‡½æ•°
             p->setPrevious(c);
             c->setPrevious(t);
         } while (p->getNext() != nullptr && j->getNext() != nullptr);
-        if(p->getNext()== nullptr&&j->getNext()!= nullptr)
-        {
+        if (p->getNext() == nullptr && j->getNext() != nullptr) {
             p->setNext(j);
             j->setPrevious(p);
-            while(j->getNext()!= nullptr)
-            {
-                j=j->getNext();
+            while (j->getNext() != nullptr) {
+                j = j->getNext();
             }
             j->setNext(nodeHeader);
             nodeHeader->setPrevious(j);
 
-        }else if(p->getNext()!= nullptr&&j->getNext()== nullptr)
-        {
-            temp=p->getNext();
+        } else if (p->getNext() != nullptr && j->getNext() == nullptr) {
+            temp = p->getNext();
             p->setNext(j);
             j->setPrevious(p);
             j->setNext(temp);
             temp->setPrevious(j);
-            p=temp;
-            while(p->getNext()!= nullptr)
-            {
-                p=p->getNext();
+            p = temp;
+            while (p->getNext() != nullptr) {
+                p = p->getNext();
             }
             p->setNext(nodeHeader);
-        }else if(p->getNext()== nullptr&&j->getNext()== nullptr){
+        } else if (p->getNext() == nullptr && j->getNext() == nullptr) {
             p->setNext(j);
             j->setPrevious(p);
             j->setNext(nodeHeader);
             nodeHeader->setPrevious(j);
-        }else
-        {
-            throw IllegalParameterValue("åœ¨è°ƒç”¨meldæ—¶ï¼Œæœªè€ƒè™‘åˆ°çš„æƒ…å†µè§¦å‘");
+        } else {
+            throw IllegalParameterValue("ÔÚµ÷ÓÃmeldÊ±£¬Î´¿¼ÂÇµ½µÄÇé¿ö´¥·¢");
         }
         theChain.getHeader()->setNext(nullptr);
         theChain.getHeader()->setPrevious(nullptr);
-        listSize+=sizeB;
+        listSize += sizeB;
         theChain.setSize(0);
 
     }
@@ -400,15 +380,13 @@ public://å…¬æœ‰ç”¨æˆ·æ¥å£å‡½æ•°
 
     }
 
-    void pop_front()
-    {
+    void pop_front() {
         this->erase(0);
 
     }
 
 public:
-    T operator[](const int &theIndex) const
-    {
+    T operator[](const int &theIndex) const {
         checkIndex(theIndex, "get");
         NodePointer p = nodeHeader->getNext();
         for (int i = 0; i < theIndex; i++) {
@@ -420,8 +398,7 @@ public:
 
 private:
 
-    DoublyNode<T> &getNode(const int &theIndex) const
-    {
+    DoublyNode<T> &getNode(const int &theIndex) const {
         checkIndex(theIndex, "get");
         NodePointer p = nodeHeader->getNext();
         for (int i = 0; i < theIndex; i++) {
@@ -431,57 +408,53 @@ private:
 
     }
 
-    void setNode(const int &theIndex, const T &theElement, const NodePointer &thePrevious, const NodePointer &theNext)
-    {
+    void setNode(const int &theIndex, const T &theElement, const NodePointer &thePrevious, const NodePointer &theNext) {
         this->getNode(theIndex).set(thePrevious, theElement, theNext);
     }
 
-    void logicalClear()
-    {
+    void logicalClear() {
         nodeHeader->setNext(nullptr);
         nodeHeader->setPrevious(nullptr);
         listSize = 0;
 
     }
 
-    void checkIndex(int theIndex, std::string actionType) const
-    {
-        //ç¡®ä¿ç´¢å¼•åœ¨çª’æ‰§è¡Œç‰¹æ®Šæ“ä½œæ—¶ï¼Œç´¢å¼•åœ¨æ­£ç¡®çš„èŒƒå›´å†…
+    void checkIndex(int theIndex, std::string actionType) const {
+        //È·±£Ë÷ÒıÔÚÖÏÖ´ĞĞÌØÊâ²Ù×÷Ê±£¬Ë÷ÒıÔÚÕıÈ·µÄ·¶Î§ÄÚ
         if (actionType == "insert") {
             if (theIndex < 0 || theIndex > this->size()) {
                 ostringstream s;
-                s << "æ’å…¥å…ƒç´ æ—¶ï¼Œ";
-                if (theIndex < 0)s << "ç´¢å¼•å€¼ä¸å¾—<0" << endl;
-                if (theIndex > this->size())s << "ç´¢å¼•å€¼ä¸å¾—>æ•°ç»„å…ƒç´ ä¸ªæ•°" << endl;
+                s << "²åÈëÔªËØÊ±£¬";
+                if (theIndex < 0)s << "Ë÷ÒıÖµ²»µÃ<0" << endl;
+                if (theIndex > this->size())s << "Ë÷ÒıÖµ²»µÃ>Êı×éÔªËØ¸öÊı" << endl;
                 throw ExceptionSpace::IllegalParameterValue(s.str());
             }
         } else if (actionType == "erase" || actionType == "get" || actionType == "replace") {
-            if (this->size() == 0)throw ExceptionSpace::IllegalParameterValue("å®¹å™¨ä¸ºç©ºï¼Œæ— æ³•å¯¹å®¹å™¨æ‰§è¡Œåˆ é™¤ï¼Œè·å–ï¼Œæ›¿æ¢æ“ä½œ");
+            if (this->size() == 0)throw ExceptionSpace::IllegalParameterValue("ÈİÆ÷Îª¿Õ£¬ÎŞ·¨¶ÔÈİÆ÷Ö´ĞĞÉ¾³ı£¬»ñÈ¡£¬Ìæ»»²Ù×÷");
             if (!(theIndex >= 0 && theIndex < this->size())) {
                 ostringstream s;
                 if (theIndex >= this->size()) {
                     if (actionType == "erase")
-                        s << "åˆ é™¤å…ƒç´ æ—¶ï¼Œç´¢å¼•å€¼ä¸å¾—>=listSize" << endl;
-                    else if (actionType == "replace")s << "æ›¿æ¢å…ƒç´ æ—¶ï¼Œç´¢å¼•å€¼ä¸å¾—>=listSize" << endl;
-                    else if (actionType == "get")s << "è·å–å…ƒç´ æ—¶ï¼Œç´¢å¼•å€¼ä¸å¾—>=listSize" << endl;
+                        s << "É¾³ıÔªËØÊ±£¬Ë÷ÒıÖµ²»µÃ>=listSize" << endl;
+                    else if (actionType == "replace")s << "Ìæ»»ÔªËØÊ±£¬Ë÷ÒıÖµ²»µÃ>=listSize" << endl;
+                    else if (actionType == "get")s << "»ñÈ¡ÔªËØÊ±£¬Ë÷ÒıÖµ²»µÃ>=listSize" << endl;
                 } else {
-                    //theIndex<0çš„æƒ…å†µ
+                    //theIndex<0µÄÇé¿ö
                     if (actionType == "erase")
-                        s << "åˆ é™¤å…ƒç´ æ—¶ï¼Œç´¢å¼•å€¼ä¸å¾—<0" << endl;
-                    else if (actionType == "replace")s << "æ›¿æ¢å…ƒç´ æ—¶ï¼Œç´¢å¼•å€¼ä¸å¾—<0" << endl;
-                    else if (actionType == "get")s << "è·å–å…ƒç´ æ—¶ï¼Œç´¢å¼•å€¼ä¸å¾—<0" << endl;
+                        s << "É¾³ıÔªËØÊ±£¬Ë÷ÒıÖµ²»µÃ<0" << endl;
+                    else if (actionType == "replace")s << "Ìæ»»ÔªËØÊ±£¬Ë÷ÒıÖµ²»µÃ<0" << endl;
+                    else if (actionType == "get")s << "»ñÈ¡ÔªËØÊ±£¬Ë÷ÒıÖµ²»µÃ<0" << endl;
                 }
                 throw ExceptionSpace::IllegalParameterValue(s.str());
             }
         } else {
             ostringstream s;
-            s << "checkIndexç¬¬äºŒä¸ªå‚æ•°ä¼ å…¥ä¸æ­£ç¡®ï¼ŒæœªæŒ‡å®šæ­£ç¡®çš„æ“ä½œç±»å‹" << endl;
+            s << "checkIndexµÚ¶ş¸ö²ÎÊı´«Èë²»ÕıÈ·£¬Î´Ö¸¶¨ÕıÈ·µÄ²Ù×÷ÀàĞÍ" << endl;
             throw ExceptionSpace::IllegalParameterValue(s.str());
         }
     }
 
-    DoublyNode<T> *indexToAddress(const int &theIndex) const
-    {
+    DoublyNode<T> *indexToAddress(const int &theIndex) const {
         checkIndex(theIndex, "get");
         return &(this->getNode(theIndex));
 

@@ -1,8 +1,10 @@
 //全局函数封装
 #pragma once
+
 #include "selfDefineExceptionSpace.h"
+
 using namespace ExceptionSpace;
-namespace GlobalSpace{
+namespace GlobalSpace {
     template<class T>
     void changeLength1D(T *&a, int oldLength, int newLength) {
         if (newLength < 0)
@@ -38,6 +40,14 @@ namespace GlobalSpace{
         a = temp;//让老数组的指针指向新数组的地址
     }
 
-
+    int getMatrixSize(vector<vector<int>> theMatrix) {
+        int sum=0;
+        for(int i=0;i<theMatrix.size();i++)
+        {
+            for(int j=0;j<theMatrix.at(i).size();j++)
+                sum++;
+        }
+        return sum;
+    }
 
 }

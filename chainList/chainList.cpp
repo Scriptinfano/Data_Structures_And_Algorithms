@@ -1,3 +1,4 @@
+//测试本目录下定义的三种链表
 #include<iostream>
 #include "CircularListWithHeader.h"
 #include "extendedChainList.h"
@@ -55,6 +56,19 @@ void testChainListRankSort() {
 
     cout << chain;
 
+}
+
+void testChainListEraseAll() {
+    chainList<int> chain;
+    chain.push_back(7);
+    chain.push_back(4);
+    chain.push_back(3);
+    chain.push_back(4);
+    chain.push_back(8);
+    chain.push_back(4);
+    chain.push_back(6);
+    chain.eraseAll(4);
+    cout << chain;
 }
 
 void testCircularListWithHeaderRemoveRange() {
@@ -249,7 +263,7 @@ void testDoubly() {
 int main() {
     //setbuf(stdout, NULL);
     try {
-        testDoubly();
+        testChainListEraseAll();
 
     } catch (const IllegalParameterValue &exceptionObject) {
         cerr << exceptionObject.what();

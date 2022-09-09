@@ -14,16 +14,23 @@ class DerivedArrayStack : private arrayList<T>, public StackADT<T> {
 public:
     DerivedArrayStack(int initialCapacity = 10) : arrayList<T>(initialCapacity) {}
 
-    virtual bool empty() const {
+    void initializeStack(const vector<T> &array) override {
+        if(array.empty())return;
+        for (T element: array) {
+            this->push(element);
+        }
+    }
+
+    virtual bool empty() const override {
         return arrayList<T>::empty();
     }
 
-    virtual int size() const {
+    virtual int size() const override {
         return arrayList<T>::size();
     }
 
 
-    virtual T getTop() const {
+    virtual T getTop() const override {
         try {
             return arrayList<T>::get(arrayList<T>::size() - 1);
         } catch (IllegalParameterValue exception) {
@@ -31,7 +38,7 @@ public:
         }
     }
 
-    virtual T &top() {
+    virtual T &top() override {
         try {
             return arrayList<T>::getSelf(arrayList<T>::size() - 1);
         } catch (IllegalParameterValue exception) {
@@ -40,7 +47,7 @@ public:
 
     }
 
-    virtual void pop() {
+    virtual void pop() override {
         try {
             arrayList<T>::erase(arrayList<T>::size() - 1);
         } catch (IllegalParameterValue exception) {
@@ -48,7 +55,7 @@ public:
         }
     }
 
-    virtual void push(const T &theElement) {
+    virtual void push(const T &theElement) override {
         try {
             arrayList<T>::insert(arrayList<T>::size(), theElement);
         } catch (IllegalParameterValue exception) {

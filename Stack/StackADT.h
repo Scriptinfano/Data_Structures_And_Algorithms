@@ -20,5 +20,9 @@ public :
 
     virtual void push(const T &theElement) = 0;
 
+    virtual void initializeStack(const vector<T>&array) = 0;
+
+    
+
 };
 

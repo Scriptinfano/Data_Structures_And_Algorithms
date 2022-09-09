@@ -42,6 +42,8 @@ public:
     //访问私有成员的公有接口，仅可访问维数dimension，内置数组仍不可直接访问
     int getDimension() const { return dimension; }//所有派生类可直接继承使用此接口，不再重写
 
+    bool isInitialized() const { return initialized == true; }
+
 };
 
 //对角矩阵（此矩阵为方阵，只有对角线上的元素是非零元素）
@@ -202,54 +204,164 @@ public:
 
 //按行的方式将对称矩阵的下三角区域存储在一维数组中
 template<class T>
-class LowerSymmetricMatrix:public virtualDiagonalMatrixAsRegularArray<T> {
+class LowerSymmetricMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
+    friend ostream &operator<<(ostream &out, const LowerSymmetricMatrix<T> &theMatrix) {
+        int index = 0;
+        int theDimension = theMatrix.dimension;
+        for (int i = 0; i < theDimension; i++) {
+            for (int j = 0; j < theDimension; j++) {
+                if (i >= j) {
+                    //当i>=j时，元素在下三角区
+                    out << theMatrix.get(i + 1, j + 1) << " ";
+                    index++;
+                } else {
+                    out << 0 << " ";
+                    index++;
+                }
+            }
+
+            if (index % theMatrix.getDimension() == 0)out << endl;
+        }
+        return out;
+    }
 
 public:
+    LowerSymmetricMatrix(int theDimension = 10) {
+        if (theDimension < 1) {
+            throw IllegalParameterValue("matrix的大小必须大于0");
+        }
+        this->dimension = theDimension;
+        this->element = new T[this->dimension * (this->dimension + 1) / 2];//上三角矩阵和下三角矩阵的元素总数都是n*(n+1)/2
+        this->initialized = false;
+    }
+
+    LowerSymmetricMatrix(const LowerSymmetricMatrix<T> &theMatrix) {
+        if (!theMatrix.initialized)throw uninitializedMatrix("使用未初始化的矩阵拷贝构造新的矩阵是不被允许的");
+        this->dimension = theMatrix.getDimension();
+        this->element = new T[theMatrix.getDimension() * (theMatrix.getDimension() + 1) / 2];//下三角矩阵元素数n*(n+1)/2
+        copy(theMatrix.element, theMatrix.element + this->size(), this->element);
+        this->initialized = true;
+    }
+
+    ~LowerSymmetricMatrix() { delete[]this->element; }
+
+
+    //ADT接口
     virtual T get(const int &i, const int &j) const//返回下标为i,j的矩阵元素
     {
-
+        if (i < 1 || j < 1 || i > this->dimension || j > this->dimension) {
+            throw matrixIndexOutOfBounds();
+        }
+        if (i >= j) {
+            return this->element[i * (i - 1) / 2 + j - 1];//下三角矩阵的行主映射函数i*(i-1)/2+j-1
+        } else {
+            return this->element[j * (j - 1) / 2 + i - 1];//对称矩阵要将映射函数反着用
+        }
     }
 
     virtual void set(const int &i, const int &j, const T &theElement)//将下标为i,j的矩阵元素设为另一个值
     {
+        if (i < 1 || j < 1 || i > this->dimension || j > this->dimension)
+            throw matrixIndexOutOfBounds();
+        if (i >= j)//下三角区的元素i>=j
+        {
+            int index = i * (i - 1) / 2 + j - 1;
+            this->element[index] = theElement;
+        } else {
+            int index = j * (j - 1) / 2 + i - 1;
+            this->element[index] = theElement;
+        }
 
     }
 
     virtual LowerSymmetricMatrix<T> *operator+(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const//矩阵加法
     {
+        if (!this->initialized || !theMatrix.initialized)throw uninitializedMatrix();
+        if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfPlus();
+        auto result = new LowerSymmetricMatrix<T>(this->dimension);
+        result->initialize();
+        for (int i = 0; i < this->dimension; i++) {
+            for (int j = 0; j < this->dimension; j++) {
+                int setValue = this->get(i + 1, j + 1) + theMatrix.get(i + 1, j + 1);
+                result->set(i + 1, j + 1, setValue);
+            }
+        }
+        return result;
 
     }
 
     virtual LowerSymmetricMatrix<T> *operator-(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const//矩阵减法
     {
+        if (!this->initialized || !theMatrix.initialized)throw uninitializedMatrix();
+        if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfSubtraction();
+        auto result = new LowerSymmetricMatrix<T>(this->dimension);
+        result->initialize();
+        for (int i = 0; i < this->dimension; i++) {
+            for (int j = 0; j < this->dimension; j++) {
+                result->set(i + 1, j + 1, this->get(i + 1, j + 1) - theMatrix.get(i + 1, j + 1));
+            }
+        }
+        return result;
 
     }
+
     virtual LowerSymmetricMatrix<T> *operator*(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const//矩阵乘法
     {
+        if (!this->initialized || !theMatrix.initialized)throw uninitializedMatrix();
+        if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfMultiply();
+        auto result = new LowerSymmetricMatrix<T>(this->dimension);
+        result->initialize();
+        for (int i = 0; i < this->dimension; ++i) {
+            for (int j = 0; j < this->dimension; ++j) {
+                T sum = 0;
+                for (int k = 0; k < this->dimension; ++k) {
+                    sum += this->get(i + 1, k + 1) * theMatrix.get(k + 1, j + 1);
+                }
+                result->set(i + 1, j + 1, sum);
+            }
+        }
+        return result;
 
     }
+
     virtual T operator()(int i, int j) const//得到索引为i,j的索引元素
     {
-
+        return this->get(i,j);
     }
 
     //其他常规接口
     virtual void initialize(T *theElements, const int &theDimension)//初始化矩阵，将传入的二维数组映射到内部的一维数组中
     {
+        if (this->initialized)throw reInitializedMatrix();
+        for (int i = 0; i < theDimension; i++) {
+            for (int j = 0; j < theDimension; j++) {
+                this->set(i + 1, j + 1, theElements[i * theDimension + j]);
+            }
+        }
+        this->initialized = true;
 
     }
+
     virtual void initialize()//重载初始化函数，目的是初始化一个空的矩阵，将矩阵所有元素置零
     {
+        if (this->initialized)throw reInitializedMatrix();
+        for (int i = 0; i < this->size(); i++) {
+            this->element[i] = 0;
+        }
+        this->initialized = true;
 
     }
+
     virtual int size() const//返回矩阵中元素的个数
     {
+        return this->dimension * (this->dimension + 1) / 2;
 
     }
+
     virtual virtualDiagonalMatrixAsRegularArray<T> *transpose()//矩阵的转置
     {
-
     }
+
 };
 
 //采用逐对角线映射的三对角矩阵，还有另外两种方法压缩存储三对角矩阵，即行主映射和列主映射
@@ -444,7 +556,7 @@ private:
 };
 
 template<class T>
-class upperDiagonalMatrix;//模板类的前置声明，在定义lowerTriangularMatrix类的transpose函数时会用到
+class upperTriangularMatrix;//模板类的前置声明，在定义lowerTriangularMatrix类的transpose函数时会用到
 
 
 //内部采用一维数组存储二维矩阵元素，映射方式采用行主映射的下三角矩阵
@@ -496,7 +608,7 @@ public:
             throw matrixIndexOutOfBounds();
         }
         if (i >= j) {
-            int result = this->element[(i * (i - 1)) / 2 + j - 1];
+            T result = this->element[(i * (i - 1)) / 2 + j - 1];
             return result;
         } else return 0;
     }
@@ -508,7 +620,7 @@ public:
             throw matrixIndexOutOfBounds();
         }
         if (i >= j) {
-            int result = this->element[(i * (i - 1)) / 2 + j - 1];
+            T result = this->element[(i * (i - 1)) / 2 + j - 1];
             return result;
         } else return 0;
     }
@@ -564,7 +676,6 @@ public:
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfMultiply();
         auto result = new lowerTriangularMatrix<T>(this->dimension);
         result->initialize();
-        int theDimension = result->getDimension();//测试代码
         for (int i = 0; i < this->dimension; ++i) {
             for (int j = 0; j < this->dimension; ++j) {
                 T sum = 0;
@@ -605,9 +716,9 @@ public:
     }
 
     //矩阵的转置
-    virtual upperDiagonalMatrix<T> *transpose() {
+    virtual upperTriangularMatrix<T> *transpose() {
         if (!this->initialized)throw uninitializedMatrix();
-        auto temp = new upperDiagonalMatrix<T>(this->getDimension());
+        auto temp = new upperTriangularMatrix<T>(this->getDimension());
         for (int i = 0; i < this->dimension; i++) {
             for (int j = 0; j < this->dimension; j++) {
                 temp->set(i + 1, j + 1, this->get(j + 1, i + 1));
@@ -620,8 +731,8 @@ public:
 
 //内部采用一维数组存储二维矩阵元素，映射方式采用行主映射的上三角矩阵
 template<class T>
-class upperDiagonalMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
-    friend ostream &operator<<(ostream &out, const upperDiagonalMatrix<T> &theMatrix) {
+class upperTriangularMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
+    friend ostream &operator<<(ostream &out, const upperTriangularMatrix<T> &theMatrix) {
         int index = 0;
         int theDimension = theMatrix.dimension;
         for (int i = 0; i < theDimension; i++) {
@@ -642,7 +753,7 @@ class upperDiagonalMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
     }
 
 public:
-    upperDiagonalMatrix(int theDimension = 10) {
+    upperTriangularMatrix(int theDimension = 10) {
         if (theDimension < 1) {
             throw IllegalParameterValue("matrix的大小必须大于0");
         }
@@ -651,7 +762,7 @@ public:
         this->initialized = false;
     }
 
-    upperDiagonalMatrix(const upperDiagonalMatrix<T> &theMatrix) {
+    upperTriangularMatrix(const upperTriangularMatrix<T> &theMatrix) {
         if (!theMatrix.initialized)throw uninitializedMatrix();
         this->dimension = theMatrix.getDimension();
         this->element = new T[theMatrix.getDimension() * (theMatrix.getDimension() + 1) / 2];//下三角矩阵元素数n*(n+1)/2
@@ -659,7 +770,7 @@ public:
         this->initialized = true;
     }
 
-    ~upperDiagonalMatrix() { delete[]this->element; }
+    ~upperTriangularMatrix() { delete[]this->element; }
 
     virtual T operator()(int i, int j) const//获取下标为(i,j)的矩阵元素
     {
@@ -695,10 +806,10 @@ public:
 
     //矩阵的加减乘操作
     //矩阵加法
-    virtual upperDiagonalMatrix<T> *operator+(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const {
+    virtual upperTriangularMatrix<T> *operator+(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const {
         if (!this->initialized || !theMatrix.initialized)throw uninitializedMatrix();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfPlus();
-        auto result = new upperDiagonalMatrix<T>(this->dimension);
+        auto result = new upperTriangularMatrix<T>(this->dimension);
         result->initialize();
         for (int i = 0; i < this->dimension; i++) {
             for (int j = 0; j < this->dimension; j++) {
@@ -711,10 +822,10 @@ public:
     }
 
     //矩阵减法
-    virtual upperDiagonalMatrix<T> *operator-(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const {
+    virtual upperTriangularMatrix<T> *operator-(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const {
         if (!this->initialized || !theMatrix.initialized)throw uninitializedMatrix();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfSubtraction();
-        auto result = new upperDiagonalMatrix<T>(this->dimension);
+        auto result = new upperTriangularMatrix<T>(this->dimension);
         result->initialize();
         for (int i = 0; i < this->dimension; i++) {
             for (int j = 0; j < this->dimension; j++) {
@@ -726,10 +837,10 @@ public:
     }
 
     //矩阵乘法
-    virtual upperDiagonalMatrix<T> *operator*(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const {
+    virtual upperTriangularMatrix<T> *operator*(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const {
         if (!this->initialized || !theMatrix.initialized)throw uninitializedMatrix();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfMultiply();
-        auto result = new upperDiagonalMatrix<T>(this->dimension);
+        auto result = new upperTriangularMatrix<T>(this->dimension);
         result->initialize();
         int theDimension = result->getDimension();//测试代码
         for (int i = 0; i < this->dimension; ++i) {

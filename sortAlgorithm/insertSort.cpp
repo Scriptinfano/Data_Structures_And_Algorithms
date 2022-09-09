@@ -1,13 +1,13 @@
-//æ’å…¥æŽ’åº
+//²åÈëÅÅÐò
 #include <iostream>
 
 using namespace std;
 
-//åœ¨ä¸€ä¸ªæœ‰åºæ•°ç»„ä¸­æ’å…¥ä¸€ä¸ªå…ƒç´ ï¼Œæ³¨æ„ä¸‹é¢å‡½æ•°ä¸­çš„å‚æ•°a[]æ‰€ä»£è¡¨çš„æ•°ç»„ä¸€å®šæ˜¯æœ‰åºçš„
+//ÔÚÒ»¸öÓÐÐòÊý×éÖÐ²åÈëÒ»¸öÔªËØ£¬×¢ÒâÏÂÃæº¯ÊýÖÐµÄ²ÎÊýa[]Ëù´ú±íµÄÊý×éÒ»¶¨ÊÇÓÐÐòµÄ
 template<class T>
 void insert(T a[],int n,const T&x)
 {
-    //næ˜¯å…ƒç´ æ•°é‡ï¼Œn-1æ˜¯æ•°ç»„ä¸­æœ€åŽä¸€ä¸ªå…ƒç´ çš„ä¸‹æ ‡ï¼Œä¸æ˜¯æ•°ç»„æœ€åŽä¸€ä¸ªä¸‹æ ‡ï¼Œæ•°ç»„æœ€åŽä¸€å®šè¦ç•™ä¸€ä¸ªä½ç½®
+    //nÊÇÔªËØÊýÁ¿£¬n-1ÊÇÊý×éÖÐ×îºóÒ»¸öÔªËØµÄÏÂ±ê£¬²»ÊÇÊý×é×îºóÒ»¸öÏÂ±ê£¬Êý×é×îºóÒ»¶¨ÒªÁôÒ»¸öÎ»ÖÃ
     int i;
     for(i=n-1;i>=0&&x<a[i];i--)
     {
