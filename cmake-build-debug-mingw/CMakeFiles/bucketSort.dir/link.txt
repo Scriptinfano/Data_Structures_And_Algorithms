@@ -1,3 +1,0 @@
-"E:\Clion\CLion 2022.1.2\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\bucketSort.dir/objects.a
-E:\Clion\CLION2~1.2\bin\mingw\bin\ar.exe qc CMakeFiles\bucketSort.dir/objects.a @CMakeFiles\bucketSort.dir\objects1.rsp
-E:\Clion\CLION2~1.2\bin\mingw\bin\G__~1.EXE -g -Wl,--whole-archive CMakeFiles\bucketSort.dir/objects.a -Wl,--no-whole-archive -o bucketSort.exe -Wl,--out-implib,libbucketSort.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\bucketSort.dir\linklibs.rsp

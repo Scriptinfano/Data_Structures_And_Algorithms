@@ -1,3 +1,0 @@
-"E:\Clion\CLion 2022.1.2\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\stackMain.dir/objects.a
-E:\Clion\CLION2~1.2\bin\mingw\bin\ar.exe qc CMakeFiles\stackMain.dir/objects.a @CMakeFiles\stackMain.dir\objects1.rsp
-E:\Clion\CLION2~1.2\bin\mingw\bin\G__~1.EXE -g -Wl,--whole-archive CMakeFiles\stackMain.dir/objects.a -Wl,--no-whole-archive -o stackMain.exe -Wl,--out-implib,libstackMain.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\stackMain.dir\linklibs.rsp
