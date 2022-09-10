@@ -8,9 +8,10 @@
 template<class T>
 class MatrixBasicFuncInterface {
 public:
+    virtual ~MatrixBasicFuncInterface() = default;
 
     //重载运算符函数
-   virtual T operator()(int i, int j) const = 0;//得到索引为i,j的索引元素
+    virtual T operator()(int i, int j) const = 0;//得到索引为i,j的索引元素
 
     //这里假定theMatrix的每一行都具有相同的元素个数
     virtual void initialize(const vector<vector<int>> &theMatrix) = 0;
@@ -30,21 +31,24 @@ protected:
 template<class T>
 class SpecialOperationInterface {
     //基类的保护虚函数如果不写实现，那么子类可以选择实现该功能，如果不实现，则用父类指针调用时因为函数的权限是protected所以也不会破坏封装性
+public :
+    virtual ~SpecialOperationInterface() = default;
+
 protected:
     //以下定义的所有矩阵的特殊操作全部为保护权限的虚函数，可以选择实现这些功能
-    virtual SpecialOperationInterface<T> *transpose() =0;
+    virtual SpecialOperationInterface<T> *transpose() = 0;
 
-    virtual SpecialOperationInterface<T> &operator=(const SpecialOperationInterface<T> &theMatrix) =0;
+    virtual SpecialOperationInterface<T> &operator=(const SpecialOperationInterface<T> &theMatrix) = 0;
 
-    virtual SpecialOperationInterface<T> *operator+(const SpecialOperationInterface<T> &theMatrix) const=0;
+    virtual SpecialOperationInterface<T> *operator+(const SpecialOperationInterface<T> &theMatrix) const = 0;
 
-    virtual SpecialOperationInterface<T> *operator-(const SpecialOperationInterface<T> &theMatrix) const=0;
+    virtual SpecialOperationInterface<T> *operator-(const SpecialOperationInterface<T> &theMatrix) const = 0;
 
-    virtual SpecialOperationInterface<T> *operator*(const SpecialOperationInterface<T> &theMatrix) const=0;
+    virtual SpecialOperationInterface<T> *operator*(const SpecialOperationInterface<T> &theMatrix) const = 0;
 
-    virtual void operator+=(const T &theElement) const =0;
+    virtual void operator+=(const T &theElement) const = 0;
 
-    virtual void operator-=(const T &theElement) const =0;
+    virtual void operator-=(const T &theElement) const = 0;
 
 };
 ////////////////////////基本方法接口与特殊方法接口结束定义线///////////////////////////////////////////////////
@@ -60,10 +64,10 @@ protected://基本矩阵都有的属性
     bool initialized;
 
 public:
-    ~BaseMatrix() {}
+    virtual ~BaseMatrix() = default;
 
     //检查初始化时，传入函数的矩阵是否符合特殊矩阵的要求
-    virtual bool checkInitialize(const vector <vector<T>> &theMatrix){}
+    virtual bool checkInitialize(const vector<vector<T>> &theMatrix) {}
 };
 ///////////////////////矩阵基本属性层结束定义线//////////////////////////////////////
 

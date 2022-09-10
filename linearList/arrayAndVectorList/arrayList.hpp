@@ -545,7 +545,7 @@ void arrayList<T>::insert(const int &index, const T &theElement) {
 template<class T>
 void arrayList<T>::set(mystd::iterator<T> &iter, const T &theElement) {
     if (iter < mystd::iterator<T>(begin()) || iter > mystd::iterator<T>(end()))
-        throw iteratorOutOfBounds();
+        throw IteratorOutOfBounds();
     *iter = theElement;
 }
 
@@ -572,7 +572,7 @@ void arrayList<T>::removeRange(const mystd::iterator<T> &iter_begin, const mystd
         element = temp;
         arrayLength = newLength;
         listSize = newLength;
-    } else throw iteratorOutOfBounds();
+    } else throw IteratorOutOfBounds();
 }
 
 template<class T>

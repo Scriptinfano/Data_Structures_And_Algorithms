@@ -33,6 +33,11 @@ namespace ExceptionSpace {
 
     };
 
+    class IteratorOutOfBounds : public logic_error {
+    public:
+        explicit IteratorOutOfBounds(string_view theMessage="迭代器越界异常"): logic_error(theMessage){}
+    };
+
     namespace MatrixExceptionSpace {
 
         class matrixIndexOutOfBounds : public outOfBounds {
@@ -131,6 +136,7 @@ namespace ExceptionSpace {
         };
 
     }
+
     namespace StackExceptionSpace {
         class StackEmptyException : public exception {
         private:

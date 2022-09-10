@@ -3,6 +3,7 @@
 #include <iostream>
 
 using namespace std;
+
 class TestUtil {
 public:
     static void testStackBasicFunc() {
@@ -28,7 +29,17 @@ public:
         }
 
     }
+
+    //TODO 测试栈类的分裂与合并
+    static void testStackSplit() {
+
+    }
+
+    static void testStackMerge() {
+
+    }
 };
+
 int main() {
     TestUtil util;
     util.testStackBasicFunc();

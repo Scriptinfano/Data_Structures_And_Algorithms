@@ -8,7 +8,7 @@
 
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\linearList\arrayAndVectorList\arrayList.hpp"
 #include "StackADT.h"
-
+using namespace ExceptionSpace::StackExceptionSpace;
 template<class T>
 class DerivedArrayStack : private arrayList<T>, public StackADT<T> {
 public:
