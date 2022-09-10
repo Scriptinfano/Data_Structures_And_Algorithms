@@ -17,5 +17,4 @@ int main() {
     linkList->output();
     linkList->clear();
     linkList->output();
-    throw invalid_argument("12");
 }

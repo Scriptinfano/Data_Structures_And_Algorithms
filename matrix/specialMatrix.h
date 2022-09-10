@@ -77,19 +77,19 @@ public:
 
     }
 
-    MatrixBasicFuncInterface<T> &operator=(const MatrixBasicFuncInterface<T> &theMatrix) override {
+    MatrixBasicFuncInterface<T> &operator=(const SpecialOperationInterface<T> &theMatrix) override {
 
     }
 
-    MatrixBasicFuncInterface<T> *operator+(const MatrixBasicFuncInterface<T> &theMatrix) const override {
+    MatrixBasicFuncInterface<T> *operator+(const SpecialOperationInterface<T> &theMatrix) const override {
         return nullptr;
     }
 
-    MatrixBasicFuncInterface<T> *operator-(const MatrixBasicFuncInterface<T> &theMatrix) const override {
+    MatrixBasicFuncInterface<T> *operator-(const SpecialOperationInterface<T> &theMatrix) const override {
         return nullptr;
     }
 
-    MatrixBasicFuncInterface<T> *operator*(const MatrixBasicFuncInterface<T> &theMatrix) const override {
+    MatrixBasicFuncInterface<T> *operator*(const SpecialOperationInterface<T> &theMatrix) const override {
         return nullptr;
     }
 

@@ -6,20 +6,21 @@
 using namespace std;
 
 void testMatrixMultiply() {
-    BasicMatrix<int> theMatrix(2, 2);
-    int element[][2] = {
+    vector<vector<int>> element = {
             {4, 1},
             {3, 2}
     };
-    BasicMatrix<int> theMatrix2(2, 2);
-    int element2[][2] = {
+    vector<vector<int>> element2 = {
             {7, 9},
             {8, 5}
     };
-    BasicMatrix<int> theMatrix3(2, 2);
 
-    theMatrix.initialize((int *) element, 2, 2);
-    theMatrix2.initialize((int *) element2, 2, 2);
+    NormalMatrix<int> theMatrix(2,2);
+    NormalMatrix<int> theMatrix2(2,2);
+    NormalMatrix<int> *theMatrix3 = nullptr;
+
+    theMatrix.initialize(element);
+    theMatrix2.initialize(element2);
 
     theMatrix3 = theMatrix * theMatrix2;
     cout << theMatrix3;
@@ -27,22 +28,25 @@ void testMatrixMultiply() {
 }
 
 void testMatrixTranspose() {
-    BasicMatrix<int> theMatrix(2, 2);
-    BasicMatrix<int> result(2, 2);
+    NormalMatrix<int> theMatrix(2,2);
+    NormalMatrix<int> *result = nullptr;
 
-    int element[][2] = {
+    vector<vector<int>> element2 = {
             {4, 1},
             {3, 2}
     };
-    theMatrix.initialize((int *) element, 2, 2);
-    result.initialize();
+
+    theMatrix.initialize(element2);
+    cout<<theMatrix<<endl;
+
     result = theMatrix.transpose();
-    cout << result;
+    cout << *result;
 
 }
 
 int main() {
     try {
+        setbuf(stdout, nullptr);
         testMatrixTranspose();
     } catch (const matrixSizeMismatch &theException) {
         cerr << theException.what() << endl;

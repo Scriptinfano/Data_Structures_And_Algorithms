@@ -690,7 +690,6 @@ void chainList<T>::clear() {
 
 template<class T>
 void chainList<T>::eraseAll(const T &theElement) {
-//TODO 删除所有元素为theElement的节点
     if (listSize == 0 || firstNode == nullptr)return;
     ChainNode<T> *p = firstNode;
     ChainNode<T> *deleteNode = nullptr;

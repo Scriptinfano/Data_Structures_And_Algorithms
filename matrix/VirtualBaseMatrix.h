@@ -1,93 +1,90 @@
-//æ­¤å¤´æ–‡ä»¶åŒ…å«å„è‡ªå®šä¹‰ç»“æ„çš„æŠ½è±¡åŸºç±»ä¸æ¥å£
+//´ËÍ·ÎÄ¼ş°üº¬¸÷×Ô¶¨Òå½á¹¹µÄ³éÏó»ùÀàÓë½Ó¿Ú
 #pragma once
 
 #include <vector>
 
-////////////////////////åŸºæœ¬æ–¹æ³•æ¥å£ä¸ç‰¹æ®Šæ–¹æ³•æ¥å£å¼€å§‹å®šä¹‰çº¿////////////////////////////////////////////////
-//å®šä¹‰çŸ©é˜µæœ€åŸºæœ¬çš„æ–¹æ³•æ¥å£
+////////////////////////»ù±¾·½·¨½Ó¿ÚÓëÌØÊâ·½·¨½Ó¿Ú¿ªÊ¼¶¨ÒåÏß////////////////////////////////////////////////
+//¶¨Òå¾ØÕó×î»ù±¾µÄ·½·¨½Ó¿Ú
 template<class T>
 class MatrixBasicFuncInterface {
 public:
 
-    //é‡è½½è¿ç®—ç¬¦å‡½æ•°
-    T operator()(int i, int j) const = 0;//å¾—åˆ°ç´¢å¼•ä¸ºi,jçš„ç´¢å¼•å…ƒç´ 
+    //ÖØÔØÔËËã·ûº¯Êı
+   virtual T operator()(int i, int j) const = 0;//µÃµ½Ë÷ÒıÎªi,jµÄË÷ÒıÔªËØ
 
-    //è¿™é‡Œå‡å®štheMatrixçš„æ¯ä¸€è¡Œéƒ½å…·æœ‰ç›¸åŒçš„å…ƒç´ ä¸ªæ•°
-    virtual void initialize(vector <vector<int>> theMatrix) = 0;
+    //ÕâÀï¼Ù¶¨theMatrixµÄÃ¿Ò»ĞĞ¶¼¾ßÓĞÏàÍ¬µÄÔªËØ¸öÊı
+    virtual void initialize(const vector<vector<int>> &theMatrix) = 0;
 
     virtual void initialize() = 0;
 
 protected:
-    //å¾—åˆ°çŸ©é˜µä¸­çš„æŒ‡å®šå…ƒç´ 
+    //µÃµ½¾ØÕóÖĞµÄÖ¸¶¨ÔªËØ
     virtual T get(int i, int j) const = 0;
 
-    //è®¾ç½®çŸ©é˜µä¸­çš„æŒ‡å®šå…ƒç´ ä¸ºæŸå€¼
+    //ÉèÖÃ¾ØÕóÖĞµÄÖ¸¶¨ÔªËØÎªÄ³Öµ
     virtual void set(int i, int j, const T &theElement) = 0;
 
 };
 
-//å®šä¹‰çŸ©é˜µçš„ç‰¹æ®Šæ“ä½œæ¥å£ï¼Œæ­¤æ¥å£å°†å®šä¹‰çŸ©é˜µçš„ç‰¹æ®Šæ“ä½œï¼Œä¾‹å¦‚è½¬ç½®ç­‰ï¼Œå…·ä½“çš„ç‰¹æ®ŠçŸ©é˜µå¦‚æœæƒ³è¦å®ç°æŸäº›åŠŸèƒ½åˆ™æ´¾ç”Ÿè¿™ä¸ªç±»ï¼Œç„¶åé€‰æ‹©å®ç°åŠŸèƒ½
+//¶¨Òå¾ØÕóµÄÌØÊâ²Ù×÷½Ó¿Ú£¬´Ë½Ó¿Ú½«¶¨Òå¾ØÕóµÄÌØÊâ²Ù×÷£¬ÀıÈç×ªÖÃµÈ£¬¾ßÌåµÄÌØÊâ¾ØÕóÈç¹ûÏëÒªÊµÏÖÄ³Ğ©¹¦ÄÜÔòÅÉÉúÕâ¸öÀà£¬È»ºóÑ¡ÔñÊµÏÖ¹¦ÄÜ
 template<class T>
 class SpecialOperationInterface {
-    //åŸºç±»çš„ä¿æŠ¤è™šå‡½æ•°å¦‚æœä¸å†™å®ç°ï¼Œé‚£ä¹ˆå­ç±»å¯ä»¥é€‰æ‹©å®ç°è¯¥åŠŸèƒ½ï¼Œå¦‚æœä¸å®ç°ï¼Œåˆ™ç”¨çˆ¶ç±»æŒ‡é’ˆè°ƒç”¨æ—¶å› ä¸ºå‡½æ•°çš„æƒé™æ˜¯protectedæ‰€ä»¥ä¹Ÿä¸ä¼šç ´åå°è£…æ€§
-public:
-    SpecialOperationInterface() = delete;//ç¦æ­¢æ„é€ å‡½æ•°è°ƒç”¨ï¼Œæ— æ³•å°†è¯¥ç±»å®ä¾‹åŒ–
-
+    //»ùÀàµÄ±£»¤Ğéº¯ÊıÈç¹û²»Ğ´ÊµÏÖ£¬ÄÇÃ´×ÓÀà¿ÉÒÔÑ¡ÔñÊµÏÖ¸Ã¹¦ÄÜ£¬Èç¹û²»ÊµÏÖ£¬ÔòÓÃ¸¸ÀàÖ¸Õëµ÷ÓÃÊ±ÒòÎªº¯ÊıµÄÈ¨ÏŞÊÇprotectedËùÒÔÒ²²»»áÆÆ»µ·â×°ĞÔ
 protected:
-    //ä»¥ä¸‹å®šä¹‰çš„æ‰€æœ‰çŸ©é˜µçš„ç‰¹æ®Šæ“ä½œå…¨éƒ¨ä¸ºä¿æŠ¤æƒé™çš„è™šå‡½æ•°ï¼Œå¯ä»¥é€‰æ‹©å®ç°è¿™äº›åŠŸèƒ½
-    virtual SpecialOperationInterface<T> *transpose() {}
+    //ÒÔÏÂ¶¨ÒåµÄËùÓĞ¾ØÕóµÄÌØÊâ²Ù×÷È«²¿Îª±£»¤È¨ÏŞµÄĞéº¯Êı£¬¿ÉÒÔÑ¡ÔñÊµÏÖÕâĞ©¹¦ÄÜ
+    virtual SpecialOperationInterface<T> *transpose() =0;
 
-    virtual SpecialOperationInterface<T> &operator=(const SpecialOperationInterface<T> &theMatrix) {}
+    virtual SpecialOperationInterface<T> &operator=(const SpecialOperationInterface<T> &theMatrix) =0;
 
-    virtual SpecialOperationInterface<T> *operator+(const SpecialOperationInterface<T> &theMatrix) const {}
+    virtual SpecialOperationInterface<T> *operator+(const SpecialOperationInterface<T> &theMatrix) const=0;
 
-    virtual SpecialOperationInterface<T> *operator-(const SpecialOperationInterface<T> &theMatrix) const {}
+    virtual SpecialOperationInterface<T> *operator-(const SpecialOperationInterface<T> &theMatrix) const=0;
 
-    virtual SpecialOperationInterface<T> *operator*(const SpecialOperationInterface<T> &theMatrix) const {}
+    virtual SpecialOperationInterface<T> *operator*(const SpecialOperationInterface<T> &theMatrix) const=0;
 
-    virtual void operator+=(const T &theElement) const {}
+    virtual void operator+=(const T &theElement) const =0;
 
-    virtual void operator-=(const T &theElement) const {}
+    virtual void operator-=(const T &theElement) const =0;
 
 };
-////////////////////////åŸºæœ¬æ–¹æ³•æ¥å£ä¸ç‰¹æ®Šæ–¹æ³•æ¥å£ç»“æŸå®šä¹‰çº¿///////////////////////////////////////////////////
+////////////////////////»ù±¾·½·¨½Ó¿ÚÓëÌØÊâ·½·¨½Ó¿Ú½áÊø¶¨ÒåÏß///////////////////////////////////////////////////
 
 
 
-///////////////////////çŸ©é˜µåŸºæœ¬å±æ€§å±‚å¼€å§‹å®šä¹‰çº¿///////////////////////////////////////
-//æ³¨æ„ï¼šä½¿ç”¨å¤šæ€æ—¶ï¼Œè¯·å£°æ˜æ­¤ç±»çš„æŒ‡é’ˆï¼Œå¹¶å°†å…¶æŒ‡å‘å®ç°å±‚ç±»çš„å…·ä½“å¯¹è±¡
+///////////////////////¾ØÕó»ù±¾ÊôĞÔ²ã¿ªÊ¼¶¨ÒåÏß///////////////////////////////////////
+//×¢Òâ£ºÊ¹ÓÃ¶àÌ¬Ê±£¬ÇëÉùÃ÷´ËÀàµÄÖ¸Õë£¬²¢½«ÆäÖ¸ÏòÊµÏÖ²ãÀàµÄ¾ßÌå¶ÔÏó
 template<class T>
 class BaseMatrix : public MatrixBasicFuncInterface<T> {
-protected://åŸºæœ¬çŸ©é˜µéƒ½æœ‰çš„å±æ€§
+protected://»ù±¾¾ØÕó¶¼ÓĞµÄÊôĞÔ
     T *element;
     bool initialized;
 
 public:
     ~BaseMatrix() {}
 
-    //æ£€æŸ¥åˆå§‹åŒ–æ—¶ï¼Œä¼ å…¥å‡½æ•°çš„çŸ©é˜µæ˜¯å¦ç¬¦åˆç‰¹æ®ŠçŸ©é˜µçš„è¦æ±‚
-    virtual bool checkInitialize(const vector <vector<T>> &theMatrix) = 0;
+    //¼ì²é³õÊ¼»¯Ê±£¬´«Èëº¯ÊıµÄ¾ØÕóÊÇ·ñ·ûºÏÌØÊâ¾ØÕóµÄÒªÇó
+    virtual bool checkInitialize(const vector <vector<T>> &theMatrix){}
 };
-///////////////////////çŸ©é˜µåŸºæœ¬å±æ€§å±‚ç»“æŸå®šä¹‰çº¿//////////////////////////////////////
+///////////////////////¾ØÕó»ù±¾ÊôĞÔ²ã½áÊø¶¨ÒåÏß//////////////////////////////////////
 
 
-//////////////////////çŸ©é˜µå±æ€§æ‰©å……å±‚æ¥å£å¼€å§‹å®šä¹‰çº¿//////////////////
-//ä¸‹é¢çš„åŸºç±»å¯¹æ¥å£è¿›è¡Œäº†å±æ€§æ‰©å……ï¼Œè®¾è®¡æ€æƒ³å³æ¯ä¸€ä¸ªç‰¹æ®ŠçŸ©é˜µçš„å±æ€§è®¾è®¡ä¸åŒï¼Œæ‰€ä»¥æ ¹æ®ä¸åŒçš„å±æ€§è®¾è®¡ä¸åŒçš„æŠ½è±¡åŸºç±»ï¼Œå†ç”±è¿™äº›æŠ½è±¡åŸºç±»æ´¾ç”Ÿå‡ºå…·ä½“çš„ç‰¹æ®ŠçŸ©é˜µç±»
+//////////////////////¾ØÕóÊôĞÔÀ©³ä²ã½Ó¿Ú¿ªÊ¼¶¨ÒåÏß//////////////////
+//ÏÂÃæµÄ»ùÀà¶Ô½Ó¿Ú½øĞĞÁËÊôĞÔÀ©³ä£¬Éè¼ÆË¼Ïë¼´Ã¿Ò»¸öÌØÊâ¾ØÕóµÄÊôĞÔÉè¼Æ²»Í¬£¬ËùÒÔ¸ù¾İ²»Í¬µÄÊôĞÔÉè¼Æ²»Í¬µÄ³éÏó»ùÀà£¬ÔÙÓÉÕâĞ©³éÏó»ùÀàÅÉÉú³ö¾ßÌåµÄÌØÊâ¾ØÕóÀà
 template<class T>
 class NormalMatrixProperties : public BaseMatrix<T> {
 protected:
-    //ä¿æŠ¤å±æ€§
-    int size;//è®°å½•elementæ•°ç»„ä¸­å®é™…çš„å…ƒç´ ä¸ªæ•°
+    //±£»¤ÊôĞÔ
+    int size;//¼ÇÂ¼elementÊı×éÖĞÊµ¼ÊµÄÔªËØ¸öÊı
     int columns;
 };
 
 
-//æ–¹å½¢çŸ©é˜µçš„æŠ½è±¡åŸºç±»ï¼Œå…¶è¡Œæ•°å’Œåˆ—æ•°ç›¸åŒ
+//·½ĞÎ¾ØÕóµÄ³éÏó»ùÀà£¬ÆäĞĞÊıºÍÁĞÊıÏàÍ¬
 template<class T>
 class SquareMatrixProperties : public BaseMatrix<T> {
-protected://ä»¥ä¸‹å±æ€§è¦æ±‚åœ¨å­ç±»ä¸­å¯ä»¥ç›´æ¥è®¿é—®
-    //ä¿æŠ¤å±æ€§
-    int size;//è®°å½•elementæ•°ç»„ä¸­å®é™…çš„å…ƒç´ ä¸ªæ•°
-    int dimension;//æ–¹å½¢çŸ©é˜µçš„è¡Œæ•°å’Œåˆ—æ•°å®é™…éƒ½ç­‰äºè¿™ä¸ªå€¼
+protected://ÒÔÏÂÊôĞÔÒªÇóÔÚ×ÓÀàÖĞ¿ÉÒÔÖ±½Ó·ÃÎÊ
+    //±£»¤ÊôĞÔ
+    int size;//¼ÇÂ¼elementÊı×éÖĞÊµ¼ÊµÄÔªËØ¸öÊı
+    int dimension;//·½ĞÎ¾ØÕóµÄĞĞÊıºÍÁĞÊıÊµ¼Ê¶¼µÈÓÚÕâ¸öÖµ
 };
-//////////////////////çŸ©é˜µå±æ€§æ‰©å……å±‚æ¥å£ç»“æŸå®šä¹‰çº¿////////////////
+//////////////////////¾ØÕóÊôĞÔÀ©³ä²ã½Ó¿Ú½áÊø¶¨ÒåÏß////////////////

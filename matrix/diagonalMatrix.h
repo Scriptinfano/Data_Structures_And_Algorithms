@@ -8,6 +8,7 @@
 
 using namespace std;
 using namespace ExceptionSpace;
+using namespace MatrixExceptionSpace;
 
 //特殊矩阵的抽象基类，该矩阵为方阵，派生自该抽象基类所定义的所有矩阵类内部皆采用一维数组来存储特殊矩阵中的非零元素
 template<class T>
@@ -1527,7 +1528,5 @@ public:
             }
         }
         return temp;
-
     }
-
 };

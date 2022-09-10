@@ -2,7 +2,7 @@
 #include <iostream>
 
 using namespace std;
-
+using namespace MatrixExceptionSpace;
 void testDiagonalInitialize() {
     diagonalMatrix<int> diagonal(3);
     int element[][3] = {
