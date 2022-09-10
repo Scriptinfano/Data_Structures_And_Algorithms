@@ -3,18 +3,56 @@
 using namespace std;
 
 class person {
-    int a;
-public:
-    person(int param) : a(param) {}
+public :
+    virtual ~person() = default;
 
-    ~person() { cout << "person的析构函数调用"; }
+private:
+    virtual void pureable() = 0;
+
+public:
+    virtual void func1() {}
+
+    virtual void func2() {}
+
+    virtual void func3() {}
+
+    virtual void func4() {}
+
+    virtual void func5() {}
+
+
 };
 
+class teacher : public person {
+private:
+    void pureable() override {}
+
+public:
+    ~teacher() override {
+        cout << "执行子类的析构函数" << endl;
+    }
+
+    teacher() {
+        cout << "子类构造函数" << endl;
+    }
+
+    void func1() override {
+        person::func1();
+    }
+
+    void func2() override {
+        person::func2();
+    }
+
+    void func3() override {
+        person::func3();
+    }
+};
+
+
 void test() {
-
-    auto temp = new person(12);
-    delete temp;
-
+    teacher t;
+    person *p = new teacher;
 }
 
 int main() {

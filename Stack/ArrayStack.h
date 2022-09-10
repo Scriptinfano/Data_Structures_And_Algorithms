@@ -18,6 +18,9 @@ private:
     int stackLength;//栈容量
     T *stack;//元素数组
 
+    //该函数确保该类重写基类的纯虚函数，使得该类不为抽象基类，下面的函数不需要写任何实现不需要在任何地方调用
+    virtual void pureVirtual() override {}
+
 public:
     //构造函数与析构函数
     ArrayStack(const int &initialCapacity) {
