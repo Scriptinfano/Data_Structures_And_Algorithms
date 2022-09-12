@@ -8,7 +8,7 @@
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\globalFunctionSpace.h"
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\selfDefineExceptionSpace.h"
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\linearList\BaseLinearList.h"
-using namespace ExceptionSpace;
+using namespace ExceptionSpace::ArrayListExceptionSpace;
 
 void initializeTemplateFunction() {
     int *p = nullptr;
@@ -35,7 +35,7 @@ public:
         if (initialCapacity < 1) {
             ostringstream s;
             s << "初始容量=" << initialCapacity << "此值必须>0" << endl;
-            throw IllegalParameterValue(s.str());
+            throw IllegalParameterException(s.str());
         }
         arrayLength = initialCapacity;
         element = new T[arrayLength];
@@ -156,6 +156,7 @@ int arrayList<T>::indexOf(const T &theElement) const {
 
 template<class T>
 void arrayList<T>::output(ostream &out) const {
+    if(empty())throw ArrayListEmptyException();
     ostream_iterator<T> pout(out, " ");
     copy(element, element + listSize, pout);
 }
@@ -331,7 +332,7 @@ void arrayList<T>::removeRange(int beginIndex, int endIndex) {
         listSize = newLength;
 
     } else {
-        throw IllegalParameterValue("使用removeRange函数时索引传入有误");
+        throw IllegalParameterException("使用removeRange函数时索引传入有误");
     }
 }
 
@@ -363,7 +364,7 @@ void arrayList<T>::checkIndex(const int &theIndex, const string &actionType) con
             if (theIndex < 0)s << "索引值不得<0" << endl;
             if (theIndex >= this->capacity())s << "索引值不得>=数组大小" << endl;
             if (theIndex > this->size())s << "索引值不得>数组元素个数" << endl;
-            throw IllegalParameterValue(s.str());
+            throw IllegalParameterException(s.str());
         }
     } else if (actionType == "erase" || actionType == "get" || actionType == "replace") {
         if (theIndex >= this->size()) {
@@ -372,12 +373,12 @@ void arrayList<T>::checkIndex(const int &theIndex, const string &actionType) con
                 s << "删除元素时，索引值不得>=listSize" << endl;
             else if (actionType == "replace")s << "替换元素时，索引值不得>=listSize" << endl;
             else if (actionType == "get")s << "获取元素时，索引值不得>=listSize" << endl;
-            throw IllegalParameterValue(s.str());
+            throw IllegalParameterException(s.str());
         }
     } else {
         ostringstream s;
         s << "checkIndex第二个参数传入不正确，未指定正确的操作类型" << endl;
-        throw IllegalParameterValue(s.str());
+        throw IllegalParameterException(s.str());
     }
 
 
@@ -600,7 +601,7 @@ protected:
                 if (theIndex < 0)s << "索引值不得<0" << endl;
                 if (theIndex >= this->capacity())s << "索引值不得>=数组大小" << endl;
                 if (theIndex > this->size())s << "索引值不得>数组元素个数" << endl;
-                throw IllegalParameterValue(s.str());
+                throw IllegalParameterException(s.str());
             }
         } else if (actionType == "erase" || actionType == "get" || actionType == "replace") {
             if (theIndex >= this->size()) {
@@ -609,12 +610,12 @@ protected:
                     s << "删除元素时，索引值不得>=数组元素个数" << endl;
                 else if (actionType == "replace")s << "替换数组元素时，索引值不得>=数组元素个数" << endl;
                 else if (actionType == "get")s << "获取元素时，索引值不得>=数组元素个数" << endl;
-                throw IllegalParameterValue(s.str());
+                throw IllegalParameterException(s.str());
             }
         } else {
             ostringstream s;
             s << "调用checkIndex()时，第二个参数传入不正确，未指定正确的操作类型" << endl;
-            throw IllegalParameterValue(s.str());
+            throw IllegalParameterException(s.str());
         }
     }
 
@@ -627,7 +628,7 @@ public:
         if (initialCapacity < 1) {
             ostringstream s;
             s << "初始容量=" << initialCapacity << "，此值必须>0";
-            throw IllegalParameterValue(s.str());
+            throw IllegalParameterException(s.str());
         }
         element = new vector<T>;
         element->reserve(initialCapacity);//调用reserve()为容器分配容量

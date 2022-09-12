@@ -22,7 +22,7 @@ class chainList : public LinearList<T> {
     friend bool operator<(const chainList<T> &leftChain, const chainList<T> &rightChain) {
         char c;
         T t;
-        if (typeid(t) != typeid(c))throw ExceptionSpace::IllegalParameterValue("使用<比较两个链表时，不能比较除了char类型以外的数据类型");
+        if (typeid(t) != typeid(c))throw ExceptionSpace::IllegalParameterException("使用<比较两个链表时，不能比较除了char类型以外的数据类型");
         ChainNode<T> *it = leftChain.begin();
         ChainNode<T> *it2 = rightChain.begin();
         char *p = new char[leftChain.size()];
@@ -154,7 +154,7 @@ void chainList<T>::checkIndex(int theIndex, string actionType) const {
             s << "插入元素时，";
             if (theIndex < 0)s << "索引值不得<0" << endl;
             if (theIndex > listSize)s << "索引值不得>数组元素个数" << endl;
-            throw IllegalParameterValue(s.str());
+            throw IllegalParameterException(s.str());
         }
     } else if (actionType == "erase" || actionType == "get" || actionType == "replace") {
         if (theIndex >= this->size()) {
@@ -163,12 +163,12 @@ void chainList<T>::checkIndex(int theIndex, string actionType) const {
                 s << "删除元素时，索引值不得>=listSize" << endl;
             else if (actionType == "replace")s << "替换元素时，索引值不得>=listSize" << endl;
             else if (actionType == "get")s << "获取元素时，索引值不得>=listSize" << endl;
-            throw IllegalParameterValue(s.str());
+            throw IllegalParameterException(s.str());
         }
     } else {
         ostringstream s;
         s << "checkIndex第二个参数传入不正确，未指定正确的操作类型" << endl;
-        throw IllegalParameterValue(s.str());
+        throw IllegalParameterException(s.str());
     }
 }
 
@@ -282,7 +282,7 @@ void chainList<T>::output(ostream &out) const {
 
 template<class T>
 void chainList<T>::setSize(int newSize) {
-    if (newSize < 0)throw IllegalParameterValue("调用void chainList<T>::setSize(int newSize)函数时，参数传递错误，newSize不得小于0");
+    if (newSize < 0)throw IllegalParameterException("调用void chainList<T>::setSize(int newSize)函数时，参数传递错误，newSize不得小于0");
     if (newSize < listSize) {
         //删除多于元素
         ChainNode<T> *p = firstNode;
@@ -308,7 +308,7 @@ void chainList<T>::setSize(int newSize) {
         listSize -= count;
 
     } else {
-        throw IllegalParameterValue("调用void chainList<T>::setSize(int newSize)函数时，参数传递错误，newSize不得大于原大小");
+        throw IllegalParameterException("调用void chainList<T>::setSize(int newSize)函数时，参数传递错误，newSize不得大于原大小");
     }
 
 }
@@ -354,7 +354,7 @@ void chainList<T>::removeRange(int beginIndex, int endIndex) {
         }
         listSize -= count;
     } else {
-        throw IllegalParameterValue("使用removeRange函数时索引传入有误");
+        throw IllegalParameterException("使用removeRange函数时索引传入有误");
     }
 }
 

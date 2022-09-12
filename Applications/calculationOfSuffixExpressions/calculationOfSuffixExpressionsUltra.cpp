@@ -6,7 +6,7 @@
 #include<string>
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\selfDefineExceptionSpace.h"
 
-using ExceptionSpace::IllegalParameterValue;
+using ExceptionSpace::IllegalParameterException;
 using namespace std;
 
 //判断传入的字符串是不是操作符
@@ -33,7 +33,7 @@ double operateTwoNumbers(const double &numA, const double &numB, const string &t
     } else if (theOperator == "/") {
         return numA / numB;
     } else {
-        throw IllegalParameterValue(
+        throw IllegalParameterException(
                 "double operateTwoNumbers(const double &numA,const double &numB,const char &theOperator)�����ĵ����������������һ��������");
     }
 }

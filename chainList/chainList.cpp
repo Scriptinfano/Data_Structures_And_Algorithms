@@ -265,7 +265,7 @@ int main() {
     try {
         testChainListEraseAll();
 
-    } catch (const IllegalParameterValue &exceptionObject) {
+    } catch (const IllegalParameterException &exceptionObject) {
         cerr << exceptionObject.what();
         exit(0);
     }

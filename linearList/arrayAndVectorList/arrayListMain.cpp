@@ -10,9 +10,9 @@ int main() {
     setbuf(stdout, nullptr);
     try{
         test01();
-    }catch(const outOfBounds& theException){
+    }catch(const OutOfBoundsException& theException){
         cerr<<theException.what();
-    }catch(const IllegalParameterValue& theException){
+    }catch(const IllegalParameterException& theException){
         cerr<<theException.what();
     }
 

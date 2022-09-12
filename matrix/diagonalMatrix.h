@@ -70,7 +70,7 @@ class diagonalMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
 public:
     diagonalMatrix(int theDimension = 10) {
         if (theDimension < 1) {
-            throw IllegalParameterValue("matrix的大小必须大于0");
+            throw IllegalParameterException("matrix的大小必须大于0");
         }
         this->dimension = theDimension;//在模板继承中要访问基类中的数据必须使用this标注
         this->element = new T[this->dimension];
@@ -112,7 +112,7 @@ public:
             throw matrixIndexOutOfBounds();
         if (i == j)this->element[i - 1] = theElement;
         else {
-            if (theElement != 0)throw IllegalParameterValue("设值失败，因为在对角矩阵中，非对角线上的元素必须是0");
+            if (theElement != 0)throw IllegalParameterException("设值失败，因为在对角矩阵中，非对角线上的元素必须是0");
         }
     }
 
@@ -229,7 +229,7 @@ class LowerSymmetricMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
 public:
     LowerSymmetricMatrix(int theDimension = 10) {
         if (theDimension < 1) {
-            throw IllegalParameterValue("matrix的大小必须大于0");
+            throw IllegalParameterException("matrix的大小必须大于0");
         }
         this->dimension = theDimension;
         this->element = new T[this->dimension * (this->dimension + 1) / 2];//上三角矩阵和下三角矩阵的元素总数都是n*(n+1)/2
@@ -388,7 +388,7 @@ class tripleDiagonalMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
 public:
     tripleDiagonalMatrix(int theDimension = 10) {
         if (theDimension < 1) {
-            throw IllegalParameterValue("matrix的大小必须大于0");
+            throw IllegalParameterException("matrix的大小必须大于0");
         }
         this->dimension = theDimension;
         this->element = new T[3 * this->dimension - 2];//三对角矩阵的非零元素的个数是3*n-2
@@ -586,7 +586,7 @@ class lowerTriangularMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
 public:
     lowerTriangularMatrix(int theDimension = 10) {
         if (theDimension < 1) {
-            throw IllegalParameterValue("matrix的大小必须大于0");
+            throw IllegalParameterException("matrix的大小必须大于0");
         }
         this->dimension = theDimension;
         this->element = new T[this->dimension * (this->dimension + 1) / 2];//上三角矩阵和下三角矩阵的元素总数都是n*(n+1)/2
@@ -756,7 +756,7 @@ class upperTriangularMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
 public:
     upperTriangularMatrix(int theDimension = 10) {
         if (theDimension < 1) {
-            throw IllegalParameterValue("matrix的大小必须大于0");
+            throw IllegalParameterException("matrix的大小必须大于0");
         }
         this->dimension = theDimension;
         this->element = new T[this->dimension * (this->dimension + 1) / 2];//上三角矩阵和下三角矩阵的元素总数都是n*(n+1)/2
@@ -958,7 +958,7 @@ public:
     //构造，拷贝构造，析构接口
     tripleDiagonalMatrixAsIrregularArray(const int &theDimension) {
         if (theDimension < 1)
-            throw IllegalParameterValue("调用tripleDiagonalMatrixAsIrregularArray构造函数时，传递的参数必须大于1确保矩阵的大小符合实际");
+            throw IllegalParameterException("调用tripleDiagonalMatrixAsIrregularArray构造函数时，传递的参数必须大于1确保矩阵的大小符合实际");
         this->dimension = theDimension;
         this->element = new T *[theDimension];
         this->element[0] = new T[2];
@@ -1180,7 +1180,7 @@ class lowerTriangleAsIrregularArray : public virtualDiagonalMatrixAsIrregularArr
 public:
     //拷贝构造，构造，析构
     lowerTriangleAsIrregularArray(const int &theDimension) {
-        if (theDimension < 1)throw IllegalParameterValue("调用lowerTriangleAsIrregularArray构造函数时，传递的参数必须大于1确保矩阵的大小符合实际");
+        if (theDimension < 1)throw IllegalParameterException("调用lowerTriangleAsIrregularArray构造函数时，传递的参数必须大于1确保矩阵的大小符合实际");
         this->dimension = theDimension;
         this->element = new T *[theDimension];
         for (int i = 0; i < theDimension; i++) {
@@ -1368,7 +1368,7 @@ class upperTriangleAsIrregularArray : public virtualDiagonalMatrixAsIrregularArr
 public:
     //拷贝构造，构造，析构
     upperTriangleAsIrregularArray(const int &theDimension) {
-        if (theDimension < 1)throw IllegalParameterValue("调用upperTriangleAsIrregularArray构造函数时，传递的参数必须大于1确保矩阵的大小符合实际");
+        if (theDimension < 1)throw IllegalParameterException("调用upperTriangleAsIrregularArray构造函数时，传递的参数必须大于1确保矩阵的大小符合实际");
         this->dimension = theDimension;
         this->element = new T *[theDimension];
         for (int i = 0; i < theDimension; i++) {

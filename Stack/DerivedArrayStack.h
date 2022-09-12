@@ -8,14 +8,16 @@
 
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\linearList\arrayAndVectorList\arrayList.hpp"
 #include "StackADT.h"
+
 using namespace ExceptionSpace::StackExceptionSpace;
+
 template<class T>
 class DerivedArrayStack : private arrayList<T>, public StackADT<T> {
 public:
     DerivedArrayStack(int initialCapacity = 10) : arrayList<T>(initialCapacity) {}
 
-    void initializeStack(const vector<T> &array) override {
-        if(array.empty())return;
+    void initialize(const vector<T> &array){
+        if (array.empty())return;
         for (T element: array) {
             this->push(element);
         }
@@ -33,7 +35,7 @@ public:
     virtual T getTop() const override {
         try {
             return arrayList<T>::get(arrayList<T>::size() - 1);
-        } catch (IllegalParameterValue exception) {
+        } catch (IllegalParameterException exception) {
             throw StackEmptyException();
         }
     }
@@ -41,7 +43,7 @@ public:
     virtual T &top() override {
         try {
             return arrayList<T>::getSelf(arrayList<T>::size() - 1);
-        } catch (IllegalParameterValue exception) {
+        } catch (IllegalParameterException exception) {
             throw StackEmptyException();
         }
 
@@ -50,7 +52,7 @@ public:
     virtual void pop() override {
         try {
             arrayList<T>::erase(arrayList<T>::size() - 1);
-        } catch (IllegalParameterValue exception) {
+        } catch (IllegalParameterException exception) {
             throw StackEmptyException();
         }
     }
@@ -58,9 +60,13 @@ public:
     virtual void push(const T &theElement) override {
         try {
             arrayList<T>::insert(arrayList<T>::size(), theElement);
-        } catch (IllegalParameterValue exception) {
+        } catch (IllegalParameterException exception) {
             throw StackEmptyException();
         }
 
+    }
+
+    void output() override {
+        arrayList<T>::output(std::cout);
     }
 };

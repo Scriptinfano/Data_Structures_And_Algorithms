@@ -11,23 +11,21 @@ using namespace ::StackExceptionSpace;
 //TODO 完成可初始化接口的设计之后实现该接口，实现初始化录入数据操作
 template<class T>
 class ArrayStack : public StackADT<T>, public StackExtendFunctionInterface<T> {
-    friend void GlobalSpace::changeLength1D(T *&a, int oldLength, int newLength);
+
+    friend void GlobalSpace::changeLength1D<T>(T *&a, int oldLength, int newLength);
 
 private:
     int stackTop;//代表栈顶元素在整个栈中的索引，注意这个索引是从0开始的
     int stackLength;//栈容量
     T *stack;//元素数组
 
-    //该函数确保该类重写基类的纯虚函数，使得该类不为抽象基类，下面的函数不需要写任何实现不需要在任何地方调用
-    virtual void pureVirtual() override {}
-
 public:
     //构造函数与析构函数
-    ArrayStack(const int &initialCapacity) {
+    explicit ArrayStack(const int &initialCapacity) {
         if (initialCapacity < 1) {
             ostringstream message;
             message << "初始容量必须大于0";
-            throw IllegalParameterValue(message.str());//str()将字符串流中的数据复制到string对象中并返回
+            throw IllegalParameterException(message.str());//str()将字符串流中的数据复制到string对象中并返回
         }
         stackLength = initialCapacity;
         stack = new T[stackLength];
@@ -35,23 +33,26 @@ public:
     }
 
     ~ArrayStack() {
+        cout << "析构函数调用" << endl;
         delete[]stack;
     }
 
     //实现接口
     void initializeStack(const vector<T> &array) override {
         //if (array.size() > stackLength)throw InvalidStackInitializeException();
-        if (array.empty())return;
+        if (!this->empty())throw ReinitializeStackException();
+        if (array.empty())throw VectorEmptyException();
         for (T element: array) {
             this->push(element);
         }
+
     }
 
-    bool empty() const override {
+    [[nodiscard]] bool empty() const override {
         return stackTop == -1;
     }
 
-    int size() const override {
+    [[nodiscard]] int size() const override {
         return stackTop + 1;
     }
 
@@ -102,10 +103,13 @@ public:
         return newStack;
     }
 
+    //FIXME 此函数在被调用时用内存泄漏问题
     void merge(StackExtendFunctionInterface<T> &theStack) override {
         //将两个栈合并，不改变第二个栈中元素的相对顺序
-        ArrayStack<T> &secondStack = dynamic_cast<ArrayStack<T> &>(theStack);
-        changeLength1D(stack, stackLength, secondStack.size());
+        auto secondStack = dynamic_cast<ArrayStack<T> &>(theStack);
+        setCapacity(secondStack.size() + stackTop + 1);
+        cout << stackLength << endl;
+
         auto temp = new ArrayStack(secondStack.size());
         int i = 0;
         while (!secondStack.empty()) {
@@ -116,7 +120,21 @@ public:
             this->push(temp->getTop());
             temp->pop();
         }
-        delete temp;
+
     }
 
+    void output() override {
+        if (empty())throw StackEmptyException();
+        for (int i = 0; i < stackTop + 1; i++) {
+            cout << stack[i] << " ";
+        }
+        cout << endl;
+
+    }
+
+private:
+    void setCapacity(const int &newCapacity) {
+        changeLength1D(stack, stackLength, newCapacity);
+        stackLength = newCapacity;
+    }
 };

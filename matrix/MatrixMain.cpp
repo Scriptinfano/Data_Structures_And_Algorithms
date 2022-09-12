@@ -50,7 +50,7 @@ int main() {
         testMatrixTranspose();
     } catch (const matrixSizeMismatch &theException) {
         cerr << theException.what() << endl;
-    } catch (const IllegalParameterValue &theException) {
+    } catch (const IllegalParameterException &theException) {
         cerr << theException.what() << endl;
     } catch (const matrixIndexOutOfBounds &theException) {
         cerr << theException.what() << endl;

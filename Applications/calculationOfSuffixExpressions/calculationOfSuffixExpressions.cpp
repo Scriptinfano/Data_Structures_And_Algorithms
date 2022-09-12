@@ -5,7 +5,7 @@
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\selfDefineExceptionSpace.h"
 
 using namespace std;
-using ExceptionSpace::IllegalParameterValue;
+using ExceptionSpace::IllegalParameterException;
 
 double calculation(stack<string> &theStack, const vector<string> &theVector);
 
@@ -47,6 +47,6 @@ double operateTwoNumbers(const double &numA, const double &numB, const string &t
     } else if (theOperator == "/") {
         return numA / numB;
     } else {
-        throw IllegalParameterValue("double operateTwoNumbers(const double &numA,const double &numB,const char &theOperator)发生未考虑到的情况");
+        throw IllegalParameterException("double operateTwoNumbers(const double &numA,const double &numB,const char &theOperator)发生未考虑到的情况");
     }
 }

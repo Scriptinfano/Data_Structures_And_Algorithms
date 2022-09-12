@@ -8,24 +8,38 @@
 using namespace std;
 
 namespace ExceptionSpace {
-    class IllegalParameterValue : public exception {
+    class IllegalParameterException : public exception {
     private:
         string message;
 
     public:
-        explicit IllegalParameterValue(string_view theMessage = "非法参数传递") : message(theMessage) {}
+        explicit IllegalParameterException(string_view theMessage = "非法参数传递") : message(theMessage) {}
 
-        const char *what() const noexcept override//重写父类函数
+        [[nodiscard]] const char *what() const noexcept override//重写父类函数
         {
             return message.c_str();
         }
     };
 
-    class outOfBounds : public exception {
+    class ReinitializeException : public exception {
+    private:
+        string message;
+
+    public:
+        explicit ReinitializeException(string_view theMessage = "非法参数传递") : message(theMessage) {}
+
+        [[nodiscard]] const char *what() const noexcept override//重写父类函数
+        {
+            return message.c_str();
+        }
+
+    };
+
+    class OutOfBoundsException : public exception {
     protected:
         string message;
     public:
-        explicit outOfBounds(string_view theMessage = "访问超出界限") : message(theMessage) {}
+        explicit OutOfBoundsException(string_view theMessage = "访问超出界限") : message(theMessage) {}
 
         const char *what() const noexcept override {
             return message.c_str();
@@ -35,19 +49,30 @@ namespace ExceptionSpace {
 
     class IteratorOutOfBounds : public logic_error {
     public:
-        explicit IteratorOutOfBounds(string_view theMessage="迭代器越界异常"): logic_error(theMessage){}
+        explicit IteratorOutOfBounds(const string &theMessage = "迭代器越界异常") : logic_error(theMessage) {}
+    };
+
+    class FullContainerException : public logic_error {
+    public:
+        explicit FullContainerException(const string &theMessage = "容器满出异常") : logic_error(theMessage) {}
+
+    };
+
+    class EmptyException : public logic_error {
+    public:
+        explicit EmptyException(const string &theMessage = "迭代器越界异常") : logic_error(theMessage) {}
     };
 
     namespace MatrixExceptionSpace {
 
-        class matrixIndexOutOfBounds : public outOfBounds {
+        class matrixIndexOutOfBounds : public OutOfBoundsException {
         public:
-            explicit matrixIndexOutOfBounds(string_view theMessage = "矩阵下标引用错误，导致访问超出界限") : outOfBounds(theMessage) {}
+            explicit matrixIndexOutOfBounds(string_view theMessage = "矩阵下标引用错误，导致访问超出界限") : OutOfBoundsException(theMessage) {}
         };
 
-        class iteratorOutOfBounds : public outOfBounds {
+        class iteratorOutOfBounds : public OutOfBoundsException {
         public:
-            explicit iteratorOutOfBounds(string_view theMessage = "迭代器超出可访问界限") : outOfBounds(theMessage) {}
+            explicit iteratorOutOfBounds(string_view theMessage = "迭代器超出可访问界限") : OutOfBoundsException(theMessage) {}
         };
 
         class matrixSizeMismatch : public exception {
@@ -138,6 +163,11 @@ namespace ExceptionSpace {
     }
 
     namespace StackExceptionSpace {
+        class StackFullException : public FullContainerException {
+        public:
+            explicit StackFullException(const string &theMessage = "栈已经满了，无法再添加任何元素") : FullContainerException(theMessage) {}
+        };
+
         class StackEmptyException : public exception {
         private:
             string message;
@@ -160,6 +190,17 @@ namespace ExceptionSpace {
             }
         };
 
+        class ReinitializeStackException : public logic_error {
+        public:
+            explicit ReinitializeStackException(const string &theMessage = "栈重复初始化，请将栈清空之后重新初始化") : logic_error(theMessage) {}
+        };
+
+        class VectorEmptyException : public logic_error {
+        public:
+            explicit VectorEmptyException(const string &theMessage = "用来初始化栈的vector容器为空，请先初始化vector容器") : logic_error(theMessage) {}
+        };
+
+
     }
 
     namespace LinkListExceptionSpace {
@@ -176,4 +217,11 @@ namespace ExceptionSpace {
 
     }
 
+    namespace ArrayListExceptionSpace {
+        class ArrayListEmptyException : public EmptyException {
+        public:
+            explicit ArrayListEmptyException(const string &theMessage = "ArrayList为空，无法输出") : EmptyException(theMessage) {}
+
+        };
+    }
 }

@@ -37,7 +37,7 @@ bool bracketCheck(stack<char> &theStack, const vector<char> &theVector) {
         if (theVector[i] == '{' || theVector[i] == '[' || theVector[i] == '(')
             theStack.push(theVector[i]);
         else {
-            //遇到了右括号但是栈里面有没有左括号，说明一定匹配失败
+            //遇到了右括号但是栈里面已经没有括号了，说明一定匹配失败
             if (theStack.empty())return false;
             else {
                 //弹出栈顶元素，判断元素是否和当前的元素匹配

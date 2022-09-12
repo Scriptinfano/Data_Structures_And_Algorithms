@@ -8,7 +8,7 @@
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\linearList\BaseLinearList.h"
 #include "ChainNode.h"
 using namespace std;
-using ExceptionSpace::IllegalParameterValue;
+using ExceptionSpace::IllegalParameterException;
 
 template<class T>
 class DoublyLinkedList : public LinearList<T> {
@@ -181,7 +181,7 @@ public://公有用户接口函数
     //输出所有元素
     void output(ostream &out) const {
         if (nodeHeader->getNext() == nullptr) {
-            throw IllegalParameterValue("当前链表为空，无法执行输出操作");
+            throw IllegalParameterException("当前链表为空，无法执行输出操作");
         } else {
             NodePointer p = nodeHeader->getNext();
             for (int i = 0; i < listSize; i++) {
@@ -272,7 +272,7 @@ public://公有用户接口函数
     }
 
     void leftShift(const int &offset) {
-        if (offset < 0)throw ExceptionSpace::IllegalParameterValue("????leftshift()?????????????");
+        if (offset < 0)throw ExceptionSpace::IllegalParameterException("????leftshift()?????????????");
         int netOffset = offset % listSize;
         for (int i = 0; i < netOffset; i++) {
             T temp = this->at(0);
@@ -347,7 +347,7 @@ public://公有用户接口函数
             j->setNext(nodeHeader);
             nodeHeader->setPrevious(j);
         } else {
-            throw IllegalParameterValue("在调用meld时，未考虑到的情况触发");
+            throw IllegalParameterException("在调用meld时，未考虑到的情况触发");
         }
         theChain.getHeader()->setNext(nullptr);
         theChain.getHeader()->setPrevious(nullptr);
@@ -427,10 +427,10 @@ private:
                 s << "插入元素时，";
                 if (theIndex < 0)s << "索引值不得<0" << endl;
                 if (theIndex > this->size())s << "索引值不得>数组元素个数" << endl;
-                throw ExceptionSpace::IllegalParameterValue(s.str());
+                throw ExceptionSpace::IllegalParameterException(s.str());
             }
         } else if (actionType == "erase" || actionType == "get" || actionType == "replace") {
-            if (this->size() == 0)throw ExceptionSpace::IllegalParameterValue("容器为空，无法对容器执行删除，获取，替换操作");
+            if (this->size() == 0)throw ExceptionSpace::IllegalParameterException("容器为空，无法对容器执行删除，获取，替换操作");
             if (!(theIndex >= 0 && theIndex < this->size())) {
                 ostringstream s;
                 if (theIndex >= this->size()) {
@@ -445,12 +445,12 @@ private:
                     else if (actionType == "replace")s << "替换元素时，索引值不得<0" << endl;
                     else if (actionType == "get")s << "获取元素时，索引值不得<0" << endl;
                 }
-                throw ExceptionSpace::IllegalParameterValue(s.str());
+                throw ExceptionSpace::IllegalParameterException(s.str());
             }
         } else {
             ostringstream s;
             s << "checkIndex第二个参数传入不正确，未指定正确的操作类型" << endl;
-            throw ExceptionSpace::IllegalParameterValue(s.str());
+            throw ExceptionSpace::IllegalParameterException(s.str());
         }
     }
 

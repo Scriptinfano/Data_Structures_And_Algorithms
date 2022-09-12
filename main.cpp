@@ -54,8 +54,23 @@ void test() {
     teacher t;
     person *p = new teacher;
 }
-
+class Father{
+public:
+    virtual void fun()=0;
+    virtual void fun2()=0;
+};
+class Son: private Father{
+public:
+    void fun() override {
+cout<<"fun"<<endl;
+    }
+    void fun2() override{
+        cout<<"fun2"<<endl;
+    }
+};
 int main() {
-    test();
+    Son *son=new Son();
+    son->fun();
+
     return 0;
 }

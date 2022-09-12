@@ -23,7 +23,7 @@ class NormalMatrix : public NormalMatrixProperties<T>, public SpecialOperationIn
 
 public://公有的构造析构拷贝构造函数
     NormalMatrix(const int &row, const int &column) {
-        if (row * column < 4)throw IllegalParameterValue("构造矩阵时，矩阵的元素个数不得小于4");
+        if (row * column < 4)throw IllegalParameterException("构造矩阵时，矩阵的元素个数不得小于4");
         this->element = new T[row * column];
         this->initialized = false;
         this->columns = column;

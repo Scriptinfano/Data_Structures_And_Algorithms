@@ -7,7 +7,7 @@
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\linearList\BaseLinearList.h"
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\chainList\ChainNode.h"
 using namespace std;
-using ExceptionSpace::IllegalParameterValue;
+using ExceptionSpace::IllegalParameterException;
 
 //带头结点的环形链表
 template<class T>
@@ -244,7 +244,7 @@ public:
 
             listSize -= count;
         } else {
-            throw ExceptionSpace::IllegalParameterValue("removeRange(const int &beginIndex, const int &endIndex)参数传递错误");
+            throw ExceptionSpace::IllegalParameterException("removeRange(const int &beginIndex, const int &endIndex)参数传递错误");
         }
 
     }
@@ -532,7 +532,7 @@ private:
                 s << "插入元素时，";
                 if (theIndex < 0)s << "索引值不得<0" << endl;
                 if (theIndex > this->size())s << "索引值不得>数组元素个数" << endl;
-                throw ExceptionSpace::IllegalParameterValue(s.str());
+                throw ExceptionSpace::IllegalParameterException(s.str());
             }
         } else if (actionType == "erase" || actionType == "get" || actionType == "replace") {
             if (theIndex >= this->size()) {
@@ -541,12 +541,12 @@ private:
                     s << "删除元素时，索引值不得>=listSize" << endl;
                 else if (actionType == "replace")s << "替换元素时，索引值不得>=listSize" << endl;
                 else if (actionType == "get")s << "获取元素时，索引值不得>=listSize" << endl;
-                throw ExceptionSpace::IllegalParameterValue(s.str());
+                throw ExceptionSpace::IllegalParameterException(s.str());
             }
         } else {
             ostringstream s;
             s << "checkIndex第二个参数传入不正确，未指定正确的操作类型" << endl;
-            throw ExceptionSpace::IllegalParameterValue(s.str());
+            throw ExceptionSpace::IllegalParameterException(s.str());
         }
     }
 
