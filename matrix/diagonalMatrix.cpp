@@ -459,11 +459,11 @@ int main() {
         cerr << theException.what() << endl;
     } catch (const matrixIndexOutOfBounds &theException) {
         cerr << theException.what() << endl;
-    } catch (const uninitializedMatrix &theException) {
+    } catch (const MatrixUnInitializeException &theException) {
         cerr << theException.what() << endl;
-    } catch (const reInitializedMatrix &theException) {
+    } catch (const MatrixReinitializeException &theException) {
         cerr << theException.what() << endl;
-    } catch (const invalidMatrixValueSet &theException) {
+    } catch (const MatrixInvalidValueSetException &theException) {
         cerr << theException.what() << endl;
     } catch (const exception &theException) {
         cerr << theException.what();

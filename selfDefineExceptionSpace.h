@@ -58,10 +58,11 @@ namespace ExceptionSpace {
 
     };
 
-    class EmptyException : public logic_error {
+    class EmptyContainerException:public logic_error{
     public:
-        explicit EmptyException(const string &theMessage = "迭代器越界异常") : logic_error(theMessage) {}
+        explicit EmptyContainerException(const string &theMessage="容器为空。无法执行相关操作"):logic_error(theMessage){}
     };
+
 
     namespace MatrixExceptionSpace {
 
@@ -114,11 +115,11 @@ namespace ExceptionSpace {
 
         };
 
-        class uninitializedMatrix : public exception {
+        class MatrixUnInitializeException : public exception {
         private:
             string message;
         public:
-            explicit uninitializedMatrix(string_view theMessage = "使用未初始化的矩阵执行了矩阵运算") : message(theMessage) {}
+            explicit MatrixUnInitializeException(string_view theMessage = "使用未初始化的矩阵执行了矩阵运算") : message(theMessage) {}
 
             const char *what() const noexcept override {
                 return message.c_str();
@@ -126,22 +127,22 @@ namespace ExceptionSpace {
 
         };
 
-        class reInitializedMatrix : public exception {
+        class MatrixReinitializeException : public exception {
         private:
             string message;
         public:
-            explicit reInitializedMatrix(string_view theMessage = "已经初始化过的矩阵不能再次初始化") : message(theMessage) {}
+            explicit MatrixReinitializeException(string_view theMessage = "已经初始化过的矩阵不能再次初始化") : message(theMessage) {}
 
             const char *what() const noexcept override {
                 return message.c_str();
             }
         };
 
-        class invalidMatrixValueSet : public exception {
+        class MatrixInvalidValueSetException : public exception {
         private:
             string message;
         public:
-            explicit invalidMatrixValueSet(string_view theMessage = "改变特殊矩阵中元素的值时不能将零区元素设为除了零以外的其他数") : message(theMessage) {}
+            explicit MatrixInvalidValueSetException(string_view theMessage = "改变特殊矩阵中元素的值时不能将零区元素设为除了零以外的其他数") : message(theMessage) {}
 
             const char *what() const noexcept override {
                 return message.c_str();
@@ -161,22 +162,26 @@ namespace ExceptionSpace {
         };
 
     }
+    namespace QueueExceptionSpace {
+        class QueueFullException:public FullContainerException{
+        public:
+            explicit QueueFullException(const string &theMessage="队列已满，无法再添加任何元素"):FullContainerException(theMessage){}
+        };
+        class QueueEmptyException:public EmptyContainerException{
+        public :
+            explicit QueueEmptyException(const string &theMessage="队列为空，无法取出队头元素"): EmptyContainerException(theMessage){}
+        };
 
+    }
     namespace StackExceptionSpace {
         class StackFullException : public FullContainerException {
         public:
             explicit StackFullException(const string &theMessage = "栈已经满了，无法再添加任何元素") : FullContainerException(theMessage) {}
         };
 
-        class StackEmptyException : public exception {
-        private:
-            string message;
+        class StackEmptyException : public EmptyContainerException {
         public:
-            explicit StackEmptyException(string_view theMessage = "栈为空，无法取得栈顶元素") : message(theMessage) {}
-
-            const char *what() const noexcept override {
-                return message.c_str();
-            }
+            explicit StackEmptyException(const string& theMessage = "栈为空，无法取得栈顶元素") : EmptyContainerException(theMessage) {}
         };
 
         class InvalidStackInitializeException : public exception {
@@ -218,9 +223,9 @@ namespace ExceptionSpace {
     }
 
     namespace ArrayListExceptionSpace {
-        class ArrayListEmptyException : public EmptyException {
+        class ArrayListEmptyException : public EmptyContainerException {
         public:
-            explicit ArrayListEmptyException(const string &theMessage = "ArrayList为空，无法输出") : EmptyException(theMessage) {}
+            explicit ArrayListEmptyException(const string &theMessage = "ArrayList为空，无法输出") : EmptyContainerException(theMessage) {}
 
         };
     }

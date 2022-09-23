@@ -25,7 +25,7 @@ public:
         return (age != theRecord.age);
     }
 
-    operator int() const { return age; }
+    explicit operator int() const { return age; }
 };
 
 ostream &operator<<(ostream &out, const studentRecord &theRecord) {
@@ -101,13 +101,13 @@ int main() {
     recordList.push_back(stu5);
     recordList.push_back(stu6);
     cout << "排序之前的结果：" << endl;
-    for (auto record: recordList) {
+    for (const auto& record: recordList) {
         cout << record.name << " " << record.age << endl;
     }
     cout << "---------------------------" << endl;
     binSort(recordList, 2, 10);
     cout << "排序之后的结果：" << endl;
-    for (auto record: recordList) {
+    for (const auto& record: recordList) {
         cout << record.name << " " << record.age << endl;
     }
 

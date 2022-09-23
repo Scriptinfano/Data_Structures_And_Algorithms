@@ -31,7 +31,7 @@ public://公有的构造析构拷贝构造函数
     }
 
     NormalMatrix(const NormalMatrix<T> &theMatrix) {
-        if (!this->initialized)throw uninitializedMatrix();
+        if (!this->initialized)throw MatrixUnInitializeException();
         this->columns = theMatrix.columns;
         this->element = new T[theMatrix.size];
         this->size = theMatrix.size;
@@ -43,7 +43,7 @@ public://公有的构造析构拷贝构造函数
 private:
     //getter接口
     T get(int i, int j) const override {
-        if (!this->initialized)throw uninitializedMatrix();
+        if (!this->initialized)throw MatrixUnInitializeException();
         int index = (i - 1) * this->columns + (j - 1) > this->size - 1;
         if (index > this->size - 1) {
             throw matrixIndexOutOfBounds();
@@ -53,7 +53,7 @@ private:
 
     //setter接口
     void set(int i, int j, const T &theElement) override {
-        if (!this->initialized)throw uninitializedMatrix();
+        if (!this->initialized)throw MatrixUnInitializeException();
         int index = (i - 1) * this->columns + (j - 1);
         if (index > this->size - 1) {
             throw matrixIndexOutOfBounds();
@@ -70,7 +70,7 @@ public://实现特殊操作接口中声明的重载运算符函数
     NormalMatrix<T> &operator=(const SpecialOperationInterface<T> &theMatrix) override {
         try {
             auto theMatrixCast = dynamic_cast<const NormalMatrix<T> &>(theMatrix);//参数中的theMatrix是一个指向派生类对象的基类引用，需要使用向下转型实现调用派生类中的方法
-            if (!this->initialized || !theMatrixCast.initialized)throw uninitializedMatrix();
+            if (!this->initialized || !theMatrixCast.initialized)throw MatrixUnInitializeException();
             if (this != &theMatrixCast) {
                 delete[]this->element;
                 this->columns = theMatrixCast.columns;
@@ -87,7 +87,7 @@ public://实现特殊操作接口中声明的重载运算符函数
     NormalMatrix<T> *operator+(const SpecialOperationInterface<T> &theMatrix) const override {
         try {
             const NormalMatrix<T> &theMatrixCast = dynamic_cast<const NormalMatrix<T> &>(theMatrix);//参数中的theMatrix是一个指向派生类对象的基类引用，需要使用向下转型实现调用派生类中的方法
-            if (!this->initialized || !theMatrixCast.initialized)throw uninitializedMatrix();
+            if (!this->initialized || !theMatrixCast.initialized)throw MatrixUnInitializeException();
             if (this->size != theMatrixCast.size || this->columns != theMatrixCast.columns)throw matrixSizeMismatchOfPlus();
             auto result = new NormalMatrix<T>(this->size / this->columns, this->columns);
             result->initialize();
@@ -104,7 +104,7 @@ public://实现特殊操作接口中声明的重载运算符函数
     NormalMatrix<T> *operator-(const SpecialOperationInterface<T> &theMatrix) const override {
         try {
             const NormalMatrix<T> &theMatrixCast = dynamic_cast<const NormalMatrix<T> &>(theMatrix);//参数中的theMatrix是一个指向派生类对象的基类引用，需要使用向下转型实现调用派生类中的方法
-            if (!this->initialized || !theMatrixCast.initialized)throw uninitializedMatrix();
+            if (!this->initialized || !theMatrixCast.initialized)throw MatrixUnInitializeException();
             if (this->size != theMatrixCast.size || this->columns != theMatrixCast.columns)throw matrixSizeMismatchOfPlus();
             auto result = new NormalMatrix<T>(this->size / this->columns, this->columns);
             result->initialize();
@@ -121,7 +121,7 @@ public://实现特殊操作接口中声明的重载运算符函数
     NormalMatrix<T> *operator*(const SpecialOperationInterface<T> &theMatrix) const override {
         try {
             const NormalMatrix<T> &theMatrixCast = dynamic_cast<const NormalMatrix<T> &>(theMatrix);//参数中的theMatrix是一个指向派生类对象的基类引用，需要使用向下转型实现调用派生类中的方法
-            if (!this->initialized || !theMatrixCast.initialized)throw uninitializedMatrix();
+            if (!this->initialized || !theMatrixCast.initialized)throw MatrixUnInitializeException();
             int rowOfMatrix = theMatrixCast.size / theMatrixCast.columns;//参数所代表的矩阵的行数
             int rowOfMatrix2 = this->size / this->columns;//本矩阵的行数
             if (this->columns != rowOfMatrix)throw matrixSizeMismatchOfMultiply("执行矩阵乘法时不满足矩阵乘法的条件");
@@ -144,7 +144,7 @@ public://实现特殊操作接口中声明的重载运算符函数
 
     //每个矩阵元素加上固定的值
     virtual void operator+=(const T &theElement) const override {
-        if (!this->initialized)throw uninitializedMatrix();
+        if (!this->initialized)throw MatrixUnInitializeException();
 
         for (int i = 0; i < this->size; i++)
             this->element[i] += theElement;
@@ -152,7 +152,7 @@ public://实现特殊操作接口中声明的重载运算符函数
 
     //每个矩阵元素减去固定的值
     virtual void operator-=(const T &theElement) const override {
-        if (!this->initialized)throw uninitializedMatrix();
+        if (!this->initialized)throw MatrixUnInitializeException();
         for (int i = 0; i < this->size; i++)
             this->element[i] -= theElement;
 
@@ -166,7 +166,7 @@ public://实现特殊操作接口中声明的重载运算符函数
     void initialize(const vector<vector<int>> &theMatrix) override {
         int column = theMatrix.at(0).size();
         int theMatrixSize = theMatrix.size() * column;
-        if (this->initialized)throw reInitializedMatrix();
+        if (this->initialized)throw MatrixReinitializeException();
         if (this->columns != column || this->size != theMatrixSize)throw matrixSizeMismatchOfInitialize();
         int index = 0;
         for (auto &i: theMatrix) {
@@ -181,7 +181,7 @@ public://实现特殊操作接口中声明的重载运算符函数
 
     //重载初始化函数，目的是初始化一个空的矩阵，将矩阵所有元素置零
     void initialize() override {
-        if (this->initialized)throw reInitializedMatrix();//如果矩阵已经初始化了就不需要再初始化了
+        if (this->initialized)throw MatrixReinitializeException();//如果矩阵已经初始化了就不需要再初始化了
         for (int i = 0; i < this->size / this->columns; i++) {
             for (int j = 0; j < this->columns; j++) {
                 this->element[i * this->columns + j] = 0;
@@ -191,7 +191,7 @@ public://实现特殊操作接口中声明的重载运算符函数
     }
 
     virtual NormalMatrix<T> *transpose() override {
-        if (!this->initialized)throw uninitializedMatrix();
+        if (!this->initialized)throw MatrixUnInitializeException();
         auto temp = new NormalMatrix<T>(this->size / this->columns, this->columns);
         temp->initialize();
         for (int i = 0; i < this->columns; i++) {

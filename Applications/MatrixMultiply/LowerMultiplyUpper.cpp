@@ -4,7 +4,7 @@
 
 template<class T>
 BasicMatrix<T> *lowerMultiplyUpper(const lowerTriangularMatrix<T> &lower, const upperTriangularMatrix<T> &upper) {
-    if (!lower.isInitialized() || !upper.isInitialized())throw uninitializedMatrix("两个矩阵相乘时，其中有一个矩阵处于未初始化状态");
+    if (!lower.isInitialized() || !upper.isInitialized())throw MatrixUnInitializeException("两个矩阵相乘时，其中有一个矩阵处于未初始化状态");
     if (lower.getDimension() != upper.getDimension())throw matrixSizeMismatchOfMultiply();
     auto result = new BasicMatrix<T>(lower.getDimension(), upper.getDimension());
     result->initialize();
