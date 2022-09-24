@@ -18,9 +18,10 @@ public:
 
     virtual void initialize() = 0;
 
-protected:
     //得到矩阵中的指定元素
     virtual T get(int i, int j) const = 0;
+
+    virtual T &get(int i, int j) = 0;
 
     //设置矩阵中的指定元素为某值
     virtual void set(int i, int j, const T &theElement) = 0;
@@ -66,7 +67,7 @@ protected://基本矩阵都有的属性
 public:
     virtual ~BaseMatrix() = default;
 
-    //检查初始化时，传入函数的矩阵是否符合特殊矩阵的要求
+    //检查初始化时，传入函数的矩阵是否符合特殊矩阵的要求，该函数为虚函数，如果有需要，请重写该函数，如果不重写也可以实例化
     virtual bool checkInitialize(const vector<vector<T>> &theMatrix) {}
 };
 ///////////////////////矩阵基本属性层结束定义线//////////////////////////////////////

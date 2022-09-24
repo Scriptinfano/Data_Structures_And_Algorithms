@@ -64,7 +64,7 @@ public:
         return queueSize;
     }
 
-    T &front() override {
+    T front() override {
         if (empty()) {
             throw QueueEmptyException();
         }
@@ -87,7 +87,7 @@ public:
         queueSize--;
     }
 
-    T top() override {
+    T pop_catch() override {
         if (empty())throw QueueEmptyException();
         T backUp = head->element;
         pop();
@@ -100,6 +100,7 @@ public:
             head = rear;
         } else {
             rear->next = new Node(theElement);
+            rear=rear->next;
         }
         queueSize++;
     }

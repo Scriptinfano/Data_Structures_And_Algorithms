@@ -8,8 +8,8 @@ class Initializable {
 public:
     virtual ~Initializable() {}
 
-    virtual void initialize(int array[], int size);
+    virtual void initialize(int array[], int size)=0;
 
-    virtual void initialize(const std::vector<T> &array) {}
+    virtual void initialize(const std::vector<T> &array)=0;
 
 };

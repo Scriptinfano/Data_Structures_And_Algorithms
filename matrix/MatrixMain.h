@@ -22,6 +22,7 @@ class NormalMatrix : public NormalMatrixProperties<T>, public SpecialOperationIn
     }
 
 public://公有的构造析构拷贝构造函数
+
     NormalMatrix(const int &row, const int &column) {
         if (row * column < 4)throw IllegalParameterException("构造矩阵时，矩阵的元素个数不得小于4");
         this->element = new T[row * column];
@@ -39,19 +40,18 @@ public://公有的构造析构拷贝构造函数
     }
 
     ~NormalMatrix() { delete[]this->element; }
-//私有方法
-private:
-    //getter接口
+public:    //公有的getter接口和setter接口
+
+
     T get(int i, int j) const override {
         if (!this->initialized)throw MatrixUnInitializeException();
-        int index = (i - 1) * this->columns + (j - 1) > this->size - 1;
+        int index = (i - 1) * this->columns + (j - 1);
         if (index > this->size - 1) {
             throw matrixIndexOutOfBounds();
         }
         return this->element[index];
     }
 
-    //setter接口
     void set(int i, int j, const T &theElement) override {
         if (!this->initialized)throw MatrixUnInitializeException();
         int index = (i - 1) * this->columns + (j - 1);
@@ -60,7 +60,18 @@ private:
         }
         this->element[index] = theElement;
     }
+
+    T &get(int i, int j) override {
+        if (!this->initialized)throw MatrixUnInitializeException();
+        int index = (i - 1) * this->columns + (j - 1);
+        if (index > this->size - 1) {
+            throw matrixIndexOutOfBounds();
+        }
+        return this->element[index];
+    }
+
 public://实现特殊操作接口中声明的重载运算符函数
+
 
     //得到索引为i,j的索引元素
     T operator()(int i, int j) const override {

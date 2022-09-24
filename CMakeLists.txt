@@ -31,3 +31,4 @@ add_executable(LowerMultiplyUpper Applications/MatrixMultiply/LowerMultiplyUpper
 add_executable(specialMatrixMain matrix/specialMatrixMain.cpp)
 add_executable(chainListWithHead chainList/chainListWithHead.cpp)
 add_executable(queueMain Queue/queueMain.cpp)
+add_executable(superMarketPurchase Applications/DenseMatrixApplication/superMarketPurchase.cpp)

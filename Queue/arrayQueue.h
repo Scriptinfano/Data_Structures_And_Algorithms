@@ -24,7 +24,7 @@ private:
 public:
     ArrayQueue(int initialCapacity) {
         queueArray = new T[initialCapacity];
-        queueLength = 0;
+        queueLength = initialCapacity;
         queueFront = 0;
         queueBack = 0;
         queueSize = 0;
@@ -59,8 +59,8 @@ public:
         return queueSize;
     }
 
-    T &front() override {
-        if(empty()){
+    T front() override {
+        if (empty()) {
             throw QueueEmptyException();
         }
         return queueArray[queueFront];
@@ -71,17 +71,19 @@ public:
         if (empty()) {
             throw QueueEmptyException();
         }
+        queueArray[queueFront].~T();
         queueFront = (queueFront + 1) % queueLength;
         queueSize--;
     }
 
     //在删除队头元素之后，返回被删除的队头元素的值
-    T top(){
+    T pop_catch() override {
         T backUp = queueArray[queueFront];
         pop();
         return backUp;
     }
 
+    //普通的push，如果达到了最大的容量则不能加入元素
     void push(const T &theElement) override {
         if (queueSize > 0 && queueBack == queueFront) {
             //if的条件判断还可以写为queueSize==queueLength
@@ -90,5 +92,36 @@ public:
         queueArray[queueBack] = theElement;
         queueBack = (queueBack + 1) % queueLength;
         queueSize++;
+    }
+
+    //可以增大队列长度，无限向队尾增加元素的push，每一次空间不够的时候，就会申请二倍于原空间的新空间
+    void push_infinite(const T &theElement) {
+        if ((queueBack + 1) % queueLength == queueFront) {
+            //需要增加数组的长度
+            T *newQueue = new T[2 * queueLength];
+            if (queueBack > queueFront) {
+                //队列中的元素没有形成环，也就是将环形队列展开之后，数组中的所有元素紧挨在一起，中间没有空的
+                //将front指向的元素直到rear指向的元素之前的元素全部复制到新数组中
+                std::copy(queueArray + queueFront, queueArray + (queueBack - 1 > 0 ? queueBack : queueLength), newQueue);
+                queueFront = 0;
+                queueBack = queueBack - queueFront;
+            } else {
+                //队列中的元素形成了环
+                std::copy(queueArray + queueFront, queueArray + queueLength, newQueue);
+                std::copy(queueArray, queueArray + queueBack, newQueue + (queueLength - queueFront));
+                queueFront = 0;
+                queueBack = queueLength - (queueFront - queueBack);
+            }
+            queueArray=newQueue;
+            queueLength *= 2;
+        }
+        queueArray[queueBack] = theElement;
+        queueBack = (queueBack + 1) % queueLength;
+        queueSize++;
+    }
+
+    //返回当前队列容量
+    int capacity()const{
+        return queueLength;
     }
 };

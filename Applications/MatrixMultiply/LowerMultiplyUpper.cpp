@@ -3,10 +3,10 @@
 #include "D:\ClionProjects\Data_Structures_And_Algorithms\matrix\MatrixMain.h"
 
 template<class T>
-BasicMatrix<T> *lowerMultiplyUpper(const lowerTriangularMatrix<T> &lower, const upperTriangularMatrix<T> &upper) {
+BaseMatrix<T> *lowerMultiplyUpper(const lowerTriangularMatrix<T> &lower, const upperTriangularMatrix<T> &upper) {
     if (!lower.isInitialized() || !upper.isInitialized())throw MatrixUnInitializeException("两个矩阵相乘时，其中有一个矩阵处于未初始化状态");
     if (lower.getDimension() != upper.getDimension())throw matrixSizeMismatchOfMultiply();
-    auto result = new BasicMatrix<T>(lower.getDimension(), upper.getDimension());
+    auto result = new NormalMatrix<T>(lower.getDimension(), upper.getDimension());
     result->initialize();
     for (int i = 0; i < lower.getDimension(); i++) {
         for (int j = 0; j < upper.getDimension(); j++) {
@@ -41,5 +41,5 @@ int main() {
     upper.initialize((int *) element2, 4);
 
     auto result = lowerMultiplyUpper(lower, upper);
-    cout<<(*result);
+    cout<<result;
 }

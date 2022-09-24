@@ -1,7 +1,6 @@
 #pragma once
 
-#include<iostream>
-#include<sstream>
+#include <sstream>
 #include <iterator>
 #include <vector>
 #include "myIterator.h"
