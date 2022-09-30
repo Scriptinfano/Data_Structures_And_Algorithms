@@ -80,23 +80,45 @@ class SparseMatrix {
             if (nonZeroSize == 0) {
                 cout << "输入的数据不合法，请重新输入" << endl;
                 continue;
-            } else if(nonZeroSize>theMatrix.rows*theMatrix.columns){
-                cout<<"非零元素的个数不得大于矩阵中的元素总数"<<endl;
-            }else
+            } else if (nonZeroSize > theMatrix.rows * theMatrix.columns) {
+                cout << "非零元素的个数不得大于矩阵中的元素总数" << endl;
+            } else
                 break;
         }
+        vector<int> rows;
+
+
         for (int i = 0; i < nonZeroSize; i++) {
             int row;
             int column;
             T value;
 
             while (true) {
+                //行号只能递增或不变同时不能超过矩阵的行数，列号在一行之内只能递增
+
                 cout << "输入第" << i + 1 << "个元素的行标：";
                 getline(in, str);
                 transformer << str;
                 transformer >> row;
                 transformer.clear();
                 transformer.sync();
+
+                //下面的代码检查本次输入的行标是否符合行主次序排列
+                if (!rows.empty()) {
+                    if (row < rows.at(rows.size() - 1)) {
+                        cout << "没有按照行主次序输入数据，请重新输入" << endl;
+                        continue;
+                    } else {
+                        rows.push_back(row);
+                    }
+                } else {
+                    //如果rows为空，只有一种情况，就是输入第一个非零元素的情况
+                    if (row < theMatrix.rows) {
+                        rows.push_back(row);
+                    } else {
+                        cout << "行号超出了矩阵的行数，请重新输入该非零元素的数据" << endl;
+                    }
+                }
 
                 cout << "输入第" << i + 1 << "个元素的列标：";
                 getline(in, str);
@@ -105,6 +127,12 @@ class SparseMatrix {
                 transformer.clear();
                 transformer.sync();
 
+                //TODO 想出一种办法检查本次输入的列标是否符合行主次序排列
+                if (column > theMatrix.columns) {
+                    cout << "列号超出了矩阵的列数，请重新输入该非零元素的数据" << endl;
+                    continue;
+                }
+
                 cout << "输入第" << i + 1 << "个元素的值：";
                 getline(in, str);
                 transformer << str;
@@ -112,7 +140,7 @@ class SparseMatrix {
                 transformer.clear();
                 transformer.sync();
 
-                if (row == 0||column==0||value==0) {
+                if (row == 0 || column == 0 || value == 0) {
                     cout << "输入的三个数据中有一个或多个不合法不合法，请重新输入" << endl;
                     continue;
                 } else break;
@@ -124,9 +152,18 @@ class SparseMatrix {
 
 public :
     SparseMatrix(int rows, int columns) : rows(rows), columns(columns) {}
-//TODO 继续为SparseMatrix编写剩下的代码
-    void transpose(SparseMatrix<T> &theMatrix) {
 
+
+    //TODO 继续为SparseMatrix编写剩下的代码
+
+    //转置后的矩阵保存在theMatrix中，确保传入的theMatrix是空的
+    void transpose(SparseMatrix<T> &theMatrix) {
+        theMatrix.columns = this->columns;
+        theMatrix.rows = this->rows;
+        int *colSize = new int[theMatrix.rows + 1];
+        int *rowNext = new int[theMatrix.rows + 1];
+
+//寻找*this中每一列非零项的数量
     }
 
     void add(SparseMatrix<T> &theMatrixA, SparseMatrix<T> &theMatrixB) {

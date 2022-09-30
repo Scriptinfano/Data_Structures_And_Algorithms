@@ -1,5 +1,5 @@
 /*
- * è¯¥ç¨‹åºå¯ä»¥ç›´æ¥å°†ä¸­ç¼€è¡¨è¾¾å¼è®¡ç®—å‡ºæ¥ï¼Œä¹Ÿå°±æ˜¯å°†ä¸­ç¼€è¡¨è¾¾å¼è½¬åç¼€è¡¨è¾¾å¼å’Œåç¼€è¡¨è¾¾å¼çš„è¿ç®—ç»“åˆ*/
+ * ¸Ã³ÌĞò¿ÉÒÔÖ±½Ó½«ÖĞ×º±í´ïÊ½¼ÆËã³öÀ´£¬Ò²¾ÍÊÇ½«ÖĞ×º±í´ïÊ½×ªºó×º±í´ïÊ½ºÍºó×º±í´ïÊ½µÄÔËËã½áºÏ*/
 #include<iostream>
 #include<vector>
 #include<stack>
@@ -9,14 +9,14 @@
 using ExceptionSpace::IllegalParameterException;
 using namespace std;
 
-//åˆ¤æ–­ä¼ å…¥çš„å­—ç¬¦ä¸²æ˜¯ä¸æ˜¯æ“ä½œç¬¦
+//ÅĞ¶Ï´«ÈëµÄ×Ö·û´®ÊÇ²»ÊÇ²Ù×÷·û
 bool isNumber(string element) {
     if (element == "+" || element == "-" || element == "*" || element == "/" || element == "(" || element == ")")
         return false;
     return true;
 }
 
-//åˆ¤æ–­ä¼ å…¥çš„å­—ç¬¦ä¸²æ˜¯ä¸æ˜¯ä»£è¡¨å·¦å³æ‹¬å·
+//ÅĞ¶Ï´«ÈëµÄ×Ö·û´®ÊÇ²»ÊÇ´ú±í×óÓÒÀ¨ºÅ
 bool isBracket(string element) {
     if (element == "(" || element == ")")
         return true;
@@ -34,13 +34,13 @@ double operateTwoNumbers(const double &numA, const double &numB, const string &t
         return numA / numB;
     } else {
         throw IllegalParameterException(
-                "double operateTwoNumbers(const double &numA,const double &numB,const char &theOperator)ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+                "double operateTwoNumbers(const double &numA,const double &numB,const char &theOperator)ÖĞµÄµÚÈı¸ö²ÎÊıÓĞÎó");
     }
 }
 
-bool priorityComparison(string operatorA, string operatorB)//æ¯”è¾ƒä¸¤ä¸ªè¿ç®—ç¬¦çš„ä¼˜å…ˆçº§
+bool priorityComparison(string operatorA, string operatorB)//±È½ÏÁ½¸öÔËËã·ûµÄÓÅÏÈ¼¶
 {
-    //operatorAä»£è¡¨æ‰«æåˆ°çš„å½“å‰è¿ç®—ç¬¦ï¼ŒoperatorBè¡¨ç¤ºå³å°†è¦å¼¹å‡ºçš„è¿ç®—ç¬¦æ ˆä¸­çš„è¿ç®—ç¬¦
+    //operatorA´ú±íÉ¨Ãèµ½µÄµ±Ç°ÔËËã·û£¬operatorB±íÊ¾¼´½«Òªµ¯³öµÄÔËËã·ûÕ»ÖĞµÄÔËËã·û
     if (operatorA == "+" || operatorA == "-") {
         return true;
     } else {
@@ -51,29 +51,29 @@ bool priorityComparison(string operatorA, string operatorB)//æ¯”è¾ƒä¸¤ä¸ªè¿ç®—ç
 }
 
 int main() {
-    stack<string> numberStack;//æ“ä½œæ•°æ ˆ
-    stack<string> operatorStack;//è¿ç®—ç¬¦æ ˆ
+    stack<string> numberStack;//²Ù×÷ÊıÕ»
+    stack<string> operatorStack;//ÔËËã·ûÕ»
 
-    //ä¸­ç¼€è¡¨è¾¾å¼é›†åˆ
+    //ÖĞ×º±í´ïÊ½¼¯ºÏ
     vector<string> expressionVector{
             "2", "+", "3", "-", "4", "*", "3", "/", "4", "+", "7"
     };
 
-    for (int i = 0; i < expressionVector.size(); i++) {
-        string symbol = expressionVector[i];//ä»ä¸­ç¼€è¡¨è¾¾å¼é›†åˆä¸­æ‰«æåˆ°ç¬¦å·
+    for (auto symbol : expressionVector) {
+        //´ÓÖĞ×º±í´ïÊ½¼¯ºÏÖĞÉ¨Ãèµ½·ûºÅ
         if (isNumber(symbol)) {
-            //å¦‚æœè¯¥ç¬¦å·æ˜¯æ•°å­—åˆ™ç›´æ¥å‹å…¥æ“ä½œæ•°æ ˆ
+            //Èç¹û¸Ã·ûºÅÊÇÊı×ÖÔòÖ±½ÓÑ¹Èë²Ù×÷ÊıÕ»
             numberStack.push(symbol);
         } else {
-            //å¦‚æœè¯¥ç¬¦å·æ˜¯è¿ç®—ç¬¦æˆ–ç•Œé™ç¬¦
+            //Èç¹û¸Ã·ûºÅÊÇÔËËã·û»ò½çÏŞ·û
             if (isBracket(symbol)) {
-                //è¯¥ç¬¦å·æ˜¯ç•Œé™ç¬¦çš„æƒ…å†µ
+                //¸Ã·ûºÅÊÇ½çÏŞ·ûµÄÇé¿ö
 
-                //å¦‚æœè¯¥ç•Œé™ç¬¦æ˜¯(ï¼Œåˆ™ç›´æ¥å°†ç¬¦å·å‹å…¥æ“ä½œç¬¦æ ˆ
+                //Èç¹û¸Ã½çÏŞ·ûÊÇ(£¬ÔòÖ±½Ó½«·ûºÅÑ¹Èë²Ù×÷·ûÕ»
                 if (symbol == "(")operatorStack.push(symbol);
                 else {
-                    //é‡åˆ°â€)â€œåˆ™ä¾æ¬¡å¼¹å‡ºè¿ç®—ç¬¦æ ˆå†…è¿ç®—ç¬¦ï¼Œæ¯å¼¹å‡ºä¸€ä¸ªè¿ç®—ç¬¦å°±ä»æ“ä½œæ•°ä¸­å¼¹å‡ºä¸¤ä¸ªæ“ä½œæ•°ï¼Œå¹¶åšè¿ç®—ï¼Œç„¶åå°†è¿ç®—ç»“æœå‹å…¥æ“ä½œæ•°æ ˆ
-                    //ç›´åˆ°é‡åˆ°(ç»ˆæ­¢è¿ç®—æ“ä½œï¼Œå½“å¼¹å‡º)æ—¶ä¸€å®šä¼šåœ¨åšä¸€ç³»åˆ—è¿ç®—ä¹‹åå†æ¬¡å¼¹å‡º(
+                    //Óöµ½¡±)¡°ÔòÒÀ´Îµ¯³öÔËËã·ûÕ»ÄÚÔËËã·û£¬Ã¿µ¯³öÒ»¸öÔËËã·û¾Í´Ó²Ù×÷ÊıÖĞµ¯³öÁ½¸ö²Ù×÷Êı£¬²¢×öÔËËã£¬È»ºó½«ÔËËã½á¹ûÑ¹Èë²Ù×÷ÊıÕ»
+                    //Ö±µ½Óöµ½(ÖÕÖ¹ÔËËã²Ù×÷£¬µ±µ¯³ö)Ê±Ò»¶¨»áÔÚ×öÒ»ÏµÁĞÔËËãÖ®ºóÔÙ´Îµ¯³ö(
                     while (operatorStack.top() != "(") {
                         double numA = stod(numberStack.top());
                         numberStack.pop();
@@ -84,13 +84,13 @@ int main() {
                         numberStack.push(to_string(result));
 
                     }
-                    operatorStack.pop();//å¼¹å‡ºæ­¤æ—¶æ ˆé¡¶çš„â€(â€œ
+                    operatorStack.pop();//µ¯³ö´ËÊ±Õ»¶¥µÄ¡±(¡°
                 }
             } else {
-                //å½“å‰æ‰«æåˆ°çš„æ˜¯è¿ç®—ç¬¦
+                //µ±Ç°É¨Ãèµ½µÄÊÇÔËËã·û
                 /*
-                 * ä¾æ¬¡å¼¹å‡ºè¿ç®—ç¬¦æ ˆä¸­ä¼˜å…ˆçº§é«˜äºæˆ–ç­‰äºå½“å‰è¿ç®—ç¬¦çš„æ‰€æœ‰è¿ç®—ç¬¦ï¼Œæ¯å¼¹å‡ºä¸€ä¸ªè¿ç®—ç¬¦å°±å‚ä¸ä¸€æ¬¡
-                 * è¿ç®—ï¼Œè‹¥é‡åˆ°â€ï¼ˆâ€œæˆ–è¿ç®—ç¬¦æ ˆä¸ºç©ºæ—¶åœæ­¢ï¼Œåœæ­¢åå°†æ‰«æåˆ°çš„å½“å‰è¿ç®—ç¬¦å‹å…¥è¿ç®—ç¬¦æ ˆ*/
+                 * ÒÀ´Îµ¯³öÔËËã·ûÕ»ÖĞÓÅÏÈ¼¶¸ßÓÚ»òµÈÓÚµ±Ç°ÔËËã·ûµÄËùÓĞÔËËã·û£¬Ã¿µ¯³öÒ»¸öÔËËã·û¾Í²ÎÓëÒ»´Î
+                 * ÔËËã£¬ÈôÓöµ½¡±£¨¡°»òÔËËã·ûÕ»Îª¿ÕÊ±Í£Ö¹£¬Í£Ö¹ºó½«É¨Ãèµ½µÄµ±Ç°ÔËËã·ûÑ¹ÈëÔËËã·ûÕ»*/
                 if (!operatorStack.empty()) {
                     while (!operatorStack.empty()) {
                         if (operatorStack.top() == "(" || !priorityComparison(symbol, operatorStack.top()))break;
@@ -103,16 +103,16 @@ int main() {
                         double result = operateTwoNumbers(numB, numA, theOperator);
                         numberStack.push(to_string(result));
                     }
-                    //å¦‚æœèµ°å®Œäº†whileå¾ªç¯ï¼Œè¯´æ˜æ­¤æ—¶operatorStackä¸€å®šæ˜¯ç©ºçš„ï¼Œé‚£ä¹ˆå°±ä¸€å®šä¼šæ‰§è¡Œç¬¬113è¡Œä»£ç ï¼Œå°†å½“å‰æ‰«æåˆ°çš„è¿ç®—ç¬¦å‹æ ˆ
-                    //å¦‚æœåœ¨æ‰§è¡Œwhileå¾ªç¯çš„è¿‡ç¨‹ä¸­é‡åˆ°äº†å·¦æ‹¬å·æˆ–è€…ä¼˜å…ˆçº§ä¸æ»¡è¶³æ¡ä»¶ï¼Œé‚£ä¹ˆæ­¤æ—¶operatorStackä¸€å®šä¸ä¸ºç©ºï¼Œæ­¤æ—¶ä¸€å®šä¼šè¿›å…¥ä¸‹é¢çš„ifè¯­å¥
-                    //ä¸€æ—¦è¿›å…¥ä¸‹é¢çš„ifè¯­å¥ï¼Œæ— éå°±ä¸¤ç§æƒ…å†µï¼Œä¸€ç§æ˜¯åœ¨æ‰§è¡Œwhileå¾ªç¯ä¸­å› ä¸ºé‡åˆ°äº†å·¦æ‹¬å·ï¼Œå¦ä¸€ç§æ˜¯åœ¨æ‰§è¡Œwhileå¾ªç¯çš„è¿‡ç¨‹ä¸­ä¼˜å…ˆçº§ä¸æ»¡è¶³æ¡ä»¶
+                    //Èç¹û×ßÍêÁËwhileÑ­»·£¬ËµÃ÷´ËÊ±operatorStackÒ»¶¨ÊÇ¿ÕµÄ£¬ÄÇÃ´¾ÍÒ»¶¨»áÖ´ĞĞµÚ113ĞĞ´úÂë£¬½«µ±Ç°É¨Ãèµ½µÄÔËËã·ûÑ¹Õ»
+                    //Èç¹ûÔÚÖ´ĞĞwhileÑ­»·µÄ¹ı³ÌÖĞÓöµ½ÁË×óÀ¨ºÅ»òÕßÓÅÏÈ¼¶²»Âú×ãÌõ¼ş£¬ÄÇÃ´´ËÊ±operatorStackÒ»¶¨²»Îª¿Õ£¬´ËÊ±Ò»¶¨»á½øÈëÏÂÃæµÄifÓï¾ä
+                    //Ò»µ©½øÈëÏÂÃæµÄifÓï¾ä£¬ÎŞ·Ç¾ÍÁ½ÖÖÇé¿ö£¬Ò»ÖÖÊÇÔÚÖ´ĞĞwhileÑ­»·ÖĞÒòÎªÓöµ½ÁË×óÀ¨ºÅ£¬ÁíÒ»ÖÖÊÇÔÚÖ´ĞĞwhileÑ­»·µÄ¹ı³ÌÖĞÓÅÏÈ¼¶²»Âú×ãÌõ¼ş
                     if (!operatorStack.empty()) {
                         if (operatorStack.top() == "(") {
-                            //é‡åˆ°å·¦æ‹¬å·åˆ™åº”è¯¥å…ˆå°†å·¦æ‹¬å·å¼¹å‡ºç„¶åå†å°†å½“å‰è¿ç®—ç¬¦å…¥æ ˆ
+                            //Óöµ½×óÀ¨ºÅÔòÓ¦¸ÃÏÈ½«×óÀ¨ºÅµ¯³öÈ»ºóÔÙ½«µ±Ç°ÔËËã·ûÈëÕ»
                             operatorStack.pop();
                             operatorStack.push(symbol);
                         } else {
-                            //é‡åˆ°äº†ä¼˜å…ˆçº§ä½äºå½“å‰è¿ç®—ç¬¦çš„è¿ç®—ç¬¦
+                            //Óöµ½ÁËÓÅÏÈ¼¶µÍÓÚµ±Ç°ÔËËã·ûµÄÔËËã·û
                             operatorStack.push(symbol);
                         }
                     } else {
@@ -125,8 +125,8 @@ int main() {
         }
     }
     while (!operatorStack.empty()) {
-        //stodå‡½æ•°å°†stringç±»å‹çš„æ•°å­—è½¬æ¢ä¸ºdouble
-        //to_stringå‡½æ•°å°†æ•°å­—è½¬æ¢ä¸ºå­—ç¬¦ä¸²
+        //stodº¯Êı½«stringÀàĞÍµÄÊı×Ö×ª»»Îªdouble
+        //to_stringº¯Êı½«Êı×Ö×ª»»Îª×Ö·û´®
         double numA = stod(numberStack.top());
         numberStack.pop();
         double numB = stod(numberStack.top());
@@ -135,7 +135,7 @@ int main() {
         operatorStack.pop();
         numberStack.push(to_string(result));
     }
-    cout << "è¿ç®—ç»“æœ=" << numberStack.top() << endl;
+    cout << "ÔËËã½á¹û=" << numberStack.top() << endl;
     return 0;
 }
 

@@ -214,5 +214,10 @@ public://实现特殊操作接口中声明的重载运算符函数
         return temp;
     }
 
+    //将矩阵视为行列式，计算行列式的值
+    T getValueOfDeterminant(){
+
+    }
+
 
 };
