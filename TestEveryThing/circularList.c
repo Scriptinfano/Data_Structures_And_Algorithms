@@ -2,7 +2,7 @@
 // Created by Mingxiang on 2022/9/29.
 // 以GB2312编码打开此文件
 
-#include "cicularList.h"
+#include "circularList.h"
 #include <stdio.h>
 
 int main() {

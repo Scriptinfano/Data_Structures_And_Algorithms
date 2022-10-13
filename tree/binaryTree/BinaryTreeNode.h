@@ -23,11 +23,11 @@ public:
         return element;
     }
 
-    const BinaryTreeNode<T> *getLeftChild() const {
+    BinaryTreeNode<T> *getLeftChild() const {
         return leftChild;
     }
 
-    const BinaryTreeNode<T> *getRightChild() const {
+    BinaryTreeNode<T> *getRightChild() const {
         return rightChild;
     }
 };
