@@ -83,13 +83,48 @@ public:
         hasThread = false;
     }
 
+    enum construct_mode {
+        PREORDER,
+        INORDER,
+        POSTORDER
+    };
+
+    //传入一个代表前序序列或中序序列或后序序列的遍历结果的数组，根据数组来构造二叉树
+    explicit LinkedBinaryTree(const vector<char> &orderVec, enum construct_mode theMode) {
+        NodePointer p = root;
+        create(*orderVec.begin(), p, theMode);
+
+    }
+
+private:
+    void create(const char &theElement, NodePointer &p, enum construct_mode theMode) {
+        switch (theMode) {
+            case PREORDER: {
+                //传入的vec代表前序序列
+                if (theElement == '#')
+
+            }
+                break;
+            case INORDER: {
+                //传入的vec代表中序序列
+            }
+                break;
+            case POSTORDER: {
+                //传入的vec代表后序序列
+            }
+                break;
+        }
+
+    }
+
+public:
     ~LinkedBinaryTree() { erase(); }
 
     NodePointer getRoot() const {
         return root;
     }
 
-
+public:
     //插入节点，每插入一个节点treeSize++，每插入一个节点都要保证二叉树是完全二叉树
     void insertNode(const T &theElement) {
         //TODO 向二叉树插入节点
@@ -258,7 +293,7 @@ public:
 
         NodePointer pre = nullptr;//总是指向正在遍历的节点的前驱节点
         if (root != nullptr) {
-            NodePointer p=root;//指向正在遍历的节点
+            NodePointer p = root;//指向正在遍历的节点
             inThread(p, pre);//开始整个遍历过程，这是一个递归函数，在中序遍历二叉树的过程中线索化
             //此时p指向根节点，在递归的过程中，p最后回溯到了根节点
             //pre此时指向最后一个节点，此时最后一个节点的右孩子必须置空
