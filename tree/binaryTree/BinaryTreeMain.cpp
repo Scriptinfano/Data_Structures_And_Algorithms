@@ -5,11 +5,11 @@
 #include <iostream>
 
 using namespace std;
-using namespace ProcessTreeNodeFuncSpace;
 
 int main() {
-    LinkedBinaryTree<int> binaryTree(1);
-    binaryTree.preOrder(ProcessTreeNodeFuncSpace::output<int>);
+    vector<char> orderVec = {'A', 'B', 'C', '#', '#', 'D', '#', '#', 'E', '#', '#'};
+    LinkedBinaryTree<int> binaryTree(orderVec, LinkedBinaryTree<int>::PREORDER,ProcessTreeNodeFuncSpace::output);
+    binaryTree.preOrder(ProcessTreeNodeFuncSpace::output);
 
 
     return 0;
