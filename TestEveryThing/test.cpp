@@ -4,9 +4,13 @@
 #include <iostream>
 
 using namespace std;
-
+void printArray(int array[],int arraySize){
+    for (int i = 0; i < arraySize; i++) {
+        cout<<array[i]<<" ";
+    }
+}
 int main() {
-    const int &p = 12;
-
-    cout << p << endl;
+    int array[]={1,5,6,4,2,5};
+    int arraySize=sizeof(array)/sizeof (array[0]);
+    printArray(array,arraySize);
 }

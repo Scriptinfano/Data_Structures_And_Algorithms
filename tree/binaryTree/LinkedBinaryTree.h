@@ -120,7 +120,7 @@ private:
     NodePointer create_preOrder(int &i, NodePointer p) {
 
         if (orderVec[i] == '#')
-            p = nullptr;
+            p= nullptr;
         else {
             p = new TreeNode(transformToT(orderVec[i]));
             treeSize++;
@@ -399,7 +399,7 @@ private:
     //通过前序遍历，将每个叶子节点放入vector容器
     void getLeafVec_preOrder(NodePointer p, vector<T> &leafVec) {
         if (p != nullptr) {
-            if (p->getRightChild() == nullptr && p->setLeftChild() == nullptr)
+            if (p->getRightChild() == nullptr && p->getLeftChild() == nullptr)
                 leafVec.push_back(p->getElement());
             getLeafVec_preOrder(p->getLeftChild());
             getLeafVec_preOrder(p->getRightChild());
@@ -461,6 +461,7 @@ private:
         countSize(p->getRightChild(), currentSize);
     }
 
+    //TODO 求左右孩子
 
 };
 
