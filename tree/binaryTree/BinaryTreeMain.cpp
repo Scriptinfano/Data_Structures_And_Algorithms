@@ -8,6 +8,9 @@ using namespace std;
 
 int main() {
     vector<char> orderVec = {'A', 'B', 'C', '#', '#', 'D', '#', '#', 'E', '#', '#'};
-    LinkedBinaryTree<int> binaryTree(orderVec);
+    LinkedBinaryTree<char> binaryTree(orderVec);
+    binaryTree.cueing();
+
+
     return 0;
 }

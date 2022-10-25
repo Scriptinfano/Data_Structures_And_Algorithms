@@ -69,6 +69,7 @@ private:
             p->setRightChild(nullptr);
         } else {
             treeSize++;
+            p->setElement(orderVec[i]);
             p->setLeftChild(create_preOrder(p->getLeftChild_nonConst()));
             p->setRightChild(create_preOrder(p->getRightChild_nonConst()));
         }
@@ -396,14 +397,16 @@ public:
 
 
     //////////////////////线索化与哈夫曼树的构建///////////////////////
+//TODO 测试哈夫曼树的实现与线索化
+
 private:
     //线索化二叉树的递归函数（属于内部实现），此处采用中序遍历线索化二叉树
-    void inThread(NodePointer &p, NodePointer &pre) {
+    void inThread(NodePointer p, NodePointer pre) {
         //首次在外部调用该递归函数时，p不会是nullptr，该递归出口即p==nullptr
 
         //该递归函数返回的条件即是p==nullptr
         if (p != nullptr) {
-            inThread(p->getLeftChild(), pre);//中序遍历中的左遍历
+            inThread(p->getLeftChild_nonConst(), pre);//中序遍历中的左遍历
 
             //////////////中序遍历的处理流程如下//////////////////
             if (p->getLeftChild() == nullptr) {
