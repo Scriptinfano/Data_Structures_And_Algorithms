@@ -8,9 +8,6 @@ using namespace std;
 
 int main() {
     vector<char> orderVec = {'A', 'B', 'C', '#', '#', 'D', '#', '#', 'E', '#', '#'};
-    LinkedBinaryTree<int> binaryTree(orderVec, LinkedBinaryTree<int>::PREORDER,ProcessTreeNodeFuncSpace::output);
-    binaryTree.preOrder(ProcessTreeNodeFuncSpace::output);
-
-
+    LinkedBinaryTree<int> binaryTree(orderVec);
     return 0;
 }

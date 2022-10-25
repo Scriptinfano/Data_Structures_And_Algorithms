@@ -14,17 +14,20 @@ private:
     bool leftTag;
     bool rightTag;
 public:
+    //默认初始化节点权值
     BinaryTreeNode() {
         leftChild = rightChild = nullptr;
         leftTag = rightTag = false;
     }
 
+    //指定初始化节点权值
     explicit BinaryTreeNode(const T &theElement) {
         element = theElement;
         leftChild = rightChild = nullptr;
         leftTag = rightTag = false;
     }
 
+    //指定节点的权值以及左右孩子
     BinaryTreeNode(T element, const BinaryTreeNode<T> *leftChild, const BinaryTreeNode<T> *rightChild) : element(element), leftChild(leftChild), rightChild(rightChild) {
         leftTag = rightTag = false;
     }
@@ -54,12 +57,12 @@ public:
         return leftTag;
     }
 
-    void setLeftTag(bool theLeftTag) {
-        leftTag = theLeftTag;
-    }
-
     bool isRightTag() const {
         return rightTag;
+    }
+
+    void setLeftTag(bool theLeftTag) {
+        leftTag = theLeftTag;
     }
 
     void setRightTag(bool theRightTag) {
@@ -72,6 +75,10 @@ public:
 
     void setRightChild(BinaryTreeNode<T> *theRightChild) {
         BinaryTreeNode<T>::rightChild = theRightChild;
+    }
+
+    void setElement(T element) {
+        BinaryTreeNode::element = element;
     }
 };
 

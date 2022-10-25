@@ -334,8 +334,8 @@ NodePointer findTreeNode(NodePointer p, T theElement) {
 
 /*实现查找指定节点，传入该节点的权值，如果该权值不存在则返回NULL，存在则返回该节点的地址，在main函数中调用此函数
  TreePointer pointer: 树的指针
- T theElement: 要查找节点的权值
- */NodePointer getTreeNode(TreePointer pointer, T theElement) {
+ T theElement: 要查找节点的权值*/
+NodePointer getTreeNode(TreePointer pointer, T theElement) {
     if (pointer == NULL)return NULL;
     return findTreeNode(pointer->root, theElement);
 }

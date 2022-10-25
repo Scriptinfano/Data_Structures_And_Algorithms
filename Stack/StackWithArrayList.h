@@ -32,7 +32,7 @@ public :
     T &top() override = delete;//不实现也不使用抽象基类中定义的功能
 
     void pop() override {
-        list.erase(list.size() - 1);
+            list.deleteTreeNode(list.size() - 1);
     }
 
     void push(const T &theElement) override {

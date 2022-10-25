@@ -145,7 +145,7 @@ public://公有用户接口函数
 
     //删除指定索引值的元素
     void erase(const int &theIndex) {
-        checkIndex(theIndex, "erase");
+        checkIndex(theIndex, "deleteTreeNode");
         NodePointer deleteNode;
         if (theIndex == 0 && listSize == 1) {
             deleteNode = nodeHeader->getNext();
@@ -429,18 +429,18 @@ private:
                 if (theIndex > this->size())s << "索引值不得>数组元素个数" << endl;
                 throw ExceptionSpace::IllegalParameterException(s.str());
             }
-        } else if (actionType == "erase" || actionType == "get" || actionType == "replace") {
+        } else if (actionType == "deleteTreeNode" || actionType == "get" || actionType == "replace") {
             if (this->size() == 0)throw ExceptionSpace::IllegalParameterException("容器为空，无法对容器执行删除，获取，替换操作");
             if (!(theIndex >= 0 && theIndex < this->size())) {
                 ostringstream s;
                 if (theIndex >= this->size()) {
-                    if (actionType == "erase")
+                    if (actionType == "deleteTreeNode")
                         s << "删除元素时，索引值不得>=listSize" << endl;
                     else if (actionType == "replace")s << "替换元素时，索引值不得>=listSize" << endl;
                     else if (actionType == "get")s << "获取元素时，索引值不得>=listSize" << endl;
                 } else {
                     //theIndex<0的情况
-                    if (actionType == "erase")
+                    if (actionType == "deleteTreeNode")
                         s << "删除元素时，索引值不得<0" << endl;
                     else if (actionType == "replace")s << "替换元素时，索引值不得<0" << endl;
                     else if (actionType == "get")s << "获取元素时，索引值不得<0" << endl;
