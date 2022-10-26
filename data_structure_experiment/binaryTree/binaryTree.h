@@ -1,8 +1,6 @@
 #pragma once
-
 #include <malloc.h>
 #include <stdbool.h>
-
 typedef char T;
 
 //二叉树节点定义
@@ -29,7 +27,7 @@ NodePointer newLeafNode(const T theElement) {
     return newNode;
 }
 
-//建立二叉链表存储的二叉树
+//定义代表二叉树的结构，封装根节点
 typedef struct BinaryTree {
     NodePointer root;//树的根节点
 } BinaryTree, *TreePointer;
@@ -47,7 +45,8 @@ bool emptyTree(TreePointer p) {
 }
 
 T *preOrderGlobalArray;//全局的表示先序序列的数组，作用是保存main函数中用户输入的先序序列，初始化二叉树的函数需要根据该数组来构建二叉树
-//初始化全局的先序序列的数组
+
+//初始化全局的先序序列的数组，arraySize是全局数组的长度
 void initializeTreeArray(const T thePreOrderArray[], int arraySize) {
     preOrderGlobalArray = (T *) malloc(arraySize * sizeof(T));
     for (int i = 0; i < arraySize; i++) {
@@ -90,7 +89,7 @@ void outputNode(NodePointer p) {
 //定义一个全局的函数指针，在遍历二叉树的过程中，可执行的具体操作随具体情况而定，这个函数指针指向具体要执行操作的函数
 void (*processFunction)(NodePointer theNode);//全局函数指针
 
-//以下是直接使用函数指针来调用相应的函数完成相关操作的三种递归函数
+//以下是直接使用函数指针来调用相应的函数完成相关操作的三种递归函数，不用在main函数中调用
 
 void preOrder(NodePointer p) {
     if (p == NULL)return;
@@ -114,19 +113,19 @@ void postOrder(NodePointer p) {
 }
 
 //以下三个函数即可传入相关函数的函数地址，并传入树的根节点，然后调用相关遍历函数完成相关操作
-void preOrder_func(void (*funcPointer)(NodePointer), NodePointer p) {
+void preOrder_func(TreePointer p,void (*funcPointer)(NodePointer)) {
     processFunction = funcPointer;
-    preOrder(p);
+    preOrder(p->root);
 }
 
-void postOrder_func(void (*funcPointer)(NodePointer), NodePointer p) {
+void postOrder_func(TreePointer p,void (*funcPointer)(NodePointer)) {
     processFunction = funcPointer;
-    postOrder(p);
+    postOrder(p->root);
 }
 
-void inOrder_func(void (*funcPointer)(NodePointer), NodePointer p) {
+void inOrder_func(TreePointer p,void (*funcPointer)(NodePointer)) {
     processFunction = funcPointer;
-    inOrder(p);
+    inOrder(p->root);
 }
 
 //销毁一颗二叉树的递归函数，由void deleteTree(TreePointer theTree)调用

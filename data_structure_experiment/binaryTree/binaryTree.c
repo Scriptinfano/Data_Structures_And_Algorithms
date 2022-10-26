@@ -2,26 +2,25 @@
 #include "binaryTree.h"
 
 int main() {
-    setbuf(stdout, NULL);
+    setbuf(stdout, NULL);//在调试时使得输出语句可以将数据打印在控制台上
 
     //测试建立二叉树，并按三种遍历顺序遍历输出二叉树中所有节点的值
-/*
-    char treeArray[] = {'A', 'B', 'D', 'H', '#', '#', 'I', '#', '#', 'E', 'G','#','#','K','#','#','C','F','L','#','#','M','#','#',
-                        'G','N','#','#','O','#','#'};//前序遍历序列
-*/
     char treeArray[] = {'A','B','D','#','#','E','#','#','C','G','#','#','H','#','#'};
     initializeTreeArray(treeArray, sizeof(treeArray) / sizeof(treeArray[0]));
     TreePointer theTree = newTree();
     printf("按前序遍历输出二叉树：");
-    preOrder_func(outputNode, theTree->root);//按前序输出
+    preOrder_func(theTree,outputNode);//按前序输出
     printf("\n按中序遍历输出二叉树：");
-    inOrder_func(outputNode, theTree->root);
+    inOrder_func(theTree,outputNode);//按中序输出
     printf("\n按后序遍历输出二叉树：");
-    postOrder_func(outputNode, theTree->root);
+    postOrder_func(theTree,outputNode);//按后序输出
+    //输出树中所有节点的数量
     int treeSize = getTreeSize(theTree);
     printf("\n输出二叉树中的所有节点的数目：%d", treeSize);
+    //输出树中所有叶子节点的数量
     int leafSize = getLeafSize(theTree);
     printf("\n输出二叉树中所有叶子节点的个数：%d", leafSize);
+    //输出树的高度
     int theTreeHeight = getTreeHeight(theTree);
     printf("\n输出二叉树的总高度：%d\n", theTreeHeight);
 
@@ -58,7 +57,6 @@ int main() {
         printf("该节点的深度是：%d\n", theDepth);
     } else printf("你输入的节点未找到，无法求得深度\n\n");
 
-
     //测试二叉树求任意节点高度，求出树的总高度，再求出该节点的深度，用树的高度减去该节点的深度即为该节点的高度
     printf("测试二叉树求任意节点的高度，输入要求节点高度的节点权值：");
     char heightNode;
@@ -69,7 +67,6 @@ int main() {
         int height = getTreeHeight(theTree) - getDepth(theTree, theHeightNode);//树的总高度-该节点的深度=该节点的高度
         printf("该节点的高度=%d\n", height);
     } else printf("你输入的节点未找到，无法求得高度\n\n");
-
 
     //测试在叶子节点之后插入新节点
     printf("测试在二叉树的叶子节点上插入新节点，节点要成为到哪个节点的左孩子或右孩子，请输入该叶子节点的权值：");
@@ -96,7 +93,6 @@ int main() {
         printf("输出插入节点之后的二叉树前序遍历序列：");
         preOrder_func(outputNode,theTree->root);
     }
-
 
     //用不带输出型参数的函数求得指定节点的深度
     printf("\n使用不带输出型参数的函数求任意节点的深度，输入要求节点的权值：");

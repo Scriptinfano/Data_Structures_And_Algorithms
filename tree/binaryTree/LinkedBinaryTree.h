@@ -12,7 +12,7 @@ using namespace ProcessTreeNodeFuncSpace;
 
 //用链表实现的二叉树，可线索化
 template<class T>
-class LinkedBinaryTree{
+class LinkedBinaryTree {
     using TreeNode = BinaryTreeNode<T>;
     using NodePointer = BinaryTreeNode<T> *;
 
@@ -28,21 +28,6 @@ public:
         return root;
     }
 
-private:
-
-    void levelOrder(NodePointer theNode) {
-        std::queue<NodePointer> pointerQueue;
-        while (theNode != nullptr) {
-            visit(theNode);
-            if (theNode->getLeftChild() != nullptr)
-                pointerQueue.push(theNode->getLeftChild());
-            if (theNode->getRightChild() != nullptr)
-                pointerQueue.push(theNode->getRightChild());
-            if (pointerQueue.empty()) return;
-            else theNode = pointerQueue.front();
-            pointerQueue.pop();
-        }
-    }
 
 public:
 
@@ -51,7 +36,7 @@ public:
         hasThread = false;
         treeSize = 0;
         orderVec = theOrderVec;
-        root = create_preOrder(root);
+        root = initiate_preOrder(root);
     }
 
 private:
@@ -59,7 +44,7 @@ private:
     //TODO 测试创建二叉树的代码，判断是否需要对遍历序号i作出限制
 
     //根据前序遍历序列创建二叉树的递归函数
-    NodePointer create_preOrder(NodePointer p) {
+    NodePointer initiate_preOrder(NodePointer p) {
         static int i = -1;
         i++;
         p = new TreeNode();//先默认初始化节点
@@ -70,8 +55,8 @@ private:
         } else {
             treeSize++;
             p->setElement(orderVec[i]);
-            p->setLeftChild(create_preOrder(p->getLeftChild_nonConst()));
-            p->setRightChild(create_preOrder(p->getRightChild_nonConst()));
+            p->setLeftChild(initiate_preOrder(p->getLeftChild_nonConst()));
+            p->setRightChild(initiate_preOrder(p->getRightChild_nonConst()));
         }
         return p;
     }
@@ -102,12 +87,12 @@ private:
 public:
 
     //判断二叉树是否为空
-    bool empty() const{
+    bool empty() const {
         return treeSize == 0 && root == nullptr;
     }
 
     //直接返回内部统计树节点变量
-    int size() const{
+    int size() const {
         return treeSize;
     }
 
@@ -168,6 +153,34 @@ public:
 
     }
 
+private:
+
+    void levelOrder(NodePointer theNode) {
+        std::queue<NodePointer> pointerQueue;
+        while (theNode != nullptr) {
+            cout << theNode->getElement() << " ";
+            if (theNode->getLeftChild() != nullptr)
+                pointerQueue.push(theNode->getLeftChild());
+            if (theNode->getRightChild() != nullptr)
+                pointerQueue.push(theNode->getRightChild());
+            if (pointerQueue.empty()) return;
+            else theNode = pointerQueue.front();
+            pointerQueue.pop();
+        }
+    }
+
+public:
+    //调用层次遍历输出二叉树中的每一个节点
+    void output_levelOrder() {
+        if (empty())
+            return;
+        else {
+            levelOrder(root);
+            cout << endl;
+        }
+    }
+
+
 
     //////////////////////////二叉树功能性代码，例如输出二叉树的遍历序列，在叶子节点之后插入节点，求高度，深度，双亲，节点总数，叶子节点数等/////////////////////
 
@@ -200,7 +213,7 @@ private:
 
 public:
 
-    void outputTreeNode() {
+    void output_preOrder() {
         outputNode_preOrder(root);
         cout << endl;
     }
@@ -432,7 +445,8 @@ public:
         //第一个遍历的节点的左孩子为空，最后一个遍历的节点的右孩子为空
 
         NodePointer pre = nullptr;//总是指向正在遍历的节点的前驱节点
-        if (root != nullptr) {
+        if (!empty()) {
+            //二叉树不为空
             NodePointer p = root;//指向正在遍历的节点
             inThread(p, pre);//开始整个遍历过程，这是一个递归函数，在中序遍历二叉树的过程中线索化
             //此时p指向根节点，在递归的过程中，p最后回溯到了根节点
@@ -443,9 +457,37 @@ public:
         } else {
             //根节点为空的情况，无法线索化
             hasThread = false;
+            cout << "二叉树为空，无法线索化" << endl;
         }
     }
 
+private:
+    //服务于线索化输出的两个私有函数
+
+    //在中序线索二叉树上求中序遍历的第一个节点
+    NodePointer firstNode(NodePointer pointer) {
+        //找到最左下的节点
+        while (!pointer->isLeftTag()) {
+            pointer = pointer->getLeftChild_nonConst();
+        }
+        return pointer;
+    }
+
+    //在中序线索二叉树上求节点p在中序序列中的后继节点
+    NodePointer nextNode(NodePointer pointer) {
+        if (!pointer->isRightTag())
+            return firstNode(pointer->getRightChild_nonConst());
+        else return pointer->getRightChild_nonConst();
+    }
+
+public:
+
+    //线索化之后，线索二叉树的遍历输出
+    void outputThreadTree() {
+        for (NodePointer p = firstNode(root); p != nullptr; p = nextNode(p))
+            cout << p->getElement() << " ";
+        cout << endl;
+    }
 
 private:
     //找到parent为nullptr的最小和次小的两个节点，由createHuffmanTree调用
