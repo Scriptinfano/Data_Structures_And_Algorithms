@@ -39,3 +39,4 @@ add_executable(BinaryTreeMain tree/binaryTree/BinaryTreeMain.cpp)
 
 add_executable(test TestEveryThing/test.cpp)
 add_executable(binaryTree data_structure_experiment/binaryTree/binaryTree.c)
+add_executable(Graph data_structure_experiment/graph/Graph.c)

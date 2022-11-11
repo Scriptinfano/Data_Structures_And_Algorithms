@@ -1,21 +1,21 @@
 #include <stdio.h>
 
-int s(int n);
+typedef struct {
+    int array[4][4];
+} DoubleArray;
 
 int main() {
-    int result = s(4);
-    printf("%d", result);
+    DoubleArray objArray={{{12,13,13,2},{12,4,2,4},{12,42,13,14},{124,14,212,41}}};
+/*
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            objArray.array[i][j] = i + j;
+
+*/
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            printf("%d ", objArray.array[i][j]);
+
 
     return 0;
-}
-
-int s(int n) {
-    int sum;
-    if (n == 0)sum = 0;
-    else {
-        int x;
-        scanf("%d", &x);
-        sum = s(n - 1) + x;
-    }
-    return sum;
 }
