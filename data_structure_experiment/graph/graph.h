@@ -3,56 +3,47 @@
 #include <stdio.h>
 #include <malloc.h>
 
-typedef char PointType;//¶¥µãÊı¾İÀàĞÍ
-typedef int LineType;//±ßµÄÈ¨ÖµÀàĞÍ
+typedef char PointType;//é¡¶ç‚¹æ•°æ®ç±»å‹
+typedef int LineType;//è¾¹çš„æƒå€¼ç±»å‹
 typedef struct {
-    PointType head;//±ßµÄÊ¼µã
-    PointType tail;//±ßµÄÖÕµã
-    LineType value;//±ßµÄÈ¨Öµ
+    PointType head;//è¾¹çš„å§‹ç‚¹
+    PointType tail;//è¾¹çš„ç»ˆç‚¹
+    LineType value;//è¾¹çš„æƒå€¼
 } Edge;
 
 typedef struct {
-    PointType *pointArray;//´æ´¢¶¥µãµÄÊı×é£¬Êı×éµÄÃ¿¸öÔªËØÊÇÒ»¸öchar£¬±êÊ¶¸Ã¶¥µãµÄÃû×Ö
-    LineType **adjacentMatrix;//ÁÚ½Ó¾ØÕó¶şÎ¬Êı×é
-    int pointSize;//Í¼µÄ¶¥µã¸öÊı
-    int lineSize;//Í¼µÄ±ßÊı
-    Edge *edgeArray;//±ßµÄ¸¨ÖúÊı×é£¬Ã¿¸öÔªËØÊÇÒ»¸ö½á¹¹Ìå£¬±êÊ¶Ã¿¸ö±ßµÄÆğÊ¼µãºÍÖÕµã
-    int *pointSet;//¶¥µãµÄ¸¨ÖúÊı×é£¬±êÊ¶¸÷¸ö¶¥µãËùÊôµÄÁªÍ¨·ÖÁ¿£¬³õÊ¼Ê±Ã¿¸öÔªËØµÄÖµÊÇ×Ô¼ºÔÚÊı×éÖĞÏÂ±ê£¬±íÊ¾¸÷¶¥µã×Ô³ÉÒ»¸öÁªÍ¨·ÖÁ¿
+    PointType *pointArray;//å­˜å‚¨é¡¶ç‚¹çš„æ•°ç»„ï¼Œæ•°ç»„çš„æ¯ä¸ªå…ƒç´ æ˜¯ä¸€ä¸ªcharï¼Œæ ‡è¯†è¯¥é¡¶ç‚¹çš„åå­—
+    int pointSize;//å›¾çš„é¡¶ç‚¹ä¸ªæ•°
+    int lineSize;//å›¾çš„è¾¹æ•°
+    Edge *edgeArray;//è¾¹çš„è¾…åŠ©æ•°ç»„ï¼Œæ¯ä¸ªå…ƒç´ æ˜¯ä¸€ä¸ªç»“æ„ä½“ï¼Œæ ‡è¯†æ¯ä¸ªè¾¹çš„èµ·å§‹ç‚¹å’Œç»ˆç‚¹
+    int *pointSet;//é¡¶ç‚¹çš„è¾…åŠ©æ•°ç»„ï¼Œæ ‡è¯†å„ä¸ªé¡¶ç‚¹æ‰€å±çš„è”é€šåˆ†é‡ï¼Œåˆå§‹æ—¶æ¯ä¸ªå…ƒç´ çš„å€¼æ˜¯è‡ªå·±åœ¨æ•°ç»„ä¸­ä¸‹æ ‡ï¼Œè¡¨ç¤ºå„é¡¶ç‚¹è‡ªæˆä¸€ä¸ªè”é€šåˆ†é‡
 } Graph;
 
 Graph *createGraph() {
-    printf("ÇëÊäÈë×ÜµÄ¶¥µãÊı£º");
+    printf("è¯·è¾“å…¥æ€»çš„é¡¶ç‚¹æ•°ï¼š");
     Graph *theGraph = (Graph *) malloc(sizeof(Graph));
     scanf("%d", &(theGraph->pointSize));
     getchar();
-    printf("ÇëÊäÈë×ÜµÄ±ßÊı£º");
+    printf("è¯·è¾“å…¥æ€»çš„è¾¹æ•°ï¼š");
     scanf("%d", &(theGraph->lineSize));
     getchar();
 
-    //³õÊ¼»¯Ò»Î¬µÄ¶¥µãÊı×éºÍ¶şÎ¬µÄÁÚ½Ó¾ØÕóÊı×é
+    //åˆå§‹åŒ–ä¸€ç»´çš„é¡¶ç‚¹æ•°ç»„å’ŒäºŒç»´çš„é‚»æ¥çŸ©é˜µæ•°ç»„
     theGraph->pointArray = (PointType *) malloc(sizeof(PointType) * (theGraph->pointSize));
     for (int i = 0; i < theGraph->pointSize; i++) {
         int transform = 97 + i;
         char character = (char) transform;
         theGraph->pointArray[i] = character;
     }
-    theGraph->adjacentMatrix = (LineType **) malloc(sizeof(LineType *) * (theGraph->pointSize));
-    for (int i = 0; i < theGraph->pointSize; i++) {
-        theGraph->adjacentMatrix[i] = (LineType *) malloc(sizeof(LineType) * (theGraph->pointSize));
-        for (int j = 0; j < theGraph->pointSize; j++) {
-            theGraph->adjacentMatrix[i][j] = INFINITY;//Ã¿Ò»¸ö±ßµÄÈ¨ÖµÏÈÉèÎªÎŞÇî´ó
-        }
-    }
 
     theGraph->edgeArray = (Edge *) malloc(sizeof(Edge) * (theGraph->lineSize));
 
-    //ÒÀ´ÎÉèÖÃÃ¿¸ö±ßµÄÈ¨Öµ
+    //ä¾æ¬¡è®¾ç½®æ¯ä¸ªè¾¹çš„æƒå€¼
     for (int i = 0; i < theGraph->lineSize; i++) {
-        printf("ÊäÈëµÚ%d¸ö±ßµÄĞÅÏ¢£¨Á¬ĞøÊäÈë±ßµÄÁ½¸ö×ø±êÒÔ¼°ÏàÓ¦µÄÈ¨Öµ£¬ËùÓĞĞÅÏ¢Ö®¼äÓÃ¿Õ¸ñ·Ö¿ª£©£º", i + 1);
-        int x, y, value;//Ã¿¸ö¼´½«ÒªÂ¼Èë±ßµÄÁ½¸ö¶¥µãµÄ±àºÅÒÔ¼°ÏàÓ¦µÄ±ßµÄÈ¨Öµ
+        printf("è¾“å…¥ç¬¬%dä¸ªè¾¹çš„ä¿¡æ¯ï¼ˆè¿ç»­è¾“å…¥è¾¹çš„ä¸¤ä¸ªåæ ‡ä»¥åŠç›¸åº”çš„æƒå€¼ï¼Œæ‰€æœ‰ä¿¡æ¯ä¹‹é—´ç”¨ç©ºæ ¼åˆ†å¼€ï¼‰ï¼š", i + 1);
+        int x, y, value;//æ¯ä¸ªå³å°†è¦å½•å…¥è¾¹çš„ä¸¤ä¸ªé¡¶ç‚¹çš„ç¼–å·ä»¥åŠç›¸åº”çš„è¾¹çš„æƒå€¼
         scanf("%d %d %d", &x, &y, &value);
         getchar();
-        theGraph->adjacentMatrix[x][y] = value;
         theGraph->edgeArray[i].head = theGraph->pointArray[x];
         theGraph->edgeArray[i].tail = theGraph->pointArray[y];
         theGraph->edgeArray[i].value = value;
@@ -60,41 +51,60 @@ Graph *createGraph() {
 
     theGraph->pointSet = (int *) malloc(sizeof(int) * (theGraph->pointSize));
     for (int i = 0; i < theGraph->pointSize; i++) {
-        theGraph->pointSet[i] = i;//ÓĞ¿ÉÄÜÉèÎª-1¸üºÏÊÊ
+        theGraph->pointSet[i] = i;
     }
     return theGraph;
 }
 
-//¶Ô´«ÈëµÄÊı×é°´ÕÕÆäÖĞÃ¿¸öÔªËØµÄÈ¨Öµ´óĞ¡½øĞĞÅÅĞò
-void sortEdge(Edge *theEdgeArray) {
+//å¯¹ä¼ å…¥çš„æ•°ç»„æŒ‰ç…§å…¶ä¸­æ¯ä¸ªå…ƒç´ çš„æƒå€¼å¤§å°è¿›è¡Œæ’åº
+void sortEdge(Edge *theEdgeArray, int size) {
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = 0; j < size - 1 - i; j++) {
+            if (theEdgeArray[j].value > theEdgeArray[j + 1].value) {
+                int temp = theEdgeArray[j + 1].value;
+                char start = theEdgeArray[j + 1].head;
+                char end = theEdgeArray[j + 1].tail;
 
-}
+                theEdgeArray[j + 1].value = theEdgeArray[j].value;
+                theEdgeArray[j + 1].head = theEdgeArray[j].head;
+                theEdgeArray[j + 1].tail = theEdgeArray[j].tail;
 
-//¸ù¾İ´«ÈëµÄ×Ö·ûÈ·¶¨¸Ãµã¶ÔÓ¦ÁÚ½Ó¾ØÕóµÄ×ø±ê
-int locateLine(char headOrTail, int lineSize) {
-
-}
-
-//¿ËÂ³Ë¹¿¨¶ûËã·¨Éú³É×îĞ¡Éú³ÉÊ÷
-void createMiniSpanTree_Kruskal(Graph *theGraph) {
-    sortEdge(theGraph->edgeArray);//½«Êı×éedgeArrayÖĞµÄÔªËØ°´È¨Öµ´óĞ¡ÅÅĞò
-    for (int i = 0; i < theGraph->lineSize; i++) {
-        //±éÀúedgeArray£¬È·¶¨Ã¿¸öÔªËØËù´ú±íµÄ±ßµÄÊ¼µãºÍÖÕµãµÄ±àºÅ
-        int x = locateLine(theGraph->edgeArray[i].head, theGraph->lineSize);
-        int y = locateLine(theGraph->edgeArray[i].tail, theGraph->lineSize);
-        int connectedComponent = theGraph->pointSet[x];
-        int connectedComponent2 = theGraph->pointSet[y];
-        if(connectedComponent!=connectedComponent2)
-        {
-            printf("%c %c",theGraph->edgeArray[i].head,theGraph->edgeArray[i].tail);
-            for (int j = 0; j < theGraph->pointSize; ++j) {
-                if(theGraph->pointSet[j]==connectedComponent2)
-                    theGraph->pointSet[j]=connectedComponent;
+                theEdgeArray[j].value = temp;
+                theEdgeArray[j].head = start;
+                theEdgeArray[j].tail = end;
             }
         }
 
     }
+}
+
+//å…‹é²æ–¯å¡å°”ç®—æ³•ç”Ÿæˆæœ€å°ç”Ÿæˆæ ‘
+void createMiniSpanTree_Kruskal(Graph *theGraph) {
+    printf("ä½¿ç”¨å…‹é²æ–¯å¡å°”ç®—æ³•ç”Ÿæˆæœ€å°ç”Ÿæˆæ ‘ï¼ˆè¾“å‡ºæ„æˆæœ€å°ç”Ÿæˆæ ‘çš„è¾¹ï¼‰ï¼š");
+    sortEdge(theGraph->edgeArray, theGraph->lineSize);//å°†æ•°ç»„edgeArrayä¸­çš„å…ƒç´ æŒ‰æƒå€¼å¤§å°æ’åº
+    for (int i = 0; i < theGraph->lineSize; i++) {
+        //éå†edgeArrayï¼Œç¡®å®šæ¯ä¸ªå…ƒç´ æ‰€ä»£è¡¨çš„è¾¹çš„å§‹ç‚¹å’Œç»ˆç‚¹çš„ç¼–å·
+        int x = (int) theGraph->edgeArray[i].head - 97;
+        int y = (int) theGraph->edgeArray[i].tail - 97;
+        int connectedComponent = theGraph->pointSet[x];
+        int connectedComponent2 = theGraph->pointSet[y];
+        if (connectedComponent != connectedComponent2) {
+            printf("(%c,%c)-- ", theGraph->edgeArray[i].head, theGraph->edgeArray[i].tail);
+            for (int j = 0; j < theGraph->pointSize; ++j) {
+                if (theGraph->pointSet[j] == connectedComponent2)
+                    theGraph->pointSet[j] = connectedComponent;
+            }
+        }
+
+    }
+    printf("\n");
 
 }
 
+void deleteGraph(Graph *theGraph) {
+    free(theGraph->pointArray);
+    free(theGraph->edgeArray);
+    free(theGraph->pointSet);
+    printf("å·²é‡Šæ”¾æ•°ç»„æ‰€å ç©ºé—´");
+}
 
