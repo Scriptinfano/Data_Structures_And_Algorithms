@@ -10,6 +10,7 @@
 using namespace std;
 using ExceptionSpace::IllegalParameterException;
 
+/*Ë«ÏòÑ­»·Á´±í*/
 template<class T>
 class DoublyLinkedList : public LinearList<T> {
 

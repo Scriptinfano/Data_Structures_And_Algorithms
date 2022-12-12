@@ -90,7 +90,7 @@ int main() {
                 //当前扫描到的是运算符
                 /*
                  * 依次弹出运算符栈中优先级高于或等于当前运算符的所有运算符，每弹出一个运算符就参与一次
-                 * 运算，若遇到”（“或运算符栈为空时停止，停止后将扫描到的当前运算符压入运算符栈*/
+                 * 运算，若遇到”(“或运算符栈为空时停止，停止后将扫描到的当前运算符压入运算符栈*/
                 if (!operatorStack.empty()) {
                     while (!operatorStack.empty()) {
                         if (operatorStack.top() == "(" || !priorityComparison(symbol, operatorStack.top()))break;
@@ -103,7 +103,7 @@ int main() {
                         double result = operateTwoNumbers(numB, numA, theOperator);
                         numberStack.push(to_string(result));
                     }
-                    //如果走完了while循环，说明此时operatorStack一定是空的，那么就一定会执行第113行代码，将当前扫描到的运算符压栈
+                    //如果走完了while循环，说明此时operatorStack一定是空的，那么就一定会执行operatorStack.push(symbol); 将当前扫描到的运算符压栈
                     //如果在执行while循环的过程中遇到了左括号或者优先级不满足条件，那么此时operatorStack一定不为空，此时一定会进入下面的if语句
                     //一旦进入下面的if语句，无非就两种情况，一种是在执行while循环中因为遇到了左括号，另一种是在执行while循环的过程中优先级不满足条件
                     if (!operatorStack.empty()) {
