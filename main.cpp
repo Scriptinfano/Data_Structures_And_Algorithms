@@ -62,10 +62,10 @@ typename T::value_type unpack(T container) {
     return container.val;
 }
 
-int main() {
+void test1() {
     stringstream transformer;
 
-    int nonZeroSize=3;
+    int nonZeroSize = 3;
     string str;
     for (int i = 0; i < nonZeroSize; i++) {
         int row;
@@ -100,12 +100,16 @@ int main() {
             transformer.clear();
             transformer.sync();
 
-            if (row == 0||column==0||value==0) {
+            if (row == 0 || column == 0 || value == 0) {
                 cout << "输入的三个数据中有一个或多个不合法不合法，请重新输入" << endl;
                 continue;
             } else break;
         }
     }
+
+}
+
+int main() {
 
 
     return 0;
