@@ -1,6 +1,7 @@
 #include "arrayQueue.h"
 #include "LinkedQueue.h"
 #include <iostream>
+#include <ctime>
 
 using namespace std;
 
@@ -57,7 +58,7 @@ void testArrayQueue() {
         arrayQueue.push(16);
 
     } catch (QueueFullException &e) {
-        cout << e.what()<<endl;
+        cout << e.what() << endl;
         cout << "当前队列容量=" << arrayQueue.capacity() << endl;
         cout << "输出队列中的所有元素：" << endl;
         outputQueue(arrayQueue);
@@ -65,7 +66,43 @@ void testArrayQueue() {
     }
 }
 
+
+//如果link比array慢，则返回true
+bool compareArrayQueueAndLinkedQueue() {
+    LinkedQueue<int> linkQueue;
+    ArrayQueue<int> arrayQueue(10);
+
+    clock_t start = clock();
+    for (int i = 0; i < 1000000; i++) {
+        linkQueue.push(i);
+    }
+    for (int i = 0; i < 1000000; i++) {
+        linkQueue.pop();
+    }
+
+    clock_t end = clock();
+    clock_t result = end - start;
+    cout << "linkQueue花费时间：" << result << endl;
+
+    clock_t start2 = clock();
+    for (int i = 0; i < 1000000; i++) {
+        arrayQueue.push_infinite(i);
+    }
+    for (int i = 0; i < 1000000; i++) {
+        arrayQueue.pop_catch();
+    }
+    clock_t end2 = clock();
+    clock_t result2 = end2 - start2;
+    cout << "arrayQueue共花费时间：" << result2 << endl;
+
+    return result > result2;
+
+//经过实验之后，数组实现的队列的效率更高
+}
+
 int main() {
-    testArrayQueue();
+    bool result = compareArrayQueueAndLinkedQueue();
+    cout << boolalpha << result;
+
     return 0;
 }

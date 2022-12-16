@@ -7,17 +7,19 @@ using namespace std;
 
 void testMatrixMultiply() {
     vector<vector<int>> element = {
-            {3, 1, 0},
-            {-1, 2, 1},
-            {3, 4, 2},
+            {1, 2,  -1, 2},
+            {3, 0,  -1, 5},
+            {1, -2, 0,  3},
+            {-2, -4, 1,  6},
+
     };
     vector<vector<int>> element2 = {
             {1, -1, 0},
             {2, -2, 5},
-            {3, 4, 1},
+            {3, 4,  1},
     };
 
-    NormalMatrix<int> theMatrix(3, 3);
+    NormalMatrix<int> theMatrix(4, 4);
     NormalMatrix<int> theMatrix2(3, 3);
     NormalMatrix<int> *theMatrix3 = nullptr;
     NormalMatrix<int> *theMatrix4 = nullptr;
@@ -27,13 +29,15 @@ void testMatrixMultiply() {
     theMatrix2.initialize(element2);
 
     theMatrix3 = theMatrix * theMatrix2;
-    cout << *theMatrix3<<endl;
+    cout << *theMatrix3 << endl;
 
-    theMatrix4=theMatrix2*theMatrix;
-    cout << *theMatrix4<<endl;
+/*
+    theMatrix4 = theMatrix2 * theMatrix;
+    cout << *theMatrix4 << endl;
 
-    theMatrix5=(*theMatrix3)-(*theMatrix4);
+    theMatrix5 = (*theMatrix3) - (*theMatrix4);
     cout << *theMatrix5;
+*/
 
 }
 

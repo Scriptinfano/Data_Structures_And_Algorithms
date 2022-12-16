@@ -59,7 +59,7 @@ public:
 
 template<class T>
 void extendedChainList<T>::erase(const int &theIndex) {
-    chainList<T>::checkIndex(theIndex, "erase");
+    chainList<T>::checkIndex(theIndex, "deleteTreeNode");
 
     ChainNode<T> *deleteNode;
     if (theIndex == 0)//É¾³ýÍ·½Úµã

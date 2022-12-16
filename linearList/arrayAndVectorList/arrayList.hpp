@@ -365,10 +365,10 @@ void arrayList<T>::checkIndex(const int &theIndex, const string &actionType) con
             if (theIndex > this->size())s << "索引值不得>数组元素个数" << endl;
             throw IllegalParameterException(s.str());
         }
-    } else if (actionType == "erase" || actionType == "get" || actionType == "replace") {
+    } else if (actionType == "deleteTreeNode" || actionType == "get" || actionType == "replace") {
         if (theIndex >= this->size()) {
             ostringstream s;
-            if (actionType == "erase")
+            if (actionType == "deleteTreeNode")
                 s << "删除元素时，索引值不得>=listSize" << endl;
             else if (actionType == "replace")s << "替换元素时，索引值不得>=listSize" << endl;
             else if (actionType == "get")s << "获取元素时，索引值不得>=listSize" << endl;
@@ -506,7 +506,7 @@ T arrayList<T>::get(const int &index) const {
 
 template<class T>
 void arrayList<T>::erase(const int &index) {
-    checkIndex(index, "erase");
+    checkIndex(index, "deleteTreeNode");
     copy(element + index + 1, element + listSize, element + index);
     if (listSize - 1 < (arrayLength / 4)) {
         //若线性表元素个数降至线性表容量的1/4以下时，创建新数组，长度为arrayLength/2，然后将老表的元素复制过去
@@ -602,10 +602,10 @@ protected:
                 if (theIndex > this->size())s << "索引值不得>数组元素个数" << endl;
                 throw IllegalParameterException(s.str());
             }
-        } else if (actionType == "erase" || actionType == "get" || actionType == "replace") {
+        } else if (actionType == "deleteTreeNode" || actionType == "get" || actionType == "replace") {
             if (theIndex >= this->size()) {
                 ostringstream s;
-                if (actionType == "erase")
+                if (actionType == "deleteTreeNode")
                     s << "删除元素时，索引值不得>=数组元素个数" << endl;
                 else if (actionType == "replace")s << "替换数组元素时，索引值不得>=数组元素个数" << endl;
                 else if (actionType == "get")s << "获取元素时，索引值不得>=数组元素个数" << endl;
@@ -669,7 +669,7 @@ public:
     //删除索引为index的对象
     virtual void erase(const int &index)
     {
-        checkIndex(index, "erase");
+        checkIndex(index, "deleteTreeNode");
         element->erase(begin() + index);//erase可接受一个指向要删除元素的迭代器，begin()向后走index步正好指向要删除的元素
     }
 

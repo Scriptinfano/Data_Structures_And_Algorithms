@@ -171,8 +171,18 @@ namespace ExceptionSpace {
         public :
             explicit QueueEmptyException(const string &theMessage="队列为空，无法取出队头元素"): EmptyContainerException(theMessage){}
         };
-
     }
+    namespace DequeExceptionSpace {
+        class DequeFullException:public FullContainerException{
+        public:
+            explicit DequeFullException(const string &theMessage="双端队列已满，无法再添加任何元素"):FullContainerException(theMessage){}
+        };
+        class DequeEmptyException:public EmptyContainerException{
+        public :
+            explicit DequeEmptyException(const string &theMessage="双端队列为空，无法取出任何元素"): EmptyContainerException(theMessage){}
+        };
+    }
+
     namespace StackExceptionSpace {
         class StackFullException : public FullContainerException {
         public:

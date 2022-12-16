@@ -156,10 +156,10 @@ void chainList<T>::checkIndex(int theIndex, string actionType) const {
             if (theIndex > listSize)s << "索引值不得>数组元素个数" << endl;
             throw IllegalParameterException(s.str());
         }
-    } else if (actionType == "erase" || actionType == "get" || actionType == "replace") {
+    } else if (actionType == "deleteTreeNode" || actionType == "get" || actionType == "replace") {
         if (theIndex >= this->size()) {
             ostringstream s;
-            if (actionType == "erase")
+            if (actionType == "deleteTreeNode")
                 s << "删除元素时，索引值不得>=listSize" << endl;
             else if (actionType == "replace")s << "替换元素时，索引值不得>=listSize" << endl;
             else if (actionType == "get")s << "获取元素时，索引值不得>=listSize" << endl;
@@ -235,7 +235,7 @@ int chainList<T>::indexOf(const T &theElement) const {
 
 template<class T>
 void chainList<T>::erase(const int &theIndex) {
-    checkIndex(theIndex, "erase");
+    checkIndex(theIndex, "deleteTreeNode");
 
     ChainNode<T> *deleteNode;
     if (theIndex == 0)//删除首元素的节点

@@ -150,7 +150,7 @@ public:
 
     //删除指定索引的节点
     virtual void erase(const int &theIndex) {
-        checkIndex(theIndex, "erase");
+        checkIndex(theIndex, "deleteTreeNode");
         NodePointer deleteNode;
         if (theIndex == 0 && listSize == 1) {
             deleteNode = nodeHeader->next;
@@ -458,7 +458,7 @@ public:
          * 要删除链表中第一个节点，先把第二个节点的元素值覆盖到第一个节点，然后把第二个节点删除达到了
          * 删除第一个节点的目的
          * */
-        checkIndex(theIndex, "erase");
+        checkIndex(theIndex, "deleteTreeNode");
         NodePointer theNode = this->indexToAddress(theIndex);
         theNode->element = theNode->next->element;
         NodePointer deleteNode = theNode->next;
@@ -534,10 +534,10 @@ private:
                 if (theIndex > this->size())s << "索引值不得>数组元素个数" << endl;
                 throw ExceptionSpace::IllegalParameterException(s.str());
             }
-        } else if (actionType == "erase" || actionType == "get" || actionType == "replace") {
+        } else if (actionType == "deleteTreeNode" || actionType == "get" || actionType == "replace") {
             if (theIndex >= this->size()) {
                 ostringstream s;
-                if (actionType == "erase")
+                if (actionType == "deleteTreeNode")
                     s << "删除元素时，索引值不得>=listSize" << endl;
                 else if (actionType == "replace")s << "替换元素时，索引值不得>=listSize" << endl;
                 else if (actionType == "get")s << "获取元素时，索引值不得>=listSize" << endl;
