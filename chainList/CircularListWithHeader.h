@@ -1,4 +1,4 @@
-//¶¨Òå´øÍ·½ÚµãµÄ»·ĞÎÁ´±í
+//å®šä¹‰å¸¦å¤´èŠ‚ç‚¹çš„ç¯å½¢é“¾è¡¨
 #pragma once
 
 #include<vector>
@@ -9,7 +9,7 @@
 using namespace std;
 using ExceptionSpace::IllegalParameterException;
 
-//´øÍ·½áµãµÄ»·ĞÎÁ´±í
+//å¸¦å¤´ç»“ç‚¹çš„ç¯å½¢é“¾è¡¨
 template<class T>
 class CircularListWithHeader : public LinearList<T> {
 public:
@@ -20,41 +20,41 @@ public:
     typedef CircularListWithHeader<T> *CircularPointer;
 
 private:
-    NodePointer nodeHeader;//Í·½ÚµãÖ¸Õë
-    int listSize;//½Úµã¸öÊı
+    NodePointer nodeHeader;//å¤´èŠ‚ç‚¹æŒ‡é’ˆ
+    int listSize;//èŠ‚ç‚¹ä¸ªæ•°
 
 public:
-    //²»¹¹ÔìÊ×½ÚµãÖ»¹¹ÔìÍ·½ÚµãµÄ¹¹Ôìº¯Êı
+    //ä¸æ„é€ é¦–èŠ‚ç‚¹åªæ„é€ å¤´èŠ‚ç‚¹çš„æ„é€ å‡½æ•°
     explicit CircularListWithHeader() : listSize(0) {
         nodeHeader = new Node(nodeHeader);
     }
 
-    //¹¹ÔìÊ×½ÚµãµÄ¹¹Ôìº¯Êı£¬¿ÉÖ¸¶¨Ê×½ÚµãµÄÔªËØÖµºÍÍ·½ÚµãµÄµØÖ·
+    //æ„é€ é¦–èŠ‚ç‚¹çš„æ„é€ å‡½æ•°ï¼Œå¯æŒ‡å®šé¦–èŠ‚ç‚¹çš„å…ƒç´ å€¼å’Œå¤´èŠ‚ç‚¹çš„åœ°å€
     explicit CircularListWithHeader(const T &theElement, NodePointer p = new Node) : nodeHeader(p), listSize(1) {
         nodeHeader->next = new Node(theElement, nodeHeader);
     }
 
-    //Ö¸¶¨Í·½ÚµãºÍÊ×½ÚµãµØÖ·µÄ¹¹Ôìº¯Êı£¬ÔÚĞèÒªÊ×½ÚµãÔªËØÖµÊ±Ê¹ÓÃ
+    //æŒ‡å®šå¤´èŠ‚ç‚¹å’Œé¦–èŠ‚ç‚¹åœ°å€çš„æ„é€ å‡½æ•°ï¼Œåœ¨éœ€è¦é¦–èŠ‚ç‚¹å…ƒç´ å€¼æ—¶ä½¿ç”¨
     explicit CircularListWithHeader(const T &theElement, NodePointer header, NodePointer headNode = new Node) : nodeHeader(header), listSize(1) {
         nodeHeader->next = headNode;
         headNode->element = theElement;
         headNode->next = nodeHeader;
     }
 
-    //Ö¸¶¨Í·½ÚµãºÍÊ×½ÚµãµØÖ·µÄ¹¹Ôìº¯Êı£¬ÔÚ²»ĞèÒªÌá¹©Ê×½ìµãÔªËØÖµÊ±Ê¹ÓÃ
+    //æŒ‡å®šå¤´èŠ‚ç‚¹å’Œé¦–èŠ‚ç‚¹åœ°å€çš„æ„é€ å‡½æ•°ï¼Œåœ¨ä¸éœ€è¦æä¾›é¦–å±Šç‚¹å…ƒç´ å€¼æ—¶ä½¿ç”¨
     explicit CircularListWithHeader(NodePointer header, NodePointer headNode) : nodeHeader(header), listSize(1) {
         nodeHeader->next = headNode;
         headNode->next = nodeHeader;
     }
 
-    //Ö»ĞèÒªÖ¸¶¨Ê×½ÚµãµÄ¹¹Ôìº¯Êı
+    //åªéœ€è¦æŒ‡å®šé¦–èŠ‚ç‚¹çš„æ„é€ å‡½æ•°
     explicit CircularListWithHeader(NodePointer headNode) {
         nodeHeader = new Node(headNode);
         headNode->next = nodeHeader;
         listSize = 1;
     }
 
-    //¹¹Ôì¾ßÓĞnewSize¸ö½ÚµãµÄÁ´±í£¬È»ºó½«Á´±íµÄËùÓĞÔªËØ¶¼ÉèÎªtheElement
+    //æ„é€ å…·æœ‰newSizeä¸ªèŠ‚ç‚¹çš„é“¾è¡¨ï¼Œç„¶åå°†é“¾è¡¨çš„æ‰€æœ‰å…ƒç´ éƒ½è®¾ä¸ºtheElement
     CircularListWithHeader(const T theElement, const int &newSize) {
         nodeHeader = new Node;
         NodePointer p = nodeHeader;
@@ -65,17 +65,17 @@ public:
         listSize = newSize;
     }
 
-    //¿½±´¹¹Ôìº¯Êı
+    //æ‹·è´æ„é€ å‡½æ•°
     CircularListWithHeader(const CircularListWithHeader<T> &theChainList) {
         if (theChainList.size() == 0) {
-            //Á´±ítheChainListÎª¿Õ£¬²»ĞèÒª¸´ÖÆ¹¹Ôì
+            //é“¾è¡¨theChainListä¸ºç©ºï¼Œä¸éœ€è¦å¤åˆ¶æ„é€ 
             nodeHeader = new Node;
             nodeHeader->next = nodeHeader;
             listSize = 0;
         } else {
             listSize = theChainList.size();
             nodeHeader = new Node;
-            NodePointer sourceNode = &(theChainList.getNode(0));//sourceNodeÖ¸Ïò±»¿½±´Á´±íµÄÊ×½Úµã
+            NodePointer sourceNode = &(theChainList.getNode(0));//sourceNodeæŒ‡å‘è¢«æ‹·è´é“¾è¡¨çš„é¦–èŠ‚ç‚¹
             nodeHeader->next = new Node(sourceNode->element, nodeHeader);
             sourceNode = sourceNode->next;
             NodePointer targetNode = nodeHeader->next;
@@ -87,7 +87,7 @@ public:
         }
     }
 
-    //Îö¹¹º¯Êı
+    //ææ„å‡½æ•°
     ~CircularListWithHeader() {
         NodePointer p = nodeHeader->next;
         NodePointer deleteNode = nullptr;
@@ -100,9 +100,9 @@ public:
     }
 
 
-    //ADT·½·¨
+    //ADTæ–¹æ³•
 
-    //µÃµ½Ö¸¶¨Ë÷ÒıÖµµÄ½ÚµãÖĞµÄÔªËØÖµ
+    //å¾—åˆ°æŒ‡å®šç´¢å¼•å€¼çš„èŠ‚ç‚¹ä¸­çš„å…ƒç´ å€¼
     virtual T get(const int &theIndex) const {
         checkIndex(theIndex, "get");
         NodePointer currentNode = nodeHeader->next;
@@ -112,7 +112,7 @@ public:
         return currentNode->element;
     }
 
-    //µÃµ½µÚÒ»¸ö½ÚµãÔªËØÖµµÈÓÚtheElementµÄ½ÚµãµÄË÷ÒıÖµ
+    //å¾—åˆ°ç¬¬ä¸€ä¸ªèŠ‚ç‚¹å…ƒç´ å€¼ç­‰äºtheElementçš„èŠ‚ç‚¹çš„ç´¢å¼•å€¼
     virtual int indexOf(const T &theElement) const {
         NodePointer currentNode = nodeHeader->next;
         int index = 0;
@@ -125,17 +125,17 @@ public:
         } else return index;
     }
 
-    //ÅĞ¶ÏÈİÆ÷ÊÇ·ñÎª¿Õ
+    //åˆ¤æ–­å®¹å™¨æ˜¯å¦ä¸ºç©º
     [[nodiscard]] virtual bool empty() const {
         return this->listSize == 0;
     }
 
-    //·µ»ØÈİÆ÷ÖĞÔªËØµÄ¸öÊı
+    //è¿”å›å®¹å™¨ä¸­å…ƒç´ çš„ä¸ªæ•°
     [[nodiscard]] virtual int size() const {
         return listSize;
     }
 
-    //Çå¿ÕÈİÆ÷ÖĞËùÓĞµÄ½Úµã
+    //æ¸…ç©ºå®¹å™¨ä¸­æ‰€æœ‰çš„èŠ‚ç‚¹
     virtual void clear() {
         NodePointer p = nodeHeader->next;
         nodeHeader->next = nodeHeader;
@@ -148,7 +148,7 @@ public:
         listSize = 0;
     }
 
-    //É¾³ıÖ¸¶¨Ë÷ÒıµÄ½Úµã
+    //åˆ é™¤æŒ‡å®šç´¢å¼•çš„èŠ‚ç‚¹
     virtual void erase(const int &theIndex) {
         checkIndex(theIndex, "deleteTreeNode");
         NodePointer deleteNode;
@@ -170,7 +170,7 @@ public:
 
     }
 
-    //ÔÚÖ¸¶¨Ë÷ÒıµÄ½ÚµãÖ®Ç°²åÈë½Úµã
+    //åœ¨æŒ‡å®šç´¢å¼•çš„èŠ‚ç‚¹ä¹‹å‰æ’å…¥èŠ‚ç‚¹
     virtual void insert(const int &theIndex, const T &theElement) {
         checkIndex(theIndex, "insert");
         if (theIndex == 0) {
@@ -187,10 +187,10 @@ public:
 
     }
 
-    //Êä³öËùÓĞ½ÚµãÔªËØÖµ
+    //è¾“å‡ºæ‰€æœ‰èŠ‚ç‚¹å…ƒç´ å€¼
     virtual void output(ostream &out) const {
         if (listSize == 0) {
-            cout << "µ±Ç°Á´±íÎª¿Õ£¬ÎŞ·¨Êä³ö" << endl;
+            cout << "å½“å‰é“¾è¡¨ä¸ºç©ºï¼Œæ— æ³•è¾“å‡º" << endl;
             return;
         }
         for (NodePointer currentNode = nodeHeader->next; currentNode != nodeHeader; currentNode = currentNode->next) {
@@ -199,7 +199,7 @@ public:
 
     }
 
-    //³£¹æ½Ó¿Ú
+    //å¸¸è§„æ¥å£
 
     NodePointer getHeader() { return nodeHeader; }
 
@@ -218,13 +218,13 @@ public:
 
     }
 
-    //½«Ö¸¶¨Ë÷ÒıµÄ½ÚµãµÄÔªËØÖµÉèÎªtheElement
+    //å°†æŒ‡å®šç´¢å¼•çš„èŠ‚ç‚¹çš„å…ƒç´ å€¼è®¾ä¸ºtheElement
     void setElement(const int &theIndex, const T &theElement) {
         checkIndex(theIndex, "replace");
         this->setElement(theIndex,theElement);
     }
 
-    //ÒÆ³ıÁ½¸öÖ¸¶¨Ë÷ÒıÖ®¼äµÄËùÓĞÔªËØ
+    //ç§»é™¤ä¸¤ä¸ªæŒ‡å®šç´¢å¼•ä¹‹é—´çš„æ‰€æœ‰å…ƒç´ 
     void removeRange(const int &beginIndex, const int &endIndex) {
         if (beginIndex >= 0 && beginIndex < endIndex && endIndex <= listSize - 1) {
             NodePointer pBegin = nodeHeader->next, pEnd = nodeHeader->next;
@@ -244,12 +244,12 @@ public:
 
             listSize -= count;
         } else {
-            throw ExceptionSpace::IllegalParameterException("removeRange(const int &beginIndex, const int &endIndex)²ÎÊı´«µİ´íÎó");
+            throw ExceptionSpace::IllegalParameterException("removeRange(const int &beginIndex, const int &endIndex)å‚æ•°ä¼ é€’é”™è¯¯");
         }
 
     }
 
-    //½»»»Á½¸öÈİÆ÷ÖĞ½Úµã
+    //äº¤æ¢ä¸¤ä¸ªå®¹å™¨ä¸­èŠ‚ç‚¹
     void swapContainer(CircularListWithHeader<T> &theChain) {
         int tempSize = listSize;
         listSize = theChain.listSize;
@@ -261,7 +261,7 @@ public:
         theChain.nodeHeader = tempHeader;
     }
 
-    //½»»»Ö¸¶¨Ë÷ÒıµÄÁ½¸ö½ÚµãµÄÔªËØÖµ
+    //äº¤æ¢æŒ‡å®šç´¢å¼•çš„ä¸¤ä¸ªèŠ‚ç‚¹çš„å…ƒç´ å€¼
     void swapElement(const int &indexA, const int &indexB) {
         checkIndex(indexA, "replace");
         checkIndex(indexB, "replace");
@@ -271,7 +271,7 @@ public:
 
     }
 
-    //½«ÔªËØÕûÌåÏò×óÒÆ¶¯
+    //å°†å…ƒç´ æ•´ä½“å‘å·¦ç§»åŠ¨
     void leftShift(const int &offset) {
         NodePointer p = nodeHeader->next;
         NodePointer j = nodeHeader->next;
@@ -290,7 +290,7 @@ public:
 
     }
 
-    //·´×ªÈİÆ÷ÔªËØ
+    //åè½¬å®¹å™¨å…ƒç´ 
     void reverse() {
         NodePointer p = nodeHeader->next;
         NodePointer first = p;
@@ -307,7 +307,7 @@ public:
 
     }
 
-    //½«´«ÈëµÄÁ½¸öÁ´±íµÄÔªËØ½»²æ´æÈëµ÷ÓÃ¸Ãº¯ÊıµÄÁ´±íÖĞ£¬ÇÒ²»¿ª±ÙĞÂµÄ¿Õ¼ä£¬×îºóÂß¼­É¾³ı´«ÈëµÄÁ½¸öÁ´±í
+    //å°†ä¼ å…¥çš„ä¸¤ä¸ªé“¾è¡¨çš„å…ƒç´ äº¤å‰å­˜å…¥è°ƒç”¨è¯¥å‡½æ•°çš„é“¾è¡¨ä¸­ï¼Œä¸”ä¸å¼€è¾Ÿæ–°çš„ç©ºé—´ï¼Œæœ€åé€»è¾‘åˆ é™¤ä¼ å…¥çš„ä¸¤ä¸ªé“¾è¡¨
     void meld(CircularListWithHeader<T> &chainA, CircularListWithHeader<T> &chainB) {
         if (chainA.size() == 0 && chainB.size() == 0)return;
 
@@ -356,12 +356,12 @@ public:
 
     }
 
-    //Éú³ÉÁ½¸öÀ©Õ¹Á´±íaºÍb£¬aÖĞ°üº¬cÖĞË÷ÒıÎªÆæÊıµÄÔªËØ£¬bÖĞ°üº¬cÖĞÆäÓàµÄÔªËØ£¬Õâ¸ö·½·¨²»ÄÜ¸Ä±äcÖĞµÄÄÚ´æ½á¹¹
+    //ç”Ÿæˆä¸¤ä¸ªæ‰©å±•é“¾è¡¨aå’Œbï¼Œaä¸­åŒ…å«cä¸­ç´¢å¼•ä¸ºå¥‡æ•°çš„å…ƒç´ ï¼Œbä¸­åŒ…å«cä¸­å…¶ä½™çš„å…ƒç´ ï¼Œè¿™ä¸ªæ–¹æ³•ä¸èƒ½æ”¹å˜cä¸­çš„å†…å­˜ç»“æ„
     vector<CircularListWithHeader<T>> *split() {
         auto p = new vector<CircularListWithHeader<T>>;
 
-        //Ê×ÏÈ´¦ÀíÁ½ÖÖÌØÊâÇé¿ö
-        if (this->size() < 2)return nullptr;//µ±Á´±íÔªËØĞ¡ÓÚ2Ê±Ö±½Ó·µ»Ø¿ÕÖ¸Õë
+        //é¦–å…ˆå¤„ç†ä¸¤ç§ç‰¹æ®Šæƒ…å†µ
+        if (this->size() < 2)return nullptr;//å½“é“¾è¡¨å…ƒç´ å°äº2æ—¶ç›´æ¥è¿”å›ç©ºæŒ‡é’ˆ
         if (this->size() == 2) {
             auto p1 = this->indexToAddress(0);
             auto p2 = this->indexToAddress(1);
@@ -372,8 +372,8 @@ public:
             return p;
         }
 
-        //ÏÂÃæµÄÕâ¸öËã·¨½«»á°ÑËùÓĞË÷ÒıÎªÅ¼ÊıµÄÔªËØÏòÇ°Ìá£¬Ê¹Æä½ô°¤ÔÚÒ»Æğ£¬¶øË÷ÒıÎªÆæÊıµÄÔªËØ½«»áÒÔµ¹ĞòÅÅÁĞÔÚÖ®ºó
-        //¾ÙÀı£ºÏÂÃæµÄËã·¨»á½«ÕâÑùµÄÊı×é{2, 7, 8, 9, 3, 5, 4, 6, 1}±äÎª{2, 8, 3, 4, 1, 6, 5, 9, 7}
+        //ä¸‹é¢çš„è¿™ä¸ªç®—æ³•å°†ä¼šæŠŠæ‰€æœ‰ç´¢å¼•ä¸ºå¶æ•°çš„å…ƒç´ å‘å‰æï¼Œä½¿å…¶ç´§æŒ¨åœ¨ä¸€èµ·ï¼Œè€Œç´¢å¼•ä¸ºå¥‡æ•°çš„å…ƒç´ å°†ä¼šä»¥å€’åºæ’åˆ—åœ¨ä¹‹å
+        //ä¸¾ä¾‹ï¼šä¸‹é¢çš„ç®—æ³•ä¼šå°†è¿™æ ·çš„æ•°ç»„{2, 7, 8, 9, 3, 5, 4, 6, 1}å˜ä¸º{2, 8, 3, 4, 1, 6, 5, 9, 7}
         for (int x = 1; x + 1 <= listSize - 1; x++) {
             int i = x;
             while (i + 1 <= listSize - 1) {
@@ -382,31 +382,31 @@ public:
             }
         }
 
-        int sizeA, sizeB;//sizeAÊÇË÷ÒıÎªÅ¼ÊıµÄÔªËØµÄ¸öÊı£¬sizeBÊÇË÷ÒıÎªÆæÊıµÄÔªËØµÄ¸öÊı
+        int sizeA, sizeB;//sizeAæ˜¯ç´¢å¼•ä¸ºå¶æ•°çš„å…ƒç´ çš„ä¸ªæ•°ï¼ŒsizeBæ˜¯ç´¢å¼•ä¸ºå¥‡æ•°çš„å…ƒç´ çš„ä¸ªæ•°
         if (listSize % 2 == 0) { sizeA = listSize / 2; }
         else { sizeA = (listSize / 2) + 1; }
         sizeB = listSize - sizeA;
 
-        //ÏÖÔÚËùÓĞË÷ÒıÎªÅ¼ÊıµÄÔªËØ¶¼ÔÚÇ°Ãæ£¬ËùÓĞË÷ÒıÎªÆæÊıµÄÔªËØ¶¼ÔÚºóÃæ£¨×¢Òâ´ËÊ±ÆæÊıĞòÁĞÊÇµ¹Ğò£¬Ö®ºóĞèÒª·´×ª£©
-        //ÓÃÖ¸Õë·Ö±ğ»®¶¨Ë÷ÒıÖµÎªÅ¼ÊıºÍÆæÊıµÄÇøÓò¶ÎµÄ¿ªÊ¼ºÍÄ©Î²
-        NodePointer beginA = nodeHeader->next;//Ö¸ÏòË÷ÒıÎªÅ¼ÊıµÄĞòÁĞµÄµÚÒ»¸öÔªËØ
+        //ç°åœ¨æ‰€æœ‰ç´¢å¼•ä¸ºå¶æ•°çš„å…ƒç´ éƒ½åœ¨å‰é¢ï¼Œæ‰€æœ‰ç´¢å¼•ä¸ºå¥‡æ•°çš„å…ƒç´ éƒ½åœ¨åé¢ï¼ˆæ³¨æ„æ­¤æ—¶å¥‡æ•°åºåˆ—æ˜¯å€’åºï¼Œä¹‹åéœ€è¦åè½¬ï¼‰
+        //ç”¨æŒ‡é’ˆåˆ†åˆ«åˆ’å®šç´¢å¼•å€¼ä¸ºå¶æ•°å’Œå¥‡æ•°çš„åŒºåŸŸæ®µçš„å¼€å§‹å’Œæœ«å°¾
+        NodePointer beginA = nodeHeader->next;//æŒ‡å‘ç´¢å¼•ä¸ºå¶æ•°çš„åºåˆ—çš„ç¬¬ä¸€ä¸ªå…ƒç´ 
         NodePointer endA = this->indexToAddress(sizeA - 1);
-        NodePointer beginB = this->indexToAddress(sizeA);//Ö¸ÏòË÷ÒıÎªÆæÊıµÄĞòÁĞµÄ×îºóÒ»¸öÔªËØ
-        NodePointer endB = this->indexToAddress(listSize - 1);//Ö¸ÏòË÷ÒıÎªÆæÊıµÄĞòÁĞµÄµÚÒ»¸öÔªËØ
+        NodePointer beginB = this->indexToAddress(sizeA);//æŒ‡å‘ç´¢å¼•ä¸ºå¥‡æ•°çš„åºåˆ—çš„æœ€åä¸€ä¸ªå…ƒç´ 
+        NodePointer endB = this->indexToAddress(listSize - 1);//æŒ‡å‘ç´¢å¼•ä¸ºå¥‡æ•°çš„åºåˆ—çš„ç¬¬ä¸€ä¸ªå…ƒç´ 
 
-        //½«Å¼ÊıÇøµÄÔªËØÆ´½ÓÔÚĞÂ´´½¨µÄÁ´±íÖĞ
-        CircularListWithHeader listA;//±£´æÅ¼ÊıĞòÁĞµÄÁ´±í
+        //å°†å¶æ•°åŒºçš„å…ƒç´ æ‹¼æ¥åœ¨æ–°åˆ›å»ºçš„é“¾è¡¨ä¸­
+        CircularListWithHeader listA;//ä¿å­˜å¶æ•°åºåˆ—çš„é“¾è¡¨
         NodePointer beginListA = listA.getHeader();
         beginListA->next = beginA;
         endA->next = beginListA;
 
-        //½«ÆæÊıÇøµÄÔªËØÆ´½ÓÔÚĞÂ´´½¨µÄÁ´±íÖĞ
+        //å°†å¥‡æ•°åŒºçš„å…ƒç´ æ‹¼æ¥åœ¨æ–°åˆ›å»ºçš„é“¾è¡¨ä¸­
         CircularListWithHeader listB;
         NodePointer beginListB = listB.getHeader();
         beginListB->next = beginB;
         endB->next = beginListB;
 
-        //·´×ªlistB
+        //åè½¬listB
         listB.reverse();
 
         p->push_back(listA);
@@ -416,10 +416,10 @@ public:
     }
 
     void test() {
-        cout << "ÔİÎŞ²âÊÔ´úÂë" << endl;
+        cout << "æš‚æ— æµ‹è¯•ä»£ç " << endl;
     }
 
-    //°´ÕÕ²åÈëÅÅĞò·¨ÅÅÁĞÈİÆ÷ÖĞµÄÔªËØ
+    //æŒ‰ç…§æ’å…¥æ’åºæ³•æ’åˆ—å®¹å™¨ä¸­çš„å…ƒç´ 
     void insertSort() {
 
         for (int i = 1; i < this->size(); i++) {
@@ -434,7 +434,7 @@ public:
 
     }
 
-    //°´ÕÕÑ¡ÔñÅÅĞò·¨¶ÔÈİÆ÷ÖĞµÄÔªËØ½øĞĞÅÅĞò
+    //æŒ‰ç…§é€‰æ‹©æ’åºæ³•å¯¹å®¹å™¨ä¸­çš„å…ƒç´ è¿›è¡Œæ’åº
     void selectionSort() {
         for (int i = 0; i < this->size() - 1; i++) {
             int tempMin = i;
@@ -446,17 +446,17 @@ public:
         }
     }
 
-    //°´ÕÕÃ°ÅİÅÅĞò·¨¶ÔÈİÆ÷ÖĞµÄÔªËØ½øĞĞÅÅĞò
+    //æŒ‰ç…§å†’æ³¡æ’åºæ³•å¯¹å®¹å™¨ä¸­çš„å…ƒç´ è¿›è¡Œæ’åº
     void bubbleSort() {
         for (int i = this->size(); i > 1 && this->bubble(i); i--);
 
     }
 
-    //ÓÃ¸²¸ÇµÄ·½Ê½É¾³ıÈİÆ÷ÖĞµÄÄ³Ò»¸öÁ´±í½Úµã
+    //ç”¨è¦†ç›–çš„æ–¹å¼åˆ é™¤å®¹å™¨ä¸­çš„æŸä¸€ä¸ªé“¾è¡¨èŠ‚ç‚¹
     void overwriteErase(const int &theIndex) {
         /*
-         * ÒªÉ¾³ıÁ´±íÖĞµÚÒ»¸ö½Úµã£¬ÏÈ°ÑµÚ¶ş¸ö½ÚµãµÄÔªËØÖµ¸²¸Çµ½µÚÒ»¸ö½Úµã£¬È»ºó°ÑµÚ¶ş¸ö½ÚµãÉ¾³ı´ïµ½ÁË
-         * É¾³ıµÚÒ»¸ö½ÚµãµÄÄ¿µÄ
+         * è¦åˆ é™¤é“¾è¡¨ä¸­ç¬¬ä¸€ä¸ªèŠ‚ç‚¹ï¼Œå…ˆæŠŠç¬¬äºŒä¸ªèŠ‚ç‚¹çš„å…ƒç´ å€¼è¦†ç›–åˆ°ç¬¬ä¸€ä¸ªèŠ‚ç‚¹ï¼Œç„¶åæŠŠç¬¬äºŒä¸ªèŠ‚ç‚¹åˆ é™¤è¾¾åˆ°äº†
+         * åˆ é™¤ç¬¬ä¸€ä¸ªèŠ‚ç‚¹çš„ç›®çš„
          * */
         checkIndex(theIndex, "deleteTreeNode");
         NodePointer theNode = this->indexToAddress(theIndex);
@@ -468,7 +468,7 @@ public:
 
 private:
 
-    //·µ»ØÖ¸¶¨Ë÷ÒıµÄ½ÚµãÒıÓÃ
+    //è¿”å›æŒ‡å®šç´¢å¼•çš„èŠ‚ç‚¹å¼•ç”¨
     ChainNode<T> &getNode(const int &theIndex)const {
         NodePointer p = nodeHeader->next;
         for (int i = 0; i < theIndex; i++) {
@@ -477,21 +477,21 @@ private:
         return *p;
     }
 
-    //½«Ö¸¶¨Ë÷ÒıµÄÔªËØÖµ¸ÄÎªtheElement£¬²¢½«ÆäÖ¸ÕëÓòÉèÎª¸ø¶¨µÄµØÖ·
+    //å°†æŒ‡å®šç´¢å¼•çš„å…ƒç´ å€¼æ”¹ä¸ºtheElementï¼Œå¹¶å°†å…¶æŒ‡é’ˆåŸŸè®¾ä¸ºç»™å®šçš„åœ°å€
     void setNode(const int &theIndex, const T &theElement, NodePointer &theNext) {
         this->getNode(theIndex).element = theElement;
         this->getNode(theIndex).next = theNext;
 
     }
 
-    //Âß¼­ÉÏÇå¿ÕÁ´±íÔªËØ£¬Êµ¼Ê¿Õ¼ä²¢Î´ÊÍ·Å
+    //é€»è¾‘ä¸Šæ¸…ç©ºé“¾è¡¨å…ƒç´ ï¼Œå®é™…ç©ºé—´å¹¶æœªé‡Šæ”¾
     void logicalClear() {
         nodeHeader->next = nodeHeader;
         listSize = 0;
     }
 
-    //Ç¿ÖÆÉè¶¨Á´±íÔªËØ¸öÊı£¬Èç¹ûĞÂÁ´±íÔªËØ¸öÊı´óÓÚÔ­ÏÈÁ´±íÔªËØ¸öÊıÔò²»ĞèÒªÉ¾³ıÈÎºÎÔªËØ
-    //ÈôĞÂÁ´±íÔªËØ¸öÊıĞ¡ÓÚµ±Ç°Á´±íÔªËØ¸öÊı£¬ÔòÉ¾³ı¶àÓàµÄÁ´±í½Úµã
+    //å¼ºåˆ¶è®¾å®šé“¾è¡¨å…ƒç´ ä¸ªæ•°ï¼Œå¦‚æœæ–°é“¾è¡¨å…ƒç´ ä¸ªæ•°å¤§äºåŸå…ˆé“¾è¡¨å…ƒç´ ä¸ªæ•°åˆ™ä¸éœ€è¦åˆ é™¤ä»»ä½•å…ƒç´ 
+    //è‹¥æ–°é“¾è¡¨å…ƒç´ ä¸ªæ•°å°äºå½“å‰é“¾è¡¨å…ƒç´ ä¸ªæ•°ï¼Œåˆ™åˆ é™¤å¤šä½™çš„é“¾è¡¨èŠ‚ç‚¹
     void setSize(int newSize) {
         if (newSize < this->size() && newSize > 0) {
             NodePointer p = nodeHeader->next;
@@ -501,10 +501,10 @@ private:
                 p = p->next;
             }
             p->next = nodeHeader;
-            //´ËÊ±jÖ¸ÏòµÄ½Úµã¼°ÆäÖ®ºóµÄËùÓĞ½Úµã¶¼ÊÇÒªÉ¾³ıµÄ½Úµã
+            //æ­¤æ—¶jæŒ‡å‘çš„èŠ‚ç‚¹åŠå…¶ä¹‹åçš„æ‰€æœ‰èŠ‚ç‚¹éƒ½æ˜¯è¦åˆ é™¤çš„èŠ‚ç‚¹
             ChainNode<T> *deleteNode = j;
             ChainNode<T> *currentNode = deleteNode;
-            int count = 0;//¼ÇÂ¼É¾³ı½ÚµãµÄÊıÁ¿
+            int count = 0;//è®°å½•åˆ é™¤èŠ‚ç‚¹çš„æ•°é‡
             while (currentNode != nodeHeader) {
                 currentNode = currentNode->next;
                 delete deleteNode;
@@ -513,7 +513,7 @@ private:
             }
             listSize -= count;
         } else {
-            //ÏòÁ´±íµÄºóÃæ²¹³äĞÂ½Úµã£¬ËùÓĞĞÂ½ÚµãµÄÖµ¶¼ÉèÎª0
+            //å‘é“¾è¡¨çš„åé¢è¡¥å……æ–°èŠ‚ç‚¹ï¼Œæ‰€æœ‰æ–°èŠ‚ç‚¹çš„å€¼éƒ½è®¾ä¸º0
             int newListSize = newSize - listSize;
             CircularListWithHeader circularList = new CircularListWithHeader<T>(0, newListSize);
             this->getNode(listSize - 1).next = circularList.indexToAddress(0);
@@ -525,27 +525,27 @@ private:
     }
 
     void checkIndex(int theIndex, std::string actionType) const {
-        //È·±£Ë÷ÒıÔÚÖÏÖ´ĞĞÌØÊâ²Ù×÷Ê±£¬Ë÷ÒıÔÚÕıÈ·µÄ·¶Î§ÄÚ
+        //ç¡®ä¿ç´¢å¼•åœ¨çª’æ‰§è¡Œç‰¹æ®Šæ“ä½œæ—¶ï¼Œç´¢å¼•åœ¨æ­£ç¡®çš„èŒƒå›´å†…
         if (actionType == "insert") {
             if (theIndex < 0 || theIndex > this->size()) {
                 ostringstream s;
-                s << "²åÈëÔªËØÊ±£¬";
-                if (theIndex < 0)s << "Ë÷ÒıÖµ²»µÃ<0" << endl;
-                if (theIndex > this->size())s << "Ë÷ÒıÖµ²»µÃ>Êı×éÔªËØ¸öÊı" << endl;
+                s << "æ’å…¥å…ƒç´ æ—¶ï¼Œ";
+                if (theIndex < 0)s << "ç´¢å¼•å€¼ä¸å¾—<0" << endl;
+                if (theIndex > this->size())s << "ç´¢å¼•å€¼ä¸å¾—>æ•°ç»„å…ƒç´ ä¸ªæ•°" << endl;
                 throw ExceptionSpace::IllegalParameterException(s.str());
             }
         } else if (actionType == "deleteTreeNode" || actionType == "get" || actionType == "replace") {
             if (theIndex >= this->size()) {
                 ostringstream s;
                 if (actionType == "deleteTreeNode")
-                    s << "É¾³ıÔªËØÊ±£¬Ë÷ÒıÖµ²»µÃ>=listSize" << endl;
-                else if (actionType == "replace")s << "Ìæ»»ÔªËØÊ±£¬Ë÷ÒıÖµ²»µÃ>=listSize" << endl;
-                else if (actionType == "get")s << "»ñÈ¡ÔªËØÊ±£¬Ë÷ÒıÖµ²»µÃ>=listSize" << endl;
+                    s << "åˆ é™¤å…ƒç´ æ—¶ï¼Œç´¢å¼•å€¼ä¸å¾—>=listSize" << endl;
+                else if (actionType == "replace")s << "æ›¿æ¢å…ƒç´ æ—¶ï¼Œç´¢å¼•å€¼ä¸å¾—>=listSize" << endl;
+                else if (actionType == "get")s << "è·å–å…ƒç´ æ—¶ï¼Œç´¢å¼•å€¼ä¸å¾—>=listSize" << endl;
                 throw ExceptionSpace::IllegalParameterException(s.str());
             }
         } else {
             ostringstream s;
-            s << "checkIndexµÚ¶ş¸ö²ÎÊı´«Èë²»ÕıÈ·£¬Î´Ö¸¶¨ÕıÈ·µÄ²Ù×÷ÀàĞÍ" << endl;
+            s << "checkIndexç¬¬äºŒä¸ªå‚æ•°ä¼ å…¥ä¸æ­£ç¡®ï¼ŒæœªæŒ‡å®šæ­£ç¡®çš„æ“ä½œç±»å‹" << endl;
             throw ExceptionSpace::IllegalParameterException(s.str());
         }
     }

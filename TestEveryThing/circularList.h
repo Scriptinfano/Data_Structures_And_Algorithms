@@ -1,11 +1,12 @@
-//ÒÔGB2312±àÂë´ò¿ª´ËÎÄ¼ş
+//ä»¥GB2312ç¼–ç æ‰“å¼€æ­¤æ–‡ä»¶
 #pragma once
+
 #include <stdio.h>
 #include <malloc.h>
 
-typedef int DataType;//¶¨Òå·ºĞÍÊı¾İ
+typedef int DataType;//å®šä¹‰æ³›å‹æ•°æ®
 
-//¶¨ÒåÁ´±í½Úµã
+//å®šä¹‰é“¾è¡¨èŠ‚ç‚¹
 typedef struct ChainNode {
     DataType element;
     struct ChainNode *next;
@@ -25,15 +26,15 @@ NodePointer initializeNode_default(NodePointer next) {
     return p;
 }
 
-//¶¨ÒåÑ­»·Á´±í
+//å®šä¹‰å¾ªç¯é“¾è¡¨
 typedef struct CircularListWithHead {
-    NodePointer nodeHeader;//Ö¸ÏòÍ·½ÚµãµÄÖ¸Õë
-    NodePointer nodeBack;//Ö¸ÏòÎ²½ÚµãµÄÖ¸Õë
-    int listSize;//Á´±íµÄ½Úµã¸öÊı
+    NodePointer nodeHeader;//æŒ‡å‘å¤´èŠ‚ç‚¹çš„æŒ‡é’ˆ
+    NodePointer nodeBack;//æŒ‡å‘å°¾èŠ‚ç‚¹çš„æŒ‡é’ˆ
+    int listSize;//é“¾è¡¨çš„èŠ‚ç‚¹ä¸ªæ•°
 } circularList;
 typedef circularList *CircularPointer;
 
-//ÊÍ·ÅÁ´±íËùÕ¼µÄËùÓĞ¿Õ¼ä
+//é‡Šæ”¾é“¾è¡¨æ‰€å çš„æ‰€æœ‰ç©ºé—´
 void freeList(CircularPointer p){
     NodePointer j=p->nodeHeader->next;
     NodePointer deleteNode=j;
@@ -45,7 +46,8 @@ void freeList(CircularPointer p){
     free(j);
     free(p);
 }
-//³õÊ¼»¯Á´±í
+
+//åˆå§‹åŒ–é“¾è¡¨
 CircularPointer initializeList() {
     CircularPointer p = (CircularPointer) malloc(sizeof(circularList));
     p->listSize = 0;
@@ -53,12 +55,12 @@ CircularPointer initializeList() {
     p->nodeBack = p->nodeHeader;
 }
 
-//·µ»ØÁ´±íÖĞµÄ½ÚµãÊıÄ¿
+//è¿”å›é“¾è¡¨ä¸­çš„èŠ‚ç‚¹æ•°ç›®
 int getSizeOfList(CircularPointer p) {
     return p->listSize;
 }
 
-//ÔÚ±íÍ·²åÈëĞÂ½Úµã
+//åœ¨è¡¨å¤´æ’å…¥æ–°èŠ‚ç‚¹
 int addNode_front(CircularPointer p, DataType element) {
     NodePointer newNode = initializeNode(element, p->nodeHeader->next);
     p->nodeHeader->next = newNode;
@@ -67,19 +69,19 @@ int addNode_front(CircularPointer p, DataType element) {
     return 1;
 }
 
-//ÔÚ±íÎ²²åÈëĞÂ½Úµã
+//åœ¨è¡¨å°¾æ’å…¥æ–°èŠ‚ç‚¹
 void addNode_back(CircularPointer p, DataType element) {
     p->nodeBack->next = initializeNode(element, p->nodeHeader);
     p->listSize++;
     p->nodeBack = p->nodeBack->next;
 }
 
-//ÅĞ¶ÏÁ´±íÊÇ·ñÎª¿Õ
+//åˆ¤æ–­é“¾è¡¨æ˜¯å¦ä¸ºç©º
 int isEmpty(CircularPointer p) {
     return p->listSize == 0 && p->nodeHeader == p->nodeBack;
 }
 
-//ÔÚµÚindex¸ö½ÚµãÖ®ºó²åÈëĞÂ½Úµã¡£Èô·µ»Ø-1£¬ÔòËµÃ÷²ÎÊı´íÎó
+//åœ¨ç¬¬indexä¸ªèŠ‚ç‚¹ä¹‹åæ’å…¥æ–°èŠ‚ç‚¹ã€‚è‹¥è¿”å›-1ï¼Œåˆ™è¯´æ˜å‚æ•°é”™è¯¯
 int insertNode(CircularPointer p, int index, DataType element) {
     if (index > p->listSize)return -1;
     if (index == p->listSize) {
@@ -95,7 +97,7 @@ int insertNode(CircularPointer p, int index, DataType element) {
     p->listSize++;
 }
 
-//É¾³ıµÚindex¸ö½Úµã£¬Èô·µ»Ø0ÔòËµÃ÷Á´±íÎª¿Õ£¬ÎŞ·¨Ö´ĞĞÉ¾³ı²Ù×÷;Èô·µ»Ø-1£¬ÔòËµÃ÷²ÎÊıindex´íÎó;·µ»Ø1ÔòËµÃ÷²Ù×÷³É¹¦
+//åˆ é™¤ç¬¬indexä¸ªèŠ‚ç‚¹ï¼Œè‹¥è¿”å›0åˆ™è¯´æ˜é“¾è¡¨ä¸ºç©ºï¼Œæ— æ³•æ‰§è¡Œåˆ é™¤æ“ä½œ;è‹¥è¿”å›-1ï¼Œåˆ™è¯´æ˜å‚æ•°indexé”™è¯¯;è¿”å›1åˆ™è¯´æ˜æ“ä½œæˆåŠŸ
 int deleteNode(CircularPointer p, int index) {
     if (isEmpty(p))return 0;
     if (index > p->listSize)return -1;
@@ -110,7 +112,7 @@ int deleteNode(CircularPointer p, int index) {
     return 1;
 }
 
-//È¡µÃµÚindex¸ö½ÚµãµÄÊı¾İ¡£Èô·µ»Ø-1£¬ËµÃ÷²ÎÊıindex´íÎó;·µ»Ø1£¬ÔòËµÃ÷²Ù×÷³É¹¦
+//å–å¾—ç¬¬indexä¸ªèŠ‚ç‚¹çš„æ•°æ®ã€‚è‹¥è¿”å›-1ï¼Œè¯´æ˜å‚æ•°indexé”™è¯¯;è¿”å›1ï¼Œåˆ™è¯´æ˜æ“ä½œæˆåŠŸ
 int getNodeElement(CircularPointer p, int index, DataType **data) {
     if (index > p->listSize) {
         *data=NULL;
@@ -123,7 +125,8 @@ int getNodeElement(CircularPointer p, int index, DataType **data) {
     **data= j->element;
     return 1;
 }
-//Êä³öÁ´±íÖĞËùÓĞµÄÊı¾İ¡£Èô·µ»Ø0£¬ÔòÁ´±íÎª¿Õ£¬ÎŞ·¨Êä³öÁ´±íÄÚÈİ
+
+//è¾“å‡ºé“¾è¡¨ä¸­æ‰€æœ‰çš„æ•°æ®ã€‚è‹¥è¿”å›0ï¼Œåˆ™é“¾è¡¨ä¸ºç©ºï¼Œæ— æ³•è¾“å‡ºé“¾è¡¨å†…å®¹
 int outPutList(CircularPointer p){
     if(p->listSize==0){
         return 0;
@@ -136,20 +139,20 @@ int outPutList(CircularPointer p){
     printf("\n");
 }
 
-//Êä³öÖ¸ÕëÖ¸ÏòµÄÊı¾İ£¬ÈôÎª¿ÕÔòÌáÊ¾£¬index´ú±íÕâ¸öÊı¾İÊÇÁ´±íµÄµÚ¼¸¸ö½ÚµãµÄÊı¾İ
-void outputNode(int index,const DataType*theElement){
-    if(theElement==NULL)printf("ÎŞ·¨Êä³ö½ÚµãÊı¾İ£¬½ÚµãÖ¸ÕëÎª¿Õ\n");
-    else printf("µÚ%d¸ö½ÚµãÊı¾İ=%d\n",index,*theElement);
+//è¾“å‡ºæŒ‡é’ˆæŒ‡å‘çš„æ•°æ®ï¼Œè‹¥ä¸ºç©ºåˆ™æç¤ºï¼Œindexä»£è¡¨è¿™ä¸ªæ•°æ®æ˜¯é“¾è¡¨çš„ç¬¬å‡ ä¸ªèŠ‚ç‚¹çš„æ•°æ®
+void outputNode(int index,const DataType*theElement) {
+    if (theElement == NULL)printf("æ— æ³•è¾“å‡ºèŠ‚ç‚¹æ•°æ®ï¼ŒèŠ‚ç‚¹æŒ‡é’ˆä¸ºç©º\n");
+    else printf("ç¬¬%dä¸ªèŠ‚ç‚¹æ•°æ®=%d\n", index, *theElement);
 }
 
 //
 void processErr(int errCode){
     switch(errCode){
         case 0:
-            printf("Á´±íÎª¿Õ£¬ÎŞ·¨Ö´ĞĞÏà¹Ø²Ù×÷\n");
+            printf("é“¾è¡¨ä¸ºç©ºï¼Œæ— æ³•æ‰§è¡Œç›¸å…³æ“ä½œ\n");
             break;
         case -1:
-            printf("index²ÎÊı´íÎó£¬ÎŞ·¨Ö´ĞĞÏà¹Ø²Ù×÷\n");
+            printf("indexå‚æ•°é”™è¯¯ï¼Œæ— æ³•æ‰§è¡Œç›¸å…³æ“ä½œ\n");
             break;
     }
 }

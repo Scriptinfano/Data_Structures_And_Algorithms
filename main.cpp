@@ -73,35 +73,35 @@ void test1() {
         double value;
 
         while (true) {
-            cout << "ÊäÈëµÚ" << i + 1 << "¸öÔªËØµÄÐÐ±ê£º";
+            cout << "è¾“å…¥ç¬¬" << i + 1 << "ä¸ªå…ƒç´ çš„è¡Œæ ‡ï¼š";
             getline(cin, str);
-            cout<<"ÏÔÊ¾¸Õ¸ÕÊäÈëµÄ×Ö·û´®£º"<<str<<endl;
+            cout << "æ˜¾ç¤ºåˆšåˆšè¾“å…¥çš„å­—ç¬¦ä¸²ï¼š" << str << endl;
             transformer << str;
             transformer >> row;
-            cout<<"ÏÔÊ¾×ª»»ºóµÄÊý¾Ý:"<<row<<endl;
+            cout << "æ˜¾ç¤ºè½¬æ¢åŽçš„æ•°æ®:" << row << endl;
             transformer.clear();
             transformer.sync();
 
-            cout << "ÊäÈëµÚ" << i + 1 << "¸öÔªËØµÄÁÐ±ê£º";
+            cout << "è¾“å…¥ç¬¬" << i + 1 << "ä¸ªå…ƒç´ çš„åˆ—æ ‡ï¼š";
             getline(cin, str);
-            cout<<"ÏÔÊ¾¸Õ¸ÕÊäÈëµÄ×Ö·û´®£º"<<str<<endl;
+            cout << "æ˜¾ç¤ºåˆšåˆšè¾“å…¥çš„å­—ç¬¦ä¸²ï¼š" << str << endl;
             transformer << str;
             transformer >> column;
-            cout<<"ÏÔÊ¾×ª»»ºóµÄÊý¾Ý:"<<column<<endl;
+            cout << "æ˜¾ç¤ºè½¬æ¢åŽçš„æ•°æ®:" << column << endl;
             transformer.clear();
             transformer.sync();
 
-            cout << "ÊäÈëµÚ" << i + 1 << "¸öÔªËØµÄÖµ£º";
+            cout << "è¾“å…¥ç¬¬" << i + 1 << "ä¸ªå…ƒç´ çš„å€¼ï¼š";
             getline(cin, str);
-            cout<<"ÏÔÊ¾¸Õ¸ÕÊäÈëµÄ×Ö·û´®£º"<<str<<endl;
+            cout << "æ˜¾ç¤ºåˆšåˆšè¾“å…¥çš„å­—ç¬¦ä¸²ï¼š" << str << endl;
             transformer << str;
             transformer >> value;
-            cout<<"ÏÔÊ¾×ª»»ºóµÄÊý¾Ý:"<<value<<endl;
+            cout << "æ˜¾ç¤ºè½¬æ¢åŽçš„æ•°æ®:" << value << endl;
             transformer.clear();
             transformer.sync();
 
             if (row == 0 || column == 0 || value == 0) {
-                cout << "ÊäÈëµÄÈý¸öÊý¾ÝÖÐÓÐÒ»¸ö»ò¶à¸ö²»ºÏ·¨²»ºÏ·¨£¬ÇëÖØÐÂÊäÈë" << endl;
+                cout << "è¾“å…¥çš„ä¸‰ä¸ªæ•°æ®ä¸­æœ‰ä¸€ä¸ªæˆ–å¤šä¸ªä¸åˆæ³•ä¸åˆæ³•ï¼Œè¯·é‡æ–°è¾“å…¥" << endl;
                 continue;
             } else break;
         }

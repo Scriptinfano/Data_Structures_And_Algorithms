@@ -1,12 +1,12 @@
 /*
- * ±¾³ÌÐòÂÞÁÐ¾ØÕóµÄ»ù±¾²Ù×÷£¬°üÀ¨¾ØÕóµÄ×ªÖÃ£¬Ïà¼Ó£¬Ïà³Ë*/
+ * æœ¬ç¨‹åºç½—åˆ—çŸ©é˜µçš„åŸºæœ¬æ“ä½œï¼ŒåŒ…æ‹¬çŸ©é˜µçš„è½¬ç½®ï¼Œç›¸åŠ ï¼Œç›¸ä¹˜*/
 #include <iostream>
 
 using namespace std;
 
 template<class T>
 void transpose(T **a, int rows) {
-    //Ô­µØÍê³É¾ØÕóµÄ×ªÖÃ
+    //åŽŸåœ°å®ŒæˆçŸ©é˜µçš„è½¬ç½®
     for (int i = 0; i < rows; i++)
         for (int j = i + 1; j < rows; j++)
             swap(a[i][j], a[j][i]);
@@ -21,20 +21,17 @@ void matrixAdd(T **a, T **b, T **c, int numberOfRows, int numberOfColumns) {
 
 template<class T>
 void squareMatrixMultiply(T **a, T **b, T **c, int n) {
-    //½«Á½¸ön*nµÄ·½ÕóÏà³Ë
-    /*¾ØÕó³Ë·¨¹æÔò£º
-     * Ö´ÐÐ¾ØÕó³Ë·¨µÄÇ°ÌáÌõ¼þ£ºÇ°Ò»¸ö¾ØÕóµÄÐÐÊý±ØÐëºÍºóÒ»¸ö¾ØÕóµÄÁÐÊýÏàµÈ£¬¶øÇ°Ò»¸ö¾ØÕóµÄÁÐÊýºÍºóÒ»¸ö¾ØÕóµÄÐÐÊý¿ÉÒÔ²»ÏàÍ¬
-     * Èôm*jµÄ¾ØÕóºÍj*nµÄ¾ØÕóÏà³Ë£¬ËùµÃ¾ØÕó±ØÈ»ÊÇÒ»¸öm*nµÄ¾ØÕó*/
-    for(int i=0;i<n;i++)
-    {
-        for(int j=0;j<n;j++)
-        {
-            T sum=0;
-            for(int k=0;k<n;k++)
-            {
-                sum+=a[i][k]+b[k][j];
+    //å°†ä¸¤ä¸ªn*nçš„æ–¹é˜µç›¸ä¹˜
+    /*çŸ©é˜µä¹˜æ³•è§„åˆ™ï¼š
+     * æ‰§è¡ŒçŸ©é˜µä¹˜æ³•çš„å‰ææ¡ä»¶ï¼šå‰ä¸€ä¸ªçŸ©é˜µçš„è¡Œæ•°å¿…é¡»å’ŒåŽä¸€ä¸ªçŸ©é˜µçš„åˆ—æ•°ç›¸ç­‰ï¼Œè€Œå‰ä¸€ä¸ªçŸ©é˜µçš„åˆ—æ•°å’ŒåŽä¸€ä¸ªçŸ©é˜µçš„è¡Œæ•°å¯ä»¥ä¸ç›¸åŒ
+     * è‹¥m*jçš„çŸ©é˜µå’Œj*nçš„çŸ©é˜µç›¸ä¹˜ï¼Œæ‰€å¾—çŸ©é˜µå¿…ç„¶æ˜¯ä¸€ä¸ªm*nçš„çŸ©é˜µ*/
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            T sum = 0;
+            for (int k = 0; k < n; k++) {
+                sum += a[i][k] + b[k][j];
             }
-            c[i][j]=sum;
+            c[i][j] = sum;
         }
     }
 
@@ -42,7 +39,7 @@ void squareMatrixMultiply(T **a, T **b, T **c, int n) {
 template<class T>
 void matrixMultiply(T **a,T **b,T **c,int m,int n,int p)
 {
-    //½«Á½¸ö·ûºÏ¾ØÕó³Ë·¨¹æÔòµÄÁ½¸ö¾ØÕóÏà³Ë£¬¼´½«m*nµÄ¾ØÕóaºÍn*pµÄ¾ØÕóbÏà³Ë
+    //å°†ä¸¤ä¸ªç¬¦åˆçŸ©é˜µä¹˜æ³•è§„åˆ™çš„ä¸¤ä¸ªçŸ©é˜µç›¸ä¹˜ï¼Œå³å°†m*nçš„çŸ©é˜µaå’Œn*pçš„çŸ©é˜µbç›¸ä¹˜
     for(int i=0;i<m;i++)
     {
         for(int j=0;j<p;j++)

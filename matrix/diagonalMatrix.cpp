@@ -190,9 +190,9 @@ void testLowerInitialize() {
             {15, 23, 3, 2},
     };
     lower.initialize((int *) element, 4);
-    cout << "Êä³ö³£¹æÏÂÈý½Ç¾ØÕó" << endl;
+    cout << "è¾“å‡ºå¸¸è§„ä¸‹ä¸‰è§’çŸ©é˜µ" << endl;
     cout << lower << endl;
-    cout << "Êä³ö¿ÕÏÂÈý½Ç¾ØÕó" << endl;
+    cout << "è¾“å‡ºç©ºä¸‹ä¸‰è§’çŸ©é˜µ" << endl;
     lowerTriangularMatrix<int> lower2(4);
     lower2.initialize();
     cout << lower2 << endl;
@@ -208,7 +208,7 @@ void testLowerCopyConstruction() {
     };
     lower.initialize((int *) element, 4);
     lowerTriangularMatrix<int> lower2(lower);
-    cout << "Êä³ö¿½±´¹¹ÔìÖ®ºóµÄ¾ØÕó£º" << endl;
+    cout << "è¾“å‡ºæ‹·è´æž„é€ ä¹‹åŽçš„çŸ©é˜µï¼š" << endl;
     cout << lower2 << endl;
 }
 
@@ -279,7 +279,7 @@ void testTripleAsIrregularArrayInitializeAndCopyConstruction() {
     triple.initialize((int *) element, 4);
     cout << triple << endl;
 
-    cout << "Êä³ö¿½±´¹¹Ôì¶ÔÏó" << endl;
+    cout << "è¾“å‡ºæ‹·è´æž„é€ å¯¹è±¡" << endl;
     tripleDiagonalMatrixAsIrregularArray<int> triple2(triple);
     cout << triple2;
 
@@ -305,11 +305,11 @@ void testTripleAsIrregularArrayPlus() {
     };
     triple2.initialize((int *) element2, 4);
 
-    cout << "¾ØÕóÒ»ÈçÏÂ£º" << endl;
+    cout << "çŸ©é˜µä¸€å¦‚ä¸‹ï¼š" << endl;
     cout << triple << endl;
-    cout << "¾ØÕó¶þÈçÏÂ£º" << endl;
+    cout << "çŸ©é˜µäºŒå¦‚ä¸‹ï¼š" << endl;
     cout << triple2 << endl;
-    cout << "¾ØÕóÒ»ºÍ¾ØÕó¶þ×ö¾ØÕó¼Ó·¨ËùµÃµÄÐÂ¾ØÕóÈçÏÂ£º" << endl;
+    cout << "çŸ©é˜µä¸€å’ŒçŸ©é˜µäºŒåšçŸ©é˜µåŠ æ³•æ‰€å¾—çš„æ–°çŸ©é˜µå¦‚ä¸‹ï¼š" << endl;
     auto result = triple + triple2;
     cout << *result << endl;
 }
@@ -333,11 +333,11 @@ void testTripleAsIrregularArrayMultiply() {
     };
     triple2.initialize((int *) element2, 4);
 
-    cout << "¾ØÕóÒ»ÈçÏÂ£º" << endl;
+    cout << "çŸ©é˜µä¸€å¦‚ä¸‹ï¼š" << endl;
     cout << triple << endl;
-    cout << "¾ØÕó¶þÈçÏÂ£º" << endl;
+    cout << "çŸ©é˜µäºŒå¦‚ä¸‹ï¼š" << endl;
     cout << triple2 << endl;
-    cout << "¾ØÕóÒ»ºÍ¾ØÕó¶þ×ö¾ØÕó³Ë·¨ËùµÃµÄÐÂ¾ØÕóÈçÏÂ£º" << endl;
+    cout << "çŸ©é˜µä¸€å’ŒçŸ©é˜µäºŒåšçŸ©é˜µä¹˜æ³•æ‰€å¾—çš„æ–°çŸ©é˜µå¦‚ä¸‹ï¼š" << endl;
     auto result = triple * triple2;
     cout << *result << endl;
 
@@ -357,7 +357,7 @@ void testTripleAsIrregularArrayTranspose() {
 }
 
 void testLowerTriangleAsIrregularArrayInitialize() {
-    //²âÊÔ³õÊ¼»¯
+    //æµ‹è¯•åˆå§‹åŒ–
     lowerTriangleAsIrregularArray<int> triple(4);
     int element[][4] = {
             {7, 0, 0, 0},
@@ -369,13 +369,13 @@ void testLowerTriangleAsIrregularArrayInitialize() {
     lowerTriangleAsIrregularArray<int> triple2(4);
     triple2.initialize();
     cout << triple << endl;
-    cout << "³õÊ¼»¯¿Õ¾ØÕó" << endl;
+    cout << "åˆå§‹åŒ–ç©ºçŸ©é˜µ" << endl;
     cout << triple2 << endl;
 
 }
 
 void testLowerTriangleAsIrregularArrayCopyConstruction() {
-    //²âÊÔ¿½±´¹¹Ôì
+    //æµ‹è¯•æ‹·è´æž„é€ 
     lowerTriangleAsIrregularArray<int> triple(4);
     int element[][4] = {
             {7, 0, 0, 0},
@@ -385,9 +385,9 @@ void testLowerTriangleAsIrregularArrayCopyConstruction() {
     };
     triple.initialize((int *) element, 4);
     lowerTriangleAsIrregularArray<int> triple2(triple);
-    cout << "Ô­¾ØÕó" << endl;
+    cout << "åŽŸçŸ©é˜µ" << endl;
     cout << triple << endl;
-    cout << "¿½±´¹¹ÔìÖ®ºóµÄÐÂ¾ØÕó" << endl;
+    cout << "æ‹·è´æž„é€ ä¹‹åŽçš„æ–°çŸ©é˜µ" << endl;
     cout << triple2 << endl;
 }
 

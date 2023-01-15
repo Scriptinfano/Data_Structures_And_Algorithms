@@ -1,5 +1,5 @@
-/*¸ÃÍ·ÎÄ¼şÉè¼ÆÁËÒ»Ğ©²ÉÓÃ²»Í¬Ó³Éä·½Ê½ÒÔ¼°²»Í¬µÄÄÚ²¿´æ´¢½á¹¹µÄ¾ØÕóÀà£¬ÊµÏÖÁË¾ØÕóÒÔ¼°¾ØÕóÖ®¼äµÄ»ù±¾ÔËËã
- *ÔÚÉè¼Æ¾ØÕóÀàÊ±Òª×¢Òâ¾ØÕóµÄĞĞÏÂ±êºÍÁĞÏÂ±ê¶¼ÊÇ´Ó1¿ªÊ¼µÄ£¬ºÍÊı×é´Ó0¿ªÊ¼ÊÇ²»Ò»ÑùµÄ */
+/*è¯¥å¤´æ–‡ä»¶è®¾è®¡äº†ä¸€äº›é‡‡ç”¨ä¸åŒæ˜ å°„æ–¹å¼ä»¥åŠä¸åŒçš„å†…éƒ¨å­˜å‚¨ç»“æ„çš„çŸ©é˜µç±»ï¼Œå®ç°äº†çŸ©é˜µä»¥åŠçŸ©é˜µä¹‹é—´çš„åŸºæœ¬è¿ç®—
+ *åœ¨è®¾è®¡çŸ©é˜µç±»æ—¶è¦æ³¨æ„çŸ©é˜µçš„è¡Œä¸‹æ ‡å’Œåˆ—ä¸‹æ ‡éƒ½æ˜¯ä»1å¼€å§‹çš„ï¼Œå’Œæ•°ç»„ä»0å¼€å§‹æ˜¯ä¸ä¸€æ ·çš„ */
 #pragma once
 
 #include <iostream>
@@ -10,7 +10,7 @@ using namespace std;
 using namespace ExceptionSpace;
 using namespace MatrixExceptionSpace;
 
-//ÌØÊâ¾ØÕóµÄ³éÏó»ùÀà£¬¸Ã¾ØÕóÎª·½Õó£¬ÅÉÉú×Ô¸Ã³éÏó»ùÀàËù¶¨ÒåµÄËùÓĞ¾ØÕóÀàÄÚ²¿½Ô²ÉÓÃÒ»Î¬Êı×éÀ´´æ´¢ÌØÊâ¾ØÕóÖĞµÄ·ÇÁãÔªËØ
+//ç‰¹æ®ŠçŸ©é˜µçš„æŠ½è±¡åŸºç±»ï¼Œè¯¥çŸ©é˜µä¸ºæ–¹é˜µï¼Œæ´¾ç”Ÿè‡ªè¯¥æŠ½è±¡åŸºç±»æ‰€å®šä¹‰çš„æ‰€æœ‰çŸ©é˜µç±»å†…éƒ¨çš†é‡‡ç”¨ä¸€ç»´æ•°ç»„æ¥å­˜å‚¨ç‰¹æ®ŠçŸ©é˜µä¸­çš„éé›¶å…ƒç´ 
 template<class T>
 class virtualDiagonalMatrixAsRegularArray {
 protected:
@@ -19,35 +19,35 @@ protected:
 public:
     bool initialized;
 public:
-    virtual T get(const int &i, const int &j) const = 0;//·µ»ØÏÂ±êÎªi,jµÄ¾ØÕóÔªËØ
+    virtual T get(const int &i, const int &j) const = 0;//è¿”å›ä¸‹æ ‡ä¸ºi,jçš„çŸ©é˜µå…ƒç´ 
 
-    virtual void set(const int &i, const int &j, const T &theElement) = 0;//½«ÏÂ±êÎªi,jµÄ¾ØÕóÔªËØÉèÎªÁíÒ»¸öÖµ
+    virtual void set(const int &i, const int &j, const T &theElement) = 0;//å°†ä¸‹æ ‡ä¸ºi,jçš„çŸ©é˜µå…ƒç´ è®¾ä¸ºå¦ä¸€ä¸ªå€¼
 
-    virtual virtualDiagonalMatrixAsRegularArray<T> *operator+(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const = 0;//¾ØÕó¼Ó·¨
+    virtual virtualDiagonalMatrixAsRegularArray<T> *operator+(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const = 0;//çŸ©é˜µåŠ æ³•
 
-    virtual virtualDiagonalMatrixAsRegularArray<T> *operator-(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const = 0;//¾ØÕó¼õ·¨
+    virtual virtualDiagonalMatrixAsRegularArray<T> *operator-(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const = 0;//çŸ©é˜µå‡æ³•
 
-    virtual virtualDiagonalMatrixAsRegularArray<T> *operator*(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const = 0;//¾ØÕó³Ë·¨
+    virtual virtualDiagonalMatrixAsRegularArray<T> *operator*(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const = 0;//çŸ©é˜µä¹˜æ³•
 
-    virtual T operator()(int i, int j) const = 0;//µÃµ½Ë÷ÒıÎªi,jµÄË÷ÒıÔªËØ
+    virtual T operator()(int i, int j) const = 0;//å¾—åˆ°ç´¢å¼•ä¸ºi,jçš„ç´¢å¼•å…ƒç´ 
 
-    //ÆäËû³£¹æ½Ó¿Ú
-    virtual void initialize(T *theElements, const int &theDimension) = 0;//³õÊ¼»¯¾ØÕó£¬½«´«ÈëµÄ¶şÎ¬Êı×éÓ³Éäµ½ÄÚ²¿µÄÒ»Î¬Êı×éÖĞ
+    //å…¶ä»–å¸¸è§„æ¥å£
+    virtual void initialize(T *theElements, const int &theDimension) = 0;//åˆå§‹åŒ–çŸ©é˜µï¼Œå°†ä¼ å…¥çš„äºŒç»´æ•°ç»„æ˜ å°„åˆ°å†…éƒ¨çš„ä¸€ç»´æ•°ç»„ä¸­
 
-    virtual void initialize() = 0;//ÖØÔØ³õÊ¼»¯º¯Êı£¬Ä¿µÄÊÇ³õÊ¼»¯Ò»¸ö¿ÕµÄ¾ØÕó£¬½«¾ØÕóËùÓĞÔªËØÖÃÁã
+    virtual void initialize() = 0;//é‡è½½åˆå§‹åŒ–å‡½æ•°ï¼Œç›®çš„æ˜¯åˆå§‹åŒ–ä¸€ä¸ªç©ºçš„çŸ©é˜µï¼Œå°†çŸ©é˜µæ‰€æœ‰å…ƒç´ ç½®é›¶
 
-    virtual int size() const = 0;//·µ»Ø¾ØÕóÖĞÔªËØµÄ¸öÊı
+    virtual int size() const = 0;//è¿”å›çŸ©é˜µä¸­å…ƒç´ çš„ä¸ªæ•°
 
-    virtual virtualDiagonalMatrixAsRegularArray<T> *transpose() = 0;//¾ØÕóµÄ×ªÖÃ
+    virtual virtualDiagonalMatrixAsRegularArray<T> *transpose() = 0;//çŸ©é˜µçš„è½¬ç½®
 
-    //·ÃÎÊË½ÓĞ³ÉÔ±µÄ¹«ÓĞ½Ó¿Ú£¬½ö¿É·ÃÎÊÎ¬Êıdimension£¬ÄÚÖÃÊı×éÈÔ²»¿ÉÖ±½Ó·ÃÎÊ
-    int getDimension() const { return dimension; }//ËùÓĞÅÉÉúÀà¿ÉÖ±½Ó¼Ì³ĞÊ¹ÓÃ´Ë½Ó¿Ú£¬²»ÔÙÖØĞ´
+    //è®¿é—®ç§æœ‰æˆå‘˜çš„å…¬æœ‰æ¥å£ï¼Œä»…å¯è®¿é—®ç»´æ•°dimensionï¼Œå†…ç½®æ•°ç»„ä»ä¸å¯ç›´æ¥è®¿é—®
+    int getDimension() const { return dimension; }//æ‰€æœ‰æ´¾ç”Ÿç±»å¯ç›´æ¥ç»§æ‰¿ä½¿ç”¨æ­¤æ¥å£ï¼Œä¸å†é‡å†™
 
     bool isInitialized() const { return initialized == true; }
 
 };
 
-//¶Ô½Ç¾ØÕó£¨´Ë¾ØÕóÎª·½Õó£¬Ö»ÓĞ¶Ô½ÇÏßÉÏµÄÔªËØÊÇ·ÇÁãÔªËØ£©
+//å¯¹è§’çŸ©é˜µï¼ˆæ­¤çŸ©é˜µä¸ºæ–¹é˜µï¼Œåªæœ‰å¯¹è§’çº¿ä¸Šçš„å…ƒç´ æ˜¯éé›¶å…ƒç´ ï¼‰
 template<class T>
 class diagonalMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
     friend ostream &operator<<(ostream &out, const diagonalMatrix<T> &theMatrix) {
@@ -70,15 +70,15 @@ class diagonalMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
 public:
     diagonalMatrix(int theDimension = 10) {
         if (theDimension < 1) {
-            throw IllegalParameterException("matrixµÄ´óĞ¡±ØĞë´óÓÚ0");
+            throw IllegalParameterException("matrixçš„å¤§å°å¿…é¡»å¤§äº0");
         }
-        this->dimension = theDimension;//ÔÚÄ£°å¼Ì³ĞÖĞÒª·ÃÎÊ»ùÀàÖĞµÄÊı¾İ±ØĞëÊ¹ÓÃthis±ê×¢
+        this->dimension = theDimension;//åœ¨æ¨¡æ¿ç»§æ‰¿ä¸­è¦è®¿é—®åŸºç±»ä¸­çš„æ•°æ®å¿…é¡»ä½¿ç”¨thisæ ‡æ³¨
         this->element = new T[this->dimension];
         this->initialized = false;
     }
 
     diagonalMatrix(const diagonalMatrix<T> &theMatrix) {
-        if (!theMatrix->initialized)throw MatrixUnInitializeException("Ê¹ÓÃÎ´³õÊ¼»¯µÄ¾ØÕó¿½±´¹¹ÔìĞÂµÄ¾ØÕóÊÇ²»±»ÔÊĞíµÄ");
+        if (!theMatrix->initialized)throw MatrixUnInitializeException("ä½¿ç”¨æœªåˆå§‹åŒ–çš„çŸ©é˜µæ‹·è´æ„é€ æ–°çš„çŸ©é˜µæ˜¯ä¸è¢«å…è®¸çš„");
         this->dimension = theMatrix.dimension;
         this->element = new T[this->dimension];
         this->initialized = true;
@@ -87,38 +87,38 @@ public:
 
     ~diagonalMatrix() { delete[]this->element; }
 
-    //³£¹æ½Ó¿Ú
-    virtual T operator()(int i, int j) const//»ñÈ¡ÏÂ±êÎª(i,j)µÄ¾ØÕóÔªËØ
+    //å¸¸è§„æ¥å£
+    virtual T operator()(int i, int j) const//è·å–ä¸‹æ ‡ä¸º(i,j)çš„çŸ©é˜µå…ƒç´ 
     {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension) {
             throw matrixIndexOutOfBounds();
         }
-        if (i == j)return this->element[i - 1];//¶Ô½ÇÏßÉÏµÄÔªËØ²ÅÊÇ·ÇÁãÔªËØ
+        if (i == j)return this->element[i - 1];//å¯¹è§’çº¿ä¸Šçš„å…ƒç´ æ‰æ˜¯éé›¶å…ƒç´ 
         else return 0;
     }
 
-    virtual T get(const int &i, const int &j) const//»ñÈ¡ÏÂ±êÎª(i,j)µÄ¾ØÕóÔªËØ
+    virtual T get(const int &i, const int &j) const//è·å–ä¸‹æ ‡ä¸º(i,j)çš„çŸ©é˜µå…ƒç´ 
     {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension) {
             throw matrixIndexOutOfBounds();
         }
-        if (i == j)return this->element[i - 1];//¶Ô½ÇÏßÉÏµÄÔªËØ²ÅÊÇ·ÇÁãÔªËØ
+        if (i == j)return this->element[i - 1];//å¯¹è§’çº¿ä¸Šçš„å…ƒç´ æ‰æ˜¯éé›¶å…ƒç´ 
         else return 0;
     }
 
-    virtual void set(const int &i, const int &j, const T &theElement)//½«ÏÂ±êÎªi,jµÄÔªËØÉèÎªÁíÒ»¸öÖµ
+    virtual void set(const int &i, const int &j, const T &theElement)//å°†ä¸‹æ ‡ä¸ºi,jçš„å…ƒç´ è®¾ä¸ºå¦ä¸€ä¸ªå€¼
     {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension)
             throw matrixIndexOutOfBounds();
         if (i == j)this->element[i - 1] = theElement;
         else {
-            if (theElement != 0)throw IllegalParameterException("ÉèÖµÊ§°Ü£¬ÒòÎªÔÚ¶Ô½Ç¾ØÕóÖĞ£¬·Ç¶Ô½ÇÏßÉÏµÄÔªËØ±ØĞëÊÇ0");
+            if (theElement != 0)throw IllegalParameterException("è®¾å€¼å¤±è´¥ï¼Œå› ä¸ºåœ¨å¯¹è§’çŸ©é˜µä¸­ï¼Œéå¯¹è§’çº¿ä¸Šçš„å…ƒç´ å¿…é¡»æ˜¯0");
         }
     }
 
-    //¾ØÕóµÄ¼Ó¼õ³Ë²Ù×÷
+    //çŸ©é˜µçš„åŠ å‡ä¹˜æ“ä½œ
 
-    //¾ØÕó¼Ó·¨
+    //çŸ©é˜µåŠ æ³•
     virtual diagonalMatrix<T> *operator+(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const {
         if (!this->initialized || !theMatrix.initialized)throw MatrixUnInitializeException();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfPlus();
@@ -132,7 +132,7 @@ public:
         return result;
     }
 
-    //¾ØÕó¼õ·¨
+    //çŸ©é˜µå‡æ³•
     virtual diagonalMatrix<T> *operator-(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const {
         if (!this->initialized || !theMatrix.initialized)throw MatrixUnInitializeException();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfSubtraction();
@@ -145,7 +145,7 @@ public:
 
     }
 
-    //¾ØÕó³Ë·¨
+    //çŸ©é˜µä¹˜æ³•
     virtual diagonalMatrix<T> *operator*(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const {
         if (!this->initialized || !theMatrix.initialized)throw MatrixUnInitializeException();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfMultiply();
@@ -158,7 +158,7 @@ public:
                     if (i != k || k != j) {
                         sum += 0;
                     } else {
-                        //i==kÇÒk==jµÄÇé¿ö
+                        //i==kä¸”k==jçš„æƒ…å†µ
                         sum += this->element[k] * theMatrix.get(k + 1, k + 1);
                     }
                 }
@@ -169,8 +169,8 @@ public:
 
     }
 
-    //ÆäËû³£¹æ½Ó¿Ú
-    //³õÊ¼»¯¾ØÕó£¬½«´«ÈëµÄ¶şÎ¬Êı×éÓ³Éäµ½ÄÚ²¿µÄÒ»Î¬Êı×éÖĞ
+    //å…¶ä»–å¸¸è§„æ¥å£
+    //åˆå§‹åŒ–çŸ©é˜µï¼Œå°†ä¼ å…¥çš„äºŒç»´æ•°ç»„æ˜ å°„åˆ°å†…éƒ¨çš„ä¸€ç»´æ•°ç»„ä¸­
     virtual void initialize(T *theElements, const int &theDimension) {
         if (this->initialized)throw MatrixReinitializeException();
         if (theDimension != this->dimension)throw matrixSizeMismatchOfInitialize();
@@ -181,7 +181,7 @@ public:
         this->initialized = true;
     }
 
-    //ÖØÔØ³õÊ¼»¯º¯Êı£¬Ä¿µÄÊÇ³õÊ¼»¯Ò»¸ö¿ÕµÄ¾ØÕó£¬½«¾ØÕóËùÓĞÔªËØÖÃÁã
+    //é‡è½½åˆå§‹åŒ–å‡½æ•°ï¼Œç›®çš„æ˜¯åˆå§‹åŒ–ä¸€ä¸ªç©ºçš„çŸ©é˜µï¼Œå°†çŸ©é˜µæ‰€æœ‰å…ƒç´ ç½®é›¶
     virtual void initialize() {
         if (this->initialized)throw MatrixReinitializeException();
         for (int i = 0; i < this->dimension; i++) {
@@ -190,20 +190,20 @@ public:
         this->initialized = true;
     }
 
-    //·µ»Ø¾ØÕóÖĞÔªËØµÄ¸öÊı
+    //è¿”å›çŸ©é˜µä¸­å…ƒç´ çš„ä¸ªæ•°
     virtual int size() const {
         return pow(this->dimension, 2);
     }
 
-    //¾ØÕóµÄ×ªÖÃ
+    //çŸ©é˜µçš„è½¬ç½®
     virtual diagonalMatrix<T> *transpose() {
-        return this;//¶Ô½Ç¾ØÕó×ªÖÃÖ®ºó¸÷ÔªËØµÄÎ»ÖÃ²»·¢Éú¸Ä±ä
+        return this;//å¯¹è§’çŸ©é˜µè½¬ç½®ä¹‹åå„å…ƒç´ çš„ä½ç½®ä¸å‘ç”Ÿæ”¹å˜
     }
 
 
 };
 
-//°´ĞĞµÄ·½Ê½½«¶Ô³Æ¾ØÕóµÄÏÂÈı½ÇÇøÓò´æ´¢ÔÚÒ»Î¬Êı×éÖĞ
+//æŒ‰è¡Œçš„æ–¹å¼å°†å¯¹ç§°çŸ©é˜µçš„ä¸‹ä¸‰è§’åŒºåŸŸå­˜å‚¨åœ¨ä¸€ç»´æ•°ç»„ä¸­
 template<class T>
 class LowerSymmetricMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
     friend ostream &operator<<(ostream &out, const LowerSymmetricMatrix<T> &theMatrix) {
@@ -212,7 +212,7 @@ class LowerSymmetricMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
         for (int i = 0; i < theDimension; i++) {
             for (int j = 0; j < theDimension; j++) {
                 if (i >= j) {
-                    //µ±i>=jÊ±£¬ÔªËØÔÚÏÂÈı½ÇÇø
+                    //å½“i>=jæ—¶ï¼Œå…ƒç´ åœ¨ä¸‹ä¸‰è§’åŒº
                     out << theMatrix.get(i + 1, j + 1) << " ";
                     index++;
                 } else {
@@ -229,17 +229,17 @@ class LowerSymmetricMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
 public:
     LowerSymmetricMatrix(int theDimension = 10) {
         if (theDimension < 1) {
-            throw IllegalParameterException("matrixµÄ´óĞ¡±ØĞë´óÓÚ0");
+            throw IllegalParameterException("matrixçš„å¤§å°å¿…é¡»å¤§äº0");
         }
         this->dimension = theDimension;
-        this->element = new T[this->dimension * (this->dimension + 1) / 2];//ÉÏÈı½Ç¾ØÕóºÍÏÂÈı½Ç¾ØÕóµÄÔªËØ×ÜÊı¶¼ÊÇn*(n+1)/2
+        this->element = new T[this->dimension * (this->dimension + 1) / 2];//ä¸Šä¸‰è§’çŸ©é˜µå’Œä¸‹ä¸‰è§’çŸ©é˜µçš„å…ƒç´ æ€»æ•°éƒ½æ˜¯n*(n+1)/2
         this->initialized = false;
     }
 
     LowerSymmetricMatrix(const LowerSymmetricMatrix<T> &theMatrix) {
-        if (!theMatrix.initialized)throw MatrixUnInitializeException("Ê¹ÓÃÎ´³õÊ¼»¯µÄ¾ØÕó¿½±´¹¹ÔìĞÂµÄ¾ØÕóÊÇ²»±»ÔÊĞíµÄ");
+        if (!theMatrix.initialized)throw MatrixUnInitializeException("ä½¿ç”¨æœªåˆå§‹åŒ–çš„çŸ©é˜µæ‹·è´æ„é€ æ–°çš„çŸ©é˜µæ˜¯ä¸è¢«å…è®¸çš„");
         this->dimension = theMatrix.getDimension();
-        this->element = new T[theMatrix.getDimension() * (theMatrix.getDimension() + 1) / 2];//ÏÂÈı½Ç¾ØÕóÔªËØÊın*(n+1)/2
+        this->element = new T[theMatrix.getDimension() * (theMatrix.getDimension() + 1) / 2];//ä¸‹ä¸‰è§’çŸ©é˜µå…ƒç´ æ•°n*(n+1)/2
         copy(theMatrix.element, theMatrix.element + this->size(), this->element);
         this->initialized = true;
     }
@@ -247,24 +247,24 @@ public:
     ~LowerSymmetricMatrix() { delete[]this->element; }
 
 
-    //ADT½Ó¿Ú
-    virtual T get(const int &i, const int &j) const//·µ»ØÏÂ±êÎªi,jµÄ¾ØÕóÔªËØ
+    //ADTæ¥å£
+    virtual T get(const int &i, const int &j) const//è¿”å›ä¸‹æ ‡ä¸ºi,jçš„çŸ©é˜µå…ƒç´ 
     {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension) {
             throw matrixIndexOutOfBounds();
         }
         if (i >= j) {
-            return this->element[i * (i - 1) / 2 + j - 1];//ÏÂÈı½Ç¾ØÕóµÄĞĞÖ÷Ó³Éäº¯Êıi*(i-1)/2+j-1
+            return this->element[i * (i - 1) / 2 + j - 1];//ä¸‹ä¸‰è§’çŸ©é˜µçš„è¡Œä¸»æ˜ å°„å‡½æ•°i*(i-1)/2+j-1
         } else {
-            return this->element[j * (j - 1) / 2 + i - 1];//¶Ô³Æ¾ØÕóÒª½«Ó³Éäº¯Êı·´×ÅÓÃ
+            return this->element[j * (j - 1) / 2 + i - 1];//å¯¹ç§°çŸ©é˜µè¦å°†æ˜ å°„å‡½æ•°åç€ç”¨
         }
     }
 
-    virtual void set(const int &i, const int &j, const T &theElement)//½«ÏÂ±êÎªi,jµÄ¾ØÕóÔªËØÉèÎªÁíÒ»¸öÖµ
+    virtual void set(const int &i, const int &j, const T &theElement)//å°†ä¸‹æ ‡ä¸ºi,jçš„çŸ©é˜µå…ƒç´ è®¾ä¸ºå¦ä¸€ä¸ªå€¼
     {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension)
             throw matrixIndexOutOfBounds();
-        if (i >= j)//ÏÂÈı½ÇÇøµÄÔªËØi>=j
+        if (i >= j)//ä¸‹ä¸‰è§’åŒºçš„å…ƒç´ i>=j
         {
             int index = i * (i - 1) / 2 + j - 1;
             this->element[index] = theElement;
@@ -275,7 +275,7 @@ public:
 
     }
 
-    virtual LowerSymmetricMatrix<T> *operator+(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const//¾ØÕó¼Ó·¨
+    virtual LowerSymmetricMatrix<T> *operator+(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const//çŸ©é˜µåŠ æ³•
     {
         if (!this->initialized || !theMatrix.initialized)throw MatrixUnInitializeException();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfPlus();
@@ -291,7 +291,7 @@ public:
 
     }
 
-    virtual LowerSymmetricMatrix<T> *operator-(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const//¾ØÕó¼õ·¨
+    virtual LowerSymmetricMatrix<T> *operator-(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const//çŸ©é˜µå‡æ³•
     {
         if (!this->initialized || !theMatrix.initialized)throw MatrixUnInitializeException();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfSubtraction();
@@ -306,7 +306,7 @@ public:
 
     }
 
-    virtual LowerSymmetricMatrix<T> *operator*(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const//¾ØÕó³Ë·¨
+    virtual LowerSymmetricMatrix<T> *operator*(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const//çŸ©é˜µä¹˜æ³•
     {
         if (!this->initialized || !theMatrix.initialized)throw MatrixUnInitializeException();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfMultiply();
@@ -325,13 +325,13 @@ public:
 
     }
 
-    virtual T operator()(int i, int j) const//µÃµ½Ë÷ÒıÎªi,jµÄË÷ÒıÔªËØ
+    virtual T operator()(int i, int j) const//å¾—åˆ°ç´¢å¼•ä¸ºi,jçš„ç´¢å¼•å…ƒç´ 
     {
-        return this->get(i,j);
+        return this->get(i, j);
     }
 
-    //ÆäËû³£¹æ½Ó¿Ú
-    virtual void initialize(T *theElements, const int &theDimension)//³õÊ¼»¯¾ØÕó£¬½«´«ÈëµÄ¶şÎ¬Êı×éÓ³Éäµ½ÄÚ²¿µÄÒ»Î¬Êı×éÖĞ
+    //å…¶ä»–å¸¸è§„æ¥å£
+    virtual void initialize(T *theElements, const int &theDimension)//åˆå§‹åŒ–çŸ©é˜µï¼Œå°†ä¼ å…¥çš„äºŒç»´æ•°ç»„æ˜ å°„åˆ°å†…éƒ¨çš„ä¸€ç»´æ•°ç»„ä¸­
     {
         if (this->initialized)throw MatrixReinitializeException();
         for (int i = 0; i < theDimension; i++) {
@@ -343,7 +343,7 @@ public:
 
     }
 
-    virtual void initialize()//ÖØÔØ³õÊ¼»¯º¯Êı£¬Ä¿µÄÊÇ³õÊ¼»¯Ò»¸ö¿ÕµÄ¾ØÕó£¬½«¾ØÕóËùÓĞÔªËØÖÃÁã
+    virtual void initialize()//é‡è½½åˆå§‹åŒ–å‡½æ•°ï¼Œç›®çš„æ˜¯åˆå§‹åŒ–ä¸€ä¸ªç©ºçš„çŸ©é˜µï¼Œå°†çŸ©é˜µæ‰€æœ‰å…ƒç´ ç½®é›¶
     {
         if (this->initialized)throw MatrixReinitializeException();
         for (int i = 0; i < this->size(); i++) {
@@ -353,19 +353,19 @@ public:
 
     }
 
-    virtual int size() const//·µ»Ø¾ØÕóÖĞÔªËØµÄ¸öÊı
+    virtual int size() const//è¿”å›çŸ©é˜µä¸­å…ƒç´ çš„ä¸ªæ•°
     {
         return this->dimension * (this->dimension + 1) / 2;
 
     }
 
-    virtual virtualDiagonalMatrixAsRegularArray<T> *transpose()//¾ØÕóµÄ×ªÖÃ
+    virtual virtualDiagonalMatrixAsRegularArray<T> *transpose()//çŸ©é˜µçš„è½¬ç½®
     {
     }
 
 };
 
-//²ÉÓÃÖğ¶Ô½ÇÏßÓ³ÉäµÄÈı¶Ô½Ç¾ØÕó£¬»¹ÓĞÁíÍâÁ½ÖÖ·½·¨Ñ¹Ëõ´æ´¢Èı¶Ô½Ç¾ØÕó£¬¼´ĞĞÖ÷Ó³ÉäºÍÁĞÖ÷Ó³Éä
+//é‡‡ç”¨é€å¯¹è§’çº¿æ˜ å°„çš„ä¸‰å¯¹è§’çŸ©é˜µï¼Œè¿˜æœ‰å¦å¤–ä¸¤ç§æ–¹æ³•å‹ç¼©å­˜å‚¨ä¸‰å¯¹è§’çŸ©é˜µï¼Œå³è¡Œä¸»æ˜ å°„å’Œåˆ—ä¸»æ˜ å°„
 template<class T>
 class tripleDiagonalMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
     friend ostream &operator<<(ostream &out, const tripleDiagonalMatrix<T> &theMatrix) {
@@ -388,58 +388,58 @@ class tripleDiagonalMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
 public:
     tripleDiagonalMatrix(int theDimension = 10) {
         if (theDimension < 1) {
-            throw IllegalParameterException("matrixµÄ´óĞ¡±ØĞë´óÓÚ0");
+            throw IllegalParameterException("matrixçš„å¤§å°å¿…é¡»å¤§äº0");
         }
         this->dimension = theDimension;
-        this->element = new T[3 * this->dimension - 2];//Èı¶Ô½Ç¾ØÕóµÄ·ÇÁãÔªËØµÄ¸öÊıÊÇ3*n-2
+        this->element = new T[3 * this->dimension - 2];//ä¸‰å¯¹è§’çŸ©é˜µçš„éé›¶å…ƒç´ çš„ä¸ªæ•°æ˜¯3*n-2
         this->initialized = false;
     }
 
     tripleDiagonalMatrix(const tripleDiagonalMatrix<T> &theMatrix) {
-        if (!theMatrix->initialized)throw MatrixUnInitializeException("Ê¹ÓÃÎ´³õÊ¼»¯µÄ¾ØÕó¿½±´¹¹ÔìĞÂµÄ¾ØÕóÊÇ²»±»ÔÊĞíµÄ");
+        if (!theMatrix->initialized)throw MatrixUnInitializeException("ä½¿ç”¨æœªåˆå§‹åŒ–çš„çŸ©é˜µæ‹·è´æ„é€ æ–°çš„çŸ©é˜µæ˜¯ä¸è¢«å…è®¸çš„");
         this->dimension = theMatrix.dimension;
-        this->element = new T[3 * this->dimension - 2];//Èı¶Ô½Ç¾ØÕóÔªËØÊı3*n-2
+        this->element = new T[3 * this->dimension - 2];//ä¸‰å¯¹è§’çŸ©é˜µå…ƒç´ æ•°3*n-2
         copy(theMatrix.element, theMatrix.element + this->dimension, this->element);
         this->initialized = true;
     }
 
     ~tripleDiagonalMatrix() { delete[]this->element; }
 
-    virtual T operator()(int i, int j) const//»ñÈ¡ÏÂ±êÎª(i,j)µÄ¾ØÕóÔªËØ
+    virtual T operator()(int i, int j) const//è·å–ä¸‹æ ‡ä¸º(i,j)çš„çŸ©é˜µå…ƒç´ 
     {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension)
             throw matrixIndexOutOfBounds();
-        //È·¶¨Òª·µ»ØµÄÔªËØ
+        //ç¡®å®šè¦è¿”å›çš„å…ƒç´ 
         switch (i - j) {
-            case 1://i-j=1Ê±ÎªÏÂ¶Ô½ÇÏß
+            case 1://i-j=1æ—¶ä¸ºä¸‹å¯¹è§’çº¿
                 return this->element[i - 2];
-            case 0://i-j=0Ê±ÎªÖ÷¶Ô½ÇÏß
+            case 0://i-j=0æ—¶ä¸ºä¸»å¯¹è§’çº¿
                 return this->element[this->dimension + i - 2];
-            case -1://i-j=-1Ê±ÎªÉÏ¶Ô½ÇÏß
+            case -1://i-j=-1æ—¶ä¸ºä¸Šå¯¹è§’çº¿
                 return this->element[2 * this->dimension + i - 2];
             default:
                 return 0;
         }
     }
 
-    //»ñÈ¡ÏÂ±êÎª(i,j)µÄ¾ØÕóÔªËØ
+    //è·å–ä¸‹æ ‡ä¸º(i,j)çš„çŸ©é˜µå…ƒç´ 
     virtual T get(const int &i, const int &j) const {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension)
             throw matrixIndexOutOfBounds();
-        //È·¶¨Òª·µ»ØµÄÔªËØ
+        //ç¡®å®šè¦è¿”å›çš„å…ƒç´ 
         switch (i - j) {
-            case 1://i-j=1Ê±ÎªÏÂ¶Ô½ÇÏß
+            case 1://i-j=1æ—¶ä¸ºä¸‹å¯¹è§’çº¿
                 return this->element[i - 2];
-            case 0://i-j=0Ê±ÎªÖ÷¶Ô½ÇÏß
+            case 0://i-j=0æ—¶ä¸ºä¸»å¯¹è§’çº¿
                 return this->element[this->dimension + i - 2];
-            case -1://i-j=-1Ê±ÎªÉÏ¶Ô½ÇÏß
+            case -1://i-j=-1æ—¶ä¸ºä¸Šå¯¹è§’çº¿
                 return this->element[2 * this->dimension + i - 2];
             default:
                 return 0;
         }
     }
 
-    //½«ÏÂ±êÎªi,jµÄÔªËØÉèÎªÁíÒ»¸öÖµ
+    //å°†ä¸‹æ ‡ä¸ºi,jçš„å…ƒç´ è®¾ä¸ºå¦ä¸€ä¸ªå€¼
     virtual void set(const int &i, const int &j, const T &theElement) {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension)
             throw matrixIndexOutOfBounds();
@@ -459,7 +459,7 @@ public:
         }
     }
 
-    //¾ØÕóµÄ¼Ó¼õ³Ë²Ù×÷
+    //çŸ©é˜µçš„åŠ å‡ä¹˜æ“ä½œ
     virtual tripleDiagonalMatrix<T> *operator+(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const {
         if (!this->initialized || !theMatrix.initialized)throw MatrixUnInitializeException();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfPlus();
@@ -508,8 +508,8 @@ public:
         return result;
     }
 
-    //ÆäËû³£¹æ½Ó¿Ú
-    //³õÊ¼»¯¾ØÕó£¬½«´«ÈëµÄ¶şÎ¬Êı×éÓ³Éäµ½ÄÚ²¿µÄÒ»Î¬Êı×éÖĞ
+    //å…¶ä»–å¸¸è§„æ¥å£
+    //åˆå§‹åŒ–çŸ©é˜µï¼Œå°†ä¼ å…¥çš„äºŒç»´æ•°ç»„æ˜ å°„åˆ°å†…éƒ¨çš„ä¸€ç»´æ•°ç»„ä¸­
     virtual void initialize(T *theElements, const int &theDimension) {
         if (this->initialized)throw MatrixReinitializeException();
         for (int i = 0; i < theDimension; i++) {
@@ -520,7 +520,7 @@ public:
         this->initialized = true;
     }
 
-    //ÖØÔØ³õÊ¼»¯º¯Êı£¬Ä¿µÄÊÇ³õÊ¼»¯Ò»¸ö¿ÕµÄ¾ØÕó£¬½«¾ØÕóËùÓĞÔªËØÖÃÁã
+    //é‡è½½åˆå§‹åŒ–å‡½æ•°ï¼Œç›®çš„æ˜¯åˆå§‹åŒ–ä¸€ä¸ªç©ºçš„çŸ©é˜µï¼Œå°†çŸ©é˜µæ‰€æœ‰å…ƒç´ ç½®é›¶
     virtual void initialize() {
         if (this->initialized)throw MatrixReinitializeException();
         for (int i = 0; i < this->size(); i++) {
@@ -529,12 +529,12 @@ public:
         this->initialized = true;
     }
 
-    //·µ»Ø¾ØÕóÖĞÔªËØµÄÊµ¼Ê¸öÊı
+    //è¿”å›çŸ©é˜µä¸­å…ƒç´ çš„å®é™…ä¸ªæ•°
     virtual int size() const {
         return 3 * this->dimension - 2;
     }
 
-    //Èı¶Ô½Ç¾ØÕóµÄ×ªÖÃ
+    //ä¸‰å¯¹è§’çŸ©é˜µçš„è½¬ç½®
     virtual tripleDiagonalMatrix<T> *transpose() {
         if (!this->initialized)throw MatrixUnInitializeException();
         auto temp = new tripleDiagonalMatrix<T>(this->getDimension());
@@ -548,7 +548,7 @@ public:
     }
 
 private:
-    void output() const//¸Ã½Ó¿Ú½ö¹©µ÷ÊÔÊ¹ÓÃ£¬Êä³öÄÚ²¿elementÊı×éÖĞµÄÃ¿Ò»¸öÔªËØ
+    void output() const//è¯¥æ¥å£ä»…ä¾›è°ƒè¯•ä½¿ç”¨ï¼Œè¾“å‡ºå†…éƒ¨elementæ•°ç»„ä¸­çš„æ¯ä¸€ä¸ªå…ƒç´ 
     {
         for (int i = 0; i < this->size(); i++) {
             cout << this->element[i] << " ";
@@ -557,10 +557,10 @@ private:
 };
 
 template<class T>
-class upperTriangularMatrix;//Ä£°åÀàµÄÇ°ÖÃÉùÃ÷£¬ÔÚ¶¨ÒålowerTriangularMatrixÀàµÄtransposeº¯ÊıÊ±»áÓÃµ½
+class upperTriangularMatrix;//æ¨¡æ¿ç±»çš„å‰ç½®å£°æ˜ï¼Œåœ¨å®šä¹‰lowerTriangularMatrixç±»çš„transposeå‡½æ•°æ—¶ä¼šç”¨åˆ°
 
 
-//ÄÚ²¿²ÉÓÃÒ»Î¬Êı×é´æ´¢¶şÎ¬¾ØÕóÔªËØ£¬Ó³Éä·½Ê½²ÉÓÃĞĞÖ÷Ó³ÉäµÄÏÂÈı½Ç¾ØÕó
+//å†…éƒ¨é‡‡ç”¨ä¸€ç»´æ•°ç»„å­˜å‚¨äºŒç»´çŸ©é˜µå…ƒç´ ï¼Œæ˜ å°„æ–¹å¼é‡‡ç”¨è¡Œä¸»æ˜ å°„çš„ä¸‹ä¸‰è§’çŸ©é˜µ
 template<class T>
 class lowerTriangularMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
     friend ostream &operator<<(ostream &out, const lowerTriangularMatrix<T> &theMatrix) {
@@ -569,7 +569,7 @@ class lowerTriangularMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
         for (int i = 0; i < theDimension; i++) {
             for (int j = 0; j < theDimension; j++) {
                 if (i >= j) {
-                    //µ±i>=jÊ±£¬ÔªËØÔÚÏÂÈı½ÇÇø
+                    //å½“i>=jæ—¶ï¼Œå…ƒç´ åœ¨ä¸‹ä¸‰è§’åŒº
                     out << theMatrix.get(i + 1, j + 1) << " ";
                     index++;
                 } else {
@@ -586,24 +586,24 @@ class lowerTriangularMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
 public:
     lowerTriangularMatrix(int theDimension = 10) {
         if (theDimension < 1) {
-            throw IllegalParameterException("matrixµÄ´óĞ¡±ØĞë´óÓÚ0");
+            throw IllegalParameterException("matrixçš„å¤§å°å¿…é¡»å¤§äº0");
         }
         this->dimension = theDimension;
-        this->element = new T[this->dimension * (this->dimension + 1) / 2];//ÉÏÈı½Ç¾ØÕóºÍÏÂÈı½Ç¾ØÕóµÄÔªËØ×ÜÊı¶¼ÊÇn*(n+1)/2
+        this->element = new T[this->dimension * (this->dimension + 1) / 2];//ä¸Šä¸‰è§’çŸ©é˜µå’Œä¸‹ä¸‰è§’çŸ©é˜µçš„å…ƒç´ æ€»æ•°éƒ½æ˜¯n*(n+1)/2
         this->initialized = false;
     }
 
     lowerTriangularMatrix(const lowerTriangularMatrix<T> &theMatrix) {
-        if (!theMatrix.initialized)throw MatrixUnInitializeException("Ê¹ÓÃÎ´³õÊ¼»¯µÄ¾ØÕó¿½±´¹¹ÔìĞÂµÄ¾ØÕóÊÇ²»±»ÔÊĞíµÄ");
+        if (!theMatrix.initialized)throw MatrixUnInitializeException("ä½¿ç”¨æœªåˆå§‹åŒ–çš„çŸ©é˜µæ‹·è´æ„é€ æ–°çš„çŸ©é˜µæ˜¯ä¸è¢«å…è®¸çš„");
         this->dimension = theMatrix.getDimension();
-        this->element = new T[theMatrix.getDimension() * (theMatrix.getDimension() + 1) / 2];//ÏÂÈı½Ç¾ØÕóÔªËØÊın*(n+1)/2
+        this->element = new T[theMatrix.getDimension() * (theMatrix.getDimension() + 1) / 2];//ä¸‹ä¸‰è§’çŸ©é˜µå…ƒç´ æ•°n*(n+1)/2
         copy(theMatrix.element, theMatrix.element + this->size(), this->element);
         this->initialized = true;
     }
 
     ~lowerTriangularMatrix() { delete[]this->element; }
 
-    virtual T operator()(int i, int j) const//»ñÈ¡ÏÂ±êÎª(i,j)µÄ¾ØÕóÔªËØ
+    virtual T operator()(int i, int j) const//è·å–ä¸‹æ ‡ä¸º(i,j)çš„çŸ©é˜µå…ƒç´ 
     {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension) {
             throw matrixIndexOutOfBounds();
@@ -614,8 +614,8 @@ public:
         } else return 0;
     }
 
-    //³£¹æ½Ó¿Ú
-    virtual T get(const int &i, const int &j) const//»ñÈ¡ÏÂ±êÎª(i,j)µÄ¾ØÕóÔªËØ
+    //å¸¸è§„æ¥å£
+    virtual T get(const int &i, const int &j) const//è·å–ä¸‹æ ‡ä¸º(i,j)çš„çŸ©é˜µå…ƒç´ 
     {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension) {
             throw matrixIndexOutOfBounds();
@@ -626,11 +626,11 @@ public:
         } else return 0;
     }
 
-    virtual void set(const int &i, const int &j, const T &theElement)//½«ÏÂ±êÎªi,jµÄÔªËØÉèÎªÁíÒ»¸öÖµ
+    virtual void set(const int &i, const int &j, const T &theElement)//å°†ä¸‹æ ‡ä¸ºi,jçš„å…ƒç´ è®¾ä¸ºå¦ä¸€ä¸ªå€¼
     {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension)
             throw matrixIndexOutOfBounds();
-        if (i >= j)//ÏÂÈı½ÇÇøµÄÔªËØi>=j
+        if (i >= j)//ä¸‹ä¸‰è§’åŒºçš„å…ƒç´ i>=j
         {
             int index = i * (i - 1) / 2 + j - 1;
             this->element[index] = theElement;
@@ -639,8 +639,8 @@ public:
         }
     }
 
-    //¾ØÕóµÄ¼Ó¼õ³Ë²Ù×÷
-    //¾ØÕó¼Ó·¨
+    //çŸ©é˜µçš„åŠ å‡ä¹˜æ“ä½œ
+    //çŸ©é˜µåŠ æ³•
     virtual lowerTriangularMatrix<T> *operator+(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const {
         if (!this->initialized || !theMatrix.initialized)throw MatrixUnInitializeException();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfPlus();
@@ -656,7 +656,7 @@ public:
 
     }
 
-    //¾ØÕó¼õ·¨
+    //çŸ©é˜µå‡æ³•
     virtual lowerTriangularMatrix<T> *operator-(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const {
         if (!this->initialized || !theMatrix.initialized)throw MatrixUnInitializeException();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfSubtraction();
@@ -671,7 +671,7 @@ public:
 
     }
 
-    //¾ØÕó³Ë·¨
+    //çŸ©é˜µä¹˜æ³•
     virtual lowerTriangularMatrix<T> *operator*(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const {
         if (!this->initialized || !theMatrix.initialized)throw MatrixUnInitializeException();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfMultiply();
@@ -689,8 +689,8 @@ public:
         return result;
     }
 
-    //ÆäËû³£¹æ½Ó¿Ú
-    //³õÊ¼»¯¾ØÕó£¬½«´«ÈëµÄ¶şÎ¬Êı×éÓ³Éäµ½ÄÚ²¿µÄÒ»Î¬Êı×éÖĞ
+    //å…¶ä»–å¸¸è§„æ¥å£
+    //åˆå§‹åŒ–çŸ©é˜µï¼Œå°†ä¼ å…¥çš„äºŒç»´æ•°ç»„æ˜ å°„åˆ°å†…éƒ¨çš„ä¸€ç»´æ•°ç»„ä¸­
     virtual void initialize(T *theElements, const int &theDimension) {
         if (this->initialized)throw MatrixReinitializeException();
         for (int i = 0; i < theDimension; i++) {
@@ -702,7 +702,7 @@ public:
 
     }
 
-    //ÖØÔØ³õÊ¼»¯º¯Êı£¬Ä¿µÄÊÇ³õÊ¼»¯Ò»¸ö¿ÕµÄ¾ØÕó£¬½«¾ØÕóËùÓĞÔªËØÖÃÁã
+    //é‡è½½åˆå§‹åŒ–å‡½æ•°ï¼Œç›®çš„æ˜¯åˆå§‹åŒ–ä¸€ä¸ªç©ºçš„çŸ©é˜µï¼Œå°†çŸ©é˜µæ‰€æœ‰å…ƒç´ ç½®é›¶
     virtual void initialize() {
         if (this->initialized)throw MatrixReinitializeException();
         for (int i = 0; i < this->size(); i++) {
@@ -711,12 +711,12 @@ public:
         this->initialized = true;
     }
 
-    //·µ»Ø¾ØÕóÖĞÔªËØµÄ¸öÊı
+    //è¿”å›çŸ©é˜µä¸­å…ƒç´ çš„ä¸ªæ•°
     virtual int size() const {
         return this->dimension * (this->dimension + 1) / 2;
     }
 
-    //¾ØÕóµÄ×ªÖÃ
+    //çŸ©é˜µçš„è½¬ç½®
     virtual upperTriangularMatrix<T> *transpose() {
         if (!this->initialized)throw MatrixUnInitializeException();
         auto temp = new upperTriangularMatrix<T>(this->getDimension());
@@ -730,7 +730,7 @@ public:
 };
 
 
-//ÄÚ²¿²ÉÓÃÒ»Î¬Êı×é´æ´¢¶şÎ¬¾ØÕóÔªËØ£¬Ó³Éä·½Ê½²ÉÓÃĞĞÖ÷Ó³ÉäµÄÉÏÈı½Ç¾ØÕó
+//å†…éƒ¨é‡‡ç”¨ä¸€ç»´æ•°ç»„å­˜å‚¨äºŒç»´çŸ©é˜µå…ƒç´ ï¼Œæ˜ å°„æ–¹å¼é‡‡ç”¨è¡Œä¸»æ˜ å°„çš„ä¸Šä¸‰è§’çŸ©é˜µ
 template<class T>
 class upperTriangularMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
     friend ostream &operator<<(ostream &out, const upperTriangularMatrix<T> &theMatrix) {
@@ -739,7 +739,7 @@ class upperTriangularMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
         for (int i = 0; i < theDimension; i++) {
             for (int j = 0; j < theDimension; j++) {
                 if (i <= j) {
-                    //µ±i<=jÊ±£¬ÔªËØÔÚÉÏÈı½ÇÇø
+                    //å½“i<=jæ—¶ï¼Œå…ƒç´ åœ¨ä¸Šä¸‰è§’åŒº
                     out << theMatrix.get(i + 1, j + 1) << " ";
                     index++;
                 } else {
@@ -756,47 +756,47 @@ class upperTriangularMatrix : public virtualDiagonalMatrixAsRegularArray<T> {
 public:
     upperTriangularMatrix(int theDimension = 10) {
         if (theDimension < 1) {
-            throw IllegalParameterException("matrixµÄ´óĞ¡±ØĞë´óÓÚ0");
+            throw IllegalParameterException("matrixçš„å¤§å°å¿…é¡»å¤§äº0");
         }
         this->dimension = theDimension;
-        this->element = new T[this->dimension * (this->dimension + 1) / 2];//ÉÏÈı½Ç¾ØÕóºÍÏÂÈı½Ç¾ØÕóµÄÔªËØ×ÜÊı¶¼ÊÇn*(n+1)/2
+        this->element = new T[this->dimension * (this->dimension + 1) / 2];//ä¸Šä¸‰è§’çŸ©é˜µå’Œä¸‹ä¸‰è§’çŸ©é˜µçš„å…ƒç´ æ€»æ•°éƒ½æ˜¯n*(n+1)/2
         this->initialized = false;
     }
 
     upperTriangularMatrix(const upperTriangularMatrix<T> &theMatrix) {
         if (!theMatrix.initialized)throw MatrixUnInitializeException();
         this->dimension = theMatrix.getDimension();
-        this->element = new T[theMatrix.getDimension() * (theMatrix.getDimension() + 1) / 2];//ÏÂÈı½Ç¾ØÕóÔªËØÊın*(n+1)/2
+        this->element = new T[theMatrix.getDimension() * (theMatrix.getDimension() + 1) / 2];//ä¸‹ä¸‰è§’çŸ©é˜µå…ƒç´ æ•°n*(n+1)/2
         copy(theMatrix.element, theMatrix.element + this->size(), this->element);
         this->initialized = true;
     }
 
     ~upperTriangularMatrix() { delete[]this->element; }
 
-    virtual T operator()(int i, int j) const//»ñÈ¡ÏÂ±êÎª(i,j)µÄ¾ØÕóÔªËØ
+    virtual T operator()(int i, int j) const//è·å–ä¸‹æ ‡ä¸º(i,j)çš„çŸ©é˜µå…ƒç´ 
     {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension) {
             throw matrixIndexOutOfBounds();
         }
-        if (i <= j)return this->element[((2 * this->dimension - i + 2) * (i - 1)) / 2 + j - i];//ÕâÊÇÉÏÈı½Ç¾ØÕóµÄĞĞÖ÷Ó³Éäº¯Êı
+        if (i <= j)return this->element[((2 * this->dimension - i + 2) * (i - 1)) / 2 + j - i];//è¿™æ˜¯ä¸Šä¸‰è§’çŸ©é˜µçš„è¡Œä¸»æ˜ å°„å‡½æ•°
         else return 0;
     }
 
-    //³£¹æ½Ó¿Ú
-    virtual T get(const int &i, const int &j) const//»ñÈ¡ÏÂ±êÎª(i,j)µÄ¾ØÕóÔªËØ
+    //å¸¸è§„æ¥å£
+    virtual T get(const int &i, const int &j) const//è·å–ä¸‹æ ‡ä¸º(i,j)çš„çŸ©é˜µå…ƒç´ 
     {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension) {
             throw matrixIndexOutOfBounds();
         }
-        if (i <= j)return this->element[((2 * this->dimension - i + 2) * (i - 1)) / 2 + j - i];//ÕâÊÇÉÏÈı½Ç¾ØÕóµÄĞĞÖ÷Ó³Éäº¯Êı
+        if (i <= j)return this->element[((2 * this->dimension - i + 2) * (i - 1)) / 2 + j - i];//è¿™æ˜¯ä¸Šä¸‰è§’çŸ©é˜µçš„è¡Œä¸»æ˜ å°„å‡½æ•°
         else return 0;
     }
 
-    virtual void set(const int &i, const int &j, const T &theElement)//½«ÏÂ±êÎªi,jµÄÔªËØÉèÎªÁíÒ»¸öÖµ
+    virtual void set(const int &i, const int &j, const T &theElement)//å°†ä¸‹æ ‡ä¸ºi,jçš„å…ƒç´ è®¾ä¸ºå¦ä¸€ä¸ªå€¼
     {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension)
             throw matrixIndexOutOfBounds();
-        if (i <= j)//ÏÂÈı½ÇÇøµÄÔªËØi>=j
+        if (i <= j)//ä¸‹ä¸‰è§’åŒºçš„å…ƒç´ i>=j
         {
             int index = ((2 * this->dimension - i + 2) * (i - 1)) / 2 + j - i;
             this->element[index] = theElement;
@@ -805,8 +805,8 @@ public:
         }
     }
 
-    //¾ØÕóµÄ¼Ó¼õ³Ë²Ù×÷
-    //¾ØÕó¼Ó·¨
+    //çŸ©é˜µçš„åŠ å‡ä¹˜æ“ä½œ
+    //çŸ©é˜µåŠ æ³•
     virtual upperTriangularMatrix<T> *operator+(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const {
         if (!this->initialized || !theMatrix.initialized)throw MatrixUnInitializeException();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfPlus();
@@ -822,7 +822,7 @@ public:
 
     }
 
-    //¾ØÕó¼õ·¨
+    //çŸ©é˜µå‡æ³•
     virtual upperTriangularMatrix<T> *operator-(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const {
         if (!this->initialized || !theMatrix.initialized)throw MatrixUnInitializeException();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfSubtraction();
@@ -837,13 +837,13 @@ public:
 
     }
 
-    //¾ØÕó³Ë·¨
+    //çŸ©é˜µä¹˜æ³•
     virtual upperTriangularMatrix<T> *operator*(const virtualDiagonalMatrixAsRegularArray<T> &theMatrix) const {
         if (!this->initialized || !theMatrix.initialized)throw MatrixUnInitializeException();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfMultiply();
         auto result = new upperTriangularMatrix<T>(this->dimension);
         result->initialize();
-        int theDimension = result->getDimension();//²âÊÔ´úÂë
+        int theDimension = result->getDimension();//æµ‹è¯•ä»£ç 
         for (int i = 0; i < this->dimension; ++i) {
             for (int j = 0; j < this->dimension; ++j) {
                 T sum = 0;
@@ -856,8 +856,8 @@ public:
         return result;
     }
 
-    //ÆäËû³£¹æ½Ó¿Ú
-    //³õÊ¼»¯¾ØÕó£¬½«´«ÈëµÄ¶şÎ¬Êı×éÓ³Éäµ½ÄÚ²¿µÄÒ»Î¬Êı×éÖĞ
+    //å…¶ä»–å¸¸è§„æ¥å£
+    //åˆå§‹åŒ–çŸ©é˜µï¼Œå°†ä¼ å…¥çš„äºŒç»´æ•°ç»„æ˜ å°„åˆ°å†…éƒ¨çš„ä¸€ç»´æ•°ç»„ä¸­
     virtual void initialize(T *theElements, const int &theDimension) {
         if (this->initialized)throw MatrixReinitializeException();
         for (int i = 0; i < theDimension; i++) {
@@ -869,7 +869,7 @@ public:
 
     }
 
-    //ÖØÔØ³õÊ¼»¯º¯Êı£¬Ä¿µÄÊÇ³õÊ¼»¯Ò»¸ö¿ÕµÄ¾ØÕó£¬½«¾ØÕóËùÓĞÔªËØÖÃÁã
+    //é‡è½½åˆå§‹åŒ–å‡½æ•°ï¼Œç›®çš„æ˜¯åˆå§‹åŒ–ä¸€ä¸ªç©ºçš„çŸ©é˜µï¼Œå°†çŸ©é˜µæ‰€æœ‰å…ƒç´ ç½®é›¶
     virtual void initialize() {
         if (this->initialized)throw MatrixReinitializeException();
         for (int i = 0; i < this->size(); i++) {
@@ -878,12 +878,12 @@ public:
         this->initialized = true;
     }
 
-    //·µ»Ø¾ØÕóÖĞÔªËØµÄ¸öÊı
+    //è¿”å›çŸ©é˜µä¸­å…ƒç´ çš„ä¸ªæ•°
     virtual int size() const {
         return this->dimension * (this->dimension + 1) / 2;
     }
 
-    //×¢ÒâÉÏÈı½Ç¾ØÕó×ªÖÃÖ®ºóÊÇÏÂÈı½Ç¾ØÕó
+    //æ³¨æ„ä¸Šä¸‰è§’çŸ©é˜µè½¬ç½®ä¹‹åæ˜¯ä¸‹ä¸‰è§’çŸ©é˜µ
     virtual lowerTriangularMatrix<T> *transpose() {
         if (!this->initialized)throw MatrixUnInitializeException();
         auto temp = new lowerTriangularMatrix<T>(this->getDimension());
@@ -897,7 +897,7 @@ public:
 
 };
 
-//ÏÂÃæµÄÕâ¸ö³éÏó»ùÀàÒ²ÊÇÌØÊâ¾ØÕóµÄ³éÏó»ùÀà£¬ÅÉÉú×Ô¸Ã³éÏó»ùÀàËù¶¨ÒåµÄËùÓĞ¾ØÕóÀàÄÚ²¿½Ô²ÉÓÃ²»¹æÔòµÄ¶şÎ¬Êı×éÀ´´æ´¢ÌØÊâ¾ØÕóÖĞµÄ·ÇÁãÔªËØ
+//ä¸‹é¢çš„è¿™ä¸ªæŠ½è±¡åŸºç±»ä¹Ÿæ˜¯ç‰¹æ®ŠçŸ©é˜µçš„æŠ½è±¡åŸºç±»ï¼Œæ´¾ç”Ÿè‡ªè¯¥æŠ½è±¡åŸºç±»æ‰€å®šä¹‰çš„æ‰€æœ‰çŸ©é˜µç±»å†…éƒ¨çš†é‡‡ç”¨ä¸è§„åˆ™çš„äºŒç»´æ•°ç»„æ¥å­˜å‚¨ç‰¹æ®ŠçŸ©é˜µä¸­çš„éé›¶å…ƒç´ 
 template<class T>
 class virtualDiagonalMatrixAsIrregularArray {
 protected:
@@ -905,36 +905,36 @@ protected:
     T **element;
     bool initialized;
 public:
-    //·µ»ØË½ÓĞÊı¾İµÄ¹«ÓĞ½Ó¿Ú
+    //è¿”å›ç§æœ‰æ•°æ®çš„å…¬æœ‰æ¥å£
     int getDimension() const { return dimension; }
 
     bool isInitialized() const { return initialized; }
 
-    //³£¹æ¹«ÓĞ½Ó¿Ú
-    virtual T get(const int &i, const int &j) const = 0;//·µ»ØÏÂ±êÎªi,jµÄ¾ØÕóÔªËØ
+    //å¸¸è§„å…¬æœ‰æ¥å£
+    virtual T get(const int &i, const int &j) const = 0;//è¿”å›ä¸‹æ ‡ä¸ºi,jçš„çŸ©é˜µå…ƒç´ 
 
-    virtual void set(const int &i, const int &j, const T &theElement) = 0;//½«ÏÂ±êÎªi,jµÄ¾ØÕóÔªËØÉèÎªÁíÒ»¸öÖµ
+    virtual void set(const int &i, const int &j, const T &theElement) = 0;//å°†ä¸‹æ ‡ä¸ºi,jçš„çŸ©é˜µå…ƒç´ è®¾ä¸ºå¦ä¸€ä¸ªå€¼
 
-    virtual virtualDiagonalMatrixAsIrregularArray<T> *operator+(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const = 0;//¾ØÕó¼Ó·¨
+    virtual virtualDiagonalMatrixAsIrregularArray<T> *operator+(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const = 0;//çŸ©é˜µåŠ æ³•
 
-    virtual virtualDiagonalMatrixAsIrregularArray<T> *operator-(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const = 0;//¾ØÕó¼õ·¨
+    virtual virtualDiagonalMatrixAsIrregularArray<T> *operator-(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const = 0;//çŸ©é˜µå‡æ³•
 
-    virtual virtualDiagonalMatrixAsIrregularArray<T> *operator*(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const = 0;//¾ØÕó³Ë·¨
+    virtual virtualDiagonalMatrixAsIrregularArray<T> *operator*(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const = 0;//çŸ©é˜µä¹˜æ³•
 
-    virtual T operator()(int i, int j) const = 0;//µÃµ½Ë÷ÒıÎªi,jµÄË÷ÒıÔªËØ
+    virtual T operator()(int i, int j) const = 0;//å¾—åˆ°ç´¢å¼•ä¸ºi,jçš„ç´¢å¼•å…ƒç´ 
 
-    virtual void initialize(T *theElements, const int &theDimension) = 0;//³õÊ¼»¯¾ØÕó£¬½«´«ÈëµÄ¶şÎ¬Êı×éÓ³Éäµ½ÄÚ²¿µÄÒ»Î¬Êı×éÖĞ
+    virtual void initialize(T *theElements, const int &theDimension) = 0;//åˆå§‹åŒ–çŸ©é˜µï¼Œå°†ä¼ å…¥çš„äºŒç»´æ•°ç»„æ˜ å°„åˆ°å†…éƒ¨çš„ä¸€ç»´æ•°ç»„ä¸­
 
-    virtual void initialize() = 0;//ÖØÔØ³õÊ¼»¯º¯Êı£¬Ä¿µÄÊÇ³õÊ¼»¯Ò»¸ö¿ÕµÄ¾ØÕó£¬½«¾ØÕóËùÓĞÔªËØÖÃÁã
+    virtual void initialize() = 0;//é‡è½½åˆå§‹åŒ–å‡½æ•°ï¼Œç›®çš„æ˜¯åˆå§‹åŒ–ä¸€ä¸ªç©ºçš„çŸ©é˜µï¼Œå°†çŸ©é˜µæ‰€æœ‰å…ƒç´ ç½®é›¶
 
-    virtual int size() const = 0;//·µ»Ø¾ØÕóÖĞÔªËØµÄ¸öÊı
+    virtual int size() const = 0;//è¿”å›çŸ©é˜µä¸­å…ƒç´ çš„ä¸ªæ•°
 
-    virtual virtualDiagonalMatrixAsIrregularArray<T> *transpose() const = 0;//¾ØÕóµÄ×ªÖÃ
+    virtual virtualDiagonalMatrixAsIrregularArray<T> *transpose() const = 0;//çŸ©é˜µçš„è½¬ç½®
 
 
 };
 
-//ÄÚ²¿²ÉÓÃ¶şÎ¬Êı×éÊµÏÖµÄ£¬Ó³Éä·½Ê½²ÉÓÃĞĞÖ÷Ó³Éä·½Ê½ÊµÏÖµÄÈı¶Ô½Ç¾ØÕó
+//å†…éƒ¨é‡‡ç”¨äºŒç»´æ•°ç»„å®ç°çš„ï¼Œæ˜ å°„æ–¹å¼é‡‡ç”¨è¡Œä¸»æ˜ å°„æ–¹å¼å®ç°çš„ä¸‰å¯¹è§’çŸ©é˜µ
 template<class T>
 class tripleDiagonalMatrixAsIrregularArray : public virtualDiagonalMatrixAsIrregularArray<T> {
     friend ostream &operator<<(ostream &out, const tripleDiagonalMatrixAsIrregularArray<T> &theMatrix) {
@@ -955,14 +955,14 @@ class tripleDiagonalMatrixAsIrregularArray : public virtualDiagonalMatrixAsIrreg
     }
 
 public:
-    //¹¹Ôì£¬¿½±´¹¹Ôì£¬Îö¹¹½Ó¿Ú
+    //æ„é€ ï¼Œæ‹·è´æ„é€ ï¼Œææ„æ¥å£
     tripleDiagonalMatrixAsIrregularArray(const int &theDimension) {
         if (theDimension < 1)
-            throw IllegalParameterException("µ÷ÓÃtripleDiagonalMatrixAsIrregularArray¹¹Ôìº¯ÊıÊ±£¬´«µİµÄ²ÎÊı±ØĞë´óÓÚ1È·±£¾ØÕóµÄ´óĞ¡·ûºÏÊµ¼Ê");
+            throw IllegalParameterException("è°ƒç”¨tripleDiagonalMatrixAsIrregularArrayæ„é€ å‡½æ•°æ—¶ï¼Œä¼ é€’çš„å‚æ•°å¿…é¡»å¤§äº1ç¡®ä¿çŸ©é˜µçš„å¤§å°ç¬¦åˆå®é™…");
         this->dimension = theDimension;
         this->element = new T *[theDimension];
         this->element[0] = new T[2];
-        for (int i = 1; i < theDimension - 1; i++)//¸ø¶şÎ¬Êı×éÖĞµÄÃ¿Ò»¸öÒ»Î¬Êı×é·ÖÅä¿Õ¼ä
+        for (int i = 1; i < theDimension - 1; i++)//ç»™äºŒç»´æ•°ç»„ä¸­çš„æ¯ä¸€ä¸ªä¸€ç»´æ•°ç»„åˆ†é…ç©ºé—´
         {
             this->element[i] = new T[3];
         }
@@ -971,18 +971,18 @@ public:
     }
 
     tripleDiagonalMatrixAsIrregularArray(const tripleDiagonalMatrixAsIrregularArray<T> &theMatrix) {
-        if (!theMatrix.isInitialized())throw MatrixUnInitializeException("Ê¹ÓÃÎ´³õÊ¼»¯µÄ¾ØÕó¿½±´¹¹ÔìĞÂµÄ¾ØÕóÊÇ²»±»ÔÊĞíµÄ");
+        if (!theMatrix.isInitialized())throw MatrixUnInitializeException("ä½¿ç”¨æœªåˆå§‹åŒ–çš„çŸ©é˜µæ‹·è´æ„é€ æ–°çš„çŸ©é˜µæ˜¯ä¸è¢«å…è®¸çš„");
 
         this->dimension = theMatrix.getDimension();
         this->element = new T *[this->dimension];
         this->element[0] = new T[2];
-        for (int i = 1; i < this->dimension - 1; i++)//¸ø¶şÎ¬Êı×éÖĞµÄÃ¿Ò»¸öÒ»Î¬Êı×é·ÖÅä¿Õ¼ä
+        for (int i = 1; i < this->dimension - 1; i++)//ç»™äºŒç»´æ•°ç»„ä¸­çš„æ¯ä¸€ä¸ªä¸€ç»´æ•°ç»„åˆ†é…ç©ºé—´
         {
             this->element[i] = new T[3];
         }
         this->element[this->dimension - 1] = new T[2];
 
-        //¿½±´ÔªËØµÄ´úÂë
+        //æ‹·è´å…ƒç´ çš„ä»£ç 
         for (int i = 0; i < this->dimension; i++) {
             for (int j = 0; j < this->dimension; ++j) {
                 int theValue = theMatrix.get(i + 1, j + 1);
@@ -998,19 +998,19 @@ public:
     ~tripleDiagonalMatrixAsIrregularArray() {
 
         for (int i = 0; i < this->dimension; i++)
-            delete[]this->element[i];//ÊÍ·Å¶şÎ¬Êı×éÖĞµÄÃ¿Ò»¸öÒ»Î¬Êı×éÖĞµÄÃ¿Ò»¸öÔªËØ
+            delete[]this->element[i];//é‡Šæ”¾äºŒç»´æ•°ç»„ä¸­çš„æ¯ä¸€ä¸ªä¸€ç»´æ•°ç»„ä¸­çš„æ¯ä¸€ä¸ªå…ƒç´ 
         delete[]this->element;
     }
 
-    //ADT·½·¨
-    virtual T get(const int &i, const int &j) const//·µ»ØÏÂ±êÎªi,jµÄ¾ØÕóÔªËØ
+    //ADTæ–¹æ³•
+    virtual T get(const int &i, const int &j) const//è¿”å›ä¸‹æ ‡ä¸ºi,jçš„çŸ©é˜µå…ƒç´ 
     {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension)
             throw matrixIndexOutOfBounds();
         if (abs(i - j) > 1)return 0;
         else {
             T temp;
-            if (i == this->dimension && (j == this->dimension - 1 || j == this->dimension))//×îºóÒ»ĞĞÊÇÌØÊâÇé¿ö£¬ÌØÊâ´¦Àí
+            if (i == this->dimension && (j == this->dimension - 1 || j == this->dimension))//æœ€åä¸€è¡Œæ˜¯ç‰¹æ®Šæƒ…å†µï¼Œç‰¹æ®Šå¤„ç†
             {
                 temp = this->element[i - 1][j - 3];
                 return temp;
@@ -1020,13 +1020,13 @@ public:
         }
     }
 
-    virtual void set(const int &i, const int &j, const T &theElement)//½«ÏÂ±êÎªi,jµÄ¾ØÕóÔªËØÉèÎªÁíÒ»¸öÖµ
+    virtual void set(const int &i, const int &j, const T &theElement)//å°†ä¸‹æ ‡ä¸ºi,jçš„çŸ©é˜µå…ƒç´ è®¾ä¸ºå¦ä¸€ä¸ªå€¼
     {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension)
             throw matrixIndexOutOfBounds();
         if (abs(i - j) > 1) { if (theElement != 0)throw MatrixInvalidValueSetException(); }
         else {
-            if (i == this->dimension && (j == this->dimension - 1 || j == this->dimension))//×îºóÒ»ĞĞÊÇÌØÊâÇé¿ö£¬ÌØÊâ´¦Àí
+            if (i == this->dimension && (j == this->dimension - 1 || j == this->dimension))//æœ€åä¸€è¡Œæ˜¯ç‰¹æ®Šæƒ…å†µï¼Œç‰¹æ®Šå¤„ç†
             {
                 this->element[i - 1][j - 3] = theElement;
                 return;
@@ -1036,7 +1036,7 @@ public:
     }
 
     virtual tripleDiagonalMatrixAsIrregularArray<T> *
-    operator+(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const//¾ØÕó¼Ó·¨
+    operator+(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const//çŸ©é˜µåŠ æ³•
     {
         if (!this->initialized || !theMatrix.isInitialized())throw MatrixUnInitializeException();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfPlus();
@@ -1054,7 +1054,7 @@ public:
     }
 
     virtual tripleDiagonalMatrixAsIrregularArray<T> *
-    operator-(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const//¾ØÕó¼õ·¨
+    operator-(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const//çŸ©é˜µå‡æ³•
     {
         if (!this->initialized || !theMatrix.isInitialized())throw MatrixUnInitializeException();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfSubtraction();
@@ -1070,7 +1070,7 @@ public:
     }
 
     virtual tripleDiagonalMatrixAsIrregularArray<T> *
-    operator*(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const//¾ØÕó³Ë·¨
+    operator*(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const//çŸ©é˜µä¹˜æ³•
     {
         if (!this->initialized || !theMatrix.isInitialized())throw MatrixUnInitializeException();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfMultiply();
@@ -1093,14 +1093,14 @@ public:
 
     }
 
-    virtual T operator()(int i, int j) const//µÃµ½Ë÷ÒıÎªi,jµÄË÷ÒıÔªËØ
+    virtual T operator()(int i, int j) const//å¾—åˆ°ç´¢å¼•ä¸ºi,jçš„ç´¢å¼•å…ƒç´ 
     {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension)
             throw matrixIndexOutOfBounds();
         if (abs(i - j) > 1)return 0;
         else {
             T temp;
-            if (i == this->dimension && (j == this->dimension - 1 || j == this->dimension))//×îºóÒ»ĞĞÊÇÌØÊâÇé¿ö£¬ÌØÊâ´¦Àí
+            if (i == this->dimension && (j == this->dimension - 1 || j == this->dimension))//æœ€åä¸€è¡Œæ˜¯ç‰¹æ®Šæƒ…å†µï¼Œç‰¹æ®Šå¤„ç†
             {
                 temp = this->element[i - 1][j - 3];
                 return temp;
@@ -1111,7 +1111,7 @@ public:
 
     }
 
-    virtual void initialize(T *theElements, const int &theDimension)//³õÊ¼»¯¾ØÕó£¬½«´«ÈëµÄ¶şÎ¬Êı×éÓ³Éäµ½ÄÚ²¿µÄÒ»Î¬Êı×éÖĞ
+    virtual void initialize(T *theElements, const int &theDimension)//åˆå§‹åŒ–çŸ©é˜µï¼Œå°†ä¼ å…¥çš„äºŒç»´æ•°ç»„æ˜ å°„åˆ°å†…éƒ¨çš„ä¸€ç»´æ•°ç»„ä¸­
     {
         if (this->initialized)throw MatrixReinitializeException();
         for (int i = 0; i < theDimension; i++) {
@@ -1124,7 +1124,7 @@ public:
 
     }
 
-    virtual void initialize()//ÖØÔØ³õÊ¼»¯º¯Êı£¬Ä¿µÄÊÇ³õÊ¼»¯Ò»¸ö¿ÕµÄ¾ØÕó£¬½«¾ØÕóËùÓĞÔªËØÖÃÁã
+    virtual void initialize()//é‡è½½åˆå§‹åŒ–å‡½æ•°ï¼Œç›®çš„æ˜¯åˆå§‹åŒ–ä¸€ä¸ªç©ºçš„çŸ©é˜µï¼Œå°†çŸ©é˜µæ‰€æœ‰å…ƒç´ ç½®é›¶
     {
         if (this->initialized)throw MatrixReinitializeException();
         for (int i = 0; i < 2; i++) {
@@ -1141,12 +1141,12 @@ public:
         this->initialized = true;
     }
 
-    virtual int size() const//·µ»Ø¾ØÕóÖĞÔªËØµÄ¸öÊı
+    virtual int size() const//è¿”å›çŸ©é˜µä¸­å…ƒç´ çš„ä¸ªæ•°
     {
         return 3 * this->dimension - 2;
     }
 
-    virtual tripleDiagonalMatrixAsIrregularArray<T> *transpose() const//¾ØÕóµÄ×ªÖÃ
+    virtual tripleDiagonalMatrixAsIrregularArray<T> *transpose() const//çŸ©é˜µçš„è½¬ç½®
     {
         if (!this->initialized)throw MatrixUnInitializeException();
         auto temp = new tripleDiagonalMatrixAsIrregularArray<T>(this->getDimension());
@@ -1162,7 +1162,7 @@ public:
 template<class T>
 class upperTriangleAsIrregularArray;
 
-//ÄÚ²¿Ê¹ÓÃ¶şÎ¬²»¹æÔòÊı×éÊµÏÖµÄ£¬°´ÕÕĞĞÖ÷Ó³Éä·½Ê½ÊµÏÖµÄÏÂÈı½Ç¾ØÕó
+//å†…éƒ¨ä½¿ç”¨äºŒç»´ä¸è§„åˆ™æ•°ç»„å®ç°çš„ï¼ŒæŒ‰ç…§è¡Œä¸»æ˜ å°„æ–¹å¼å®ç°çš„ä¸‹ä¸‰è§’çŸ©é˜µ
 template<class T>
 class lowerTriangleAsIrregularArray : public virtualDiagonalMatrixAsIrregularArray<T> {
     friend ostream &operator<<(ostream &out, const lowerTriangleAsIrregularArray<T> &theMatrix) {
@@ -1178,9 +1178,9 @@ class lowerTriangleAsIrregularArray : public virtualDiagonalMatrixAsIrregularArr
     }
 
 public:
-    //¿½±´¹¹Ôì£¬¹¹Ôì£¬Îö¹¹
+    //æ‹·è´æ„é€ ï¼Œæ„é€ ï¼Œææ„
     lowerTriangleAsIrregularArray(const int &theDimension) {
-        if (theDimension < 1)throw IllegalParameterException("µ÷ÓÃlowerTriangleAsIrregularArray¹¹Ôìº¯ÊıÊ±£¬´«µİµÄ²ÎÊı±ØĞë´óÓÚ1È·±£¾ØÕóµÄ´óĞ¡·ûºÏÊµ¼Ê");
+        if (theDimension < 1)throw IllegalParameterException("è°ƒç”¨lowerTriangleAsIrregularArrayæ„é€ å‡½æ•°æ—¶ï¼Œä¼ é€’çš„å‚æ•°å¿…é¡»å¤§äº1ç¡®ä¿çŸ©é˜µçš„å¤§å°ç¬¦åˆå®é™…");
         this->dimension = theDimension;
         this->element = new T *[theDimension];
         for (int i = 0; i < theDimension; i++) {
@@ -1190,7 +1190,7 @@ public:
     }
 
     lowerTriangleAsIrregularArray(const lowerTriangleAsIrregularArray<T> &theMatrix) {
-        if (!theMatrix.isInitialized())throw MatrixUnInitializeException("Ê¹ÓÃÎ´³õÊ¼»¯µÄ¾ØÕó¿½±´¹¹ÔìĞÂµÄ¾ØÕóÊÇ²»±»ÔÊĞíµÄ");
+        if (!theMatrix.isInitialized())throw MatrixUnInitializeException("ä½¿ç”¨æœªåˆå§‹åŒ–çš„çŸ©é˜µæ‹·è´æ„é€ æ–°çš„çŸ©é˜µæ˜¯ä¸è¢«å…è®¸çš„");
         this->dimension = theMatrix.getDimension();
         this->element = new T *[this->dimension];
         for (int i = 0; i < this->dimension; i++) {
@@ -1207,11 +1207,11 @@ public:
 
     ~lowerTriangleAsIrregularArray() {
         for (int i = 0; i < this->dimension; i++)
-            delete[]this->element[i];//ÊÍ·Å¶şÎ¬Êı×éÖĞµÄÃ¿Ò»¸öÒ»Î¬Êı×éÖĞµÄÃ¿Ò»¸öÔªËØ
+            delete[]this->element[i];//é‡Šæ”¾äºŒç»´æ•°ç»„ä¸­çš„æ¯ä¸€ä¸ªä¸€ç»´æ•°ç»„ä¸­çš„æ¯ä¸€ä¸ªå…ƒç´ 
         delete[]this->element;
     }
 
-    virtual T get(const int &i, const int &j) const//·µ»ØÏÂ±êÎªi,jµÄ¾ØÕóÔªËØ
+    virtual T get(const int &i, const int &j) const//è¿”å›ä¸‹æ ‡ä¸ºi,jçš„çŸ©é˜µå…ƒç´ 
     {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension) {
             throw matrixIndexOutOfBounds();
@@ -1222,11 +1222,11 @@ public:
         } else return 0;
     }
 
-    virtual void set(const int &i, const int &j, const T &theElement) //½«ÏÂ±êÎªi,jµÄ¾ØÕóÔªËØÉèÎªÁíÒ»¸öÖµ
+    virtual void set(const int &i, const int &j, const T &theElement) //å°†ä¸‹æ ‡ä¸ºi,jçš„çŸ©é˜µå…ƒç´ è®¾ä¸ºå¦ä¸€ä¸ªå€¼
     {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension)
             throw matrixIndexOutOfBounds();
-        if (i >= j)//ÏÂÈı½ÇÇøµÄÔªËØi>=j
+        if (i >= j)//ä¸‹ä¸‰è§’åŒºçš„å…ƒç´ i>=j
         {
             this->element[i - 1][j - 1] = theElement;
         } else {
@@ -1236,7 +1236,7 @@ public:
     }
 
 
-    virtual lowerTriangleAsIrregularArray<T> *operator+(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const //¾ØÕó¼Ó·¨
+    virtual lowerTriangleAsIrregularArray<T> *operator+(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const //çŸ©é˜µåŠ æ³•
     {
         if (!this->initialized || !theMatrix.isInitialized())throw MatrixUnInitializeException();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfPlus();
@@ -1253,7 +1253,7 @@ public:
 
     }
 
-    virtual lowerTriangleAsIrregularArray<T> *operator-(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const //¾ØÕó¼õ·¨
+    virtual lowerTriangleAsIrregularArray<T> *operator-(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const //çŸ©é˜µå‡æ³•
     {
         if (!this->initialized || !theMatrix.isInitialized())throw MatrixUnInitializeException();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfSubtraction();
@@ -1271,7 +1271,7 @@ public:
     }
 
 
-    virtual lowerTriangleAsIrregularArray<T> *operator*(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const //¾ØÕó³Ë·¨
+    virtual lowerTriangleAsIrregularArray<T> *operator*(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const //çŸ©é˜µä¹˜æ³•
     {
         if (!this->initialized || !theMatrix.isInitialized())throw MatrixUnInitializeException();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfMultiply();
@@ -1294,7 +1294,7 @@ public:
 
     }
 
-    virtual T operator()(int i, int j) const //µÃµ½Ë÷ÒıÎªi,jµÄË÷ÒıÔªËØ
+    virtual T operator()(int i, int j) const //å¾—åˆ°ç´¢å¼•ä¸ºi,jçš„ç´¢å¼•å…ƒç´ 
     {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension) {
             throw matrixIndexOutOfBounds();
@@ -1307,7 +1307,7 @@ public:
     }
 
 
-    virtual void initialize(T *theElements, const int &theDimension)//³õÊ¼»¯¾ØÕó£¬½«´«ÈëµÄ¶şÎ¬Êı×éÓ³Éäµ½ÄÚ²¿µÄÒ»Î¬Êı×éÖĞ
+    virtual void initialize(T *theElements, const int &theDimension)//åˆå§‹åŒ–çŸ©é˜µï¼Œå°†ä¼ å…¥çš„äºŒç»´æ•°ç»„æ˜ å°„åˆ°å†…éƒ¨çš„ä¸€ç»´æ•°ç»„ä¸­
     {
         if (this->initialized)throw MatrixReinitializeException();
         for (int i = 0; i < theDimension; i++) {
@@ -1319,7 +1319,7 @@ public:
 
     }
 
-    virtual void initialize()//ÖØÔØ³õÊ¼»¯º¯Êı£¬Ä¿µÄÊÇ³õÊ¼»¯Ò»¸ö¿ÕµÄ¾ØÕó£¬½«¾ØÕóËùÓĞÔªËØÖÃÁã
+    virtual void initialize()//é‡è½½åˆå§‹åŒ–å‡½æ•°ï¼Œç›®çš„æ˜¯åˆå§‹åŒ–ä¸€ä¸ªç©ºçš„çŸ©é˜µï¼Œå°†çŸ©é˜µæ‰€æœ‰å…ƒç´ ç½®é›¶
     {
         for (int i = 0; i < this->dimension; i++) {
             for (int j = 0; j < i + 1; j++) {
@@ -1329,12 +1329,12 @@ public:
         this->initialized = true;
     }
 
-    virtual int size() const //·µ»Ø¾ØÕóÖĞÔªËØµÄ¸öÊı
+    virtual int size() const //è¿”å›çŸ©é˜µä¸­å…ƒç´ çš„ä¸ªæ•°
     {
         return this->dimension * (this->dimension + 1) / 2;
     }
 
-    virtual upperTriangleAsIrregularArray<T> *transpose() const //¾ØÕóµÄ×ªÖÃ£¬·µ»ØµÄÊÇÉÏÈı½Ç¾ØÕó
+    virtual upperTriangleAsIrregularArray<T> *transpose() const //çŸ©é˜µçš„è½¬ç½®ï¼Œè¿”å›çš„æ˜¯ä¸Šä¸‰è§’çŸ©é˜µ
     {
         if (!this->initialized)throw MatrixUnInitializeException();
         auto temp = new upperTriangleAsIrregularArray<T>(this->getDimension());
@@ -1349,7 +1349,7 @@ public:
 
 };
 
-//ÄÚ²¿Ê¹ÓÃ¶şÎ¬²»¹æÔòÊı×éÊµÏÖµÄ£¬°´ÕÕĞĞÖ÷Ó³Éä·½Ê½ÊµÏÖµÄÉÏÈı½Ç¾ØÕó
+//å†…éƒ¨ä½¿ç”¨äºŒç»´ä¸è§„åˆ™æ•°ç»„å®ç°çš„ï¼ŒæŒ‰ç…§è¡Œä¸»æ˜ å°„æ–¹å¼å®ç°çš„ä¸Šä¸‰è§’çŸ©é˜µ
 template<class T>
 class upperTriangleAsIrregularArray : public virtualDiagonalMatrixAsIrregularArray<T> {
 
@@ -1366,9 +1366,9 @@ class upperTriangleAsIrregularArray : public virtualDiagonalMatrixAsIrregularArr
     }
 
 public:
-    //¿½±´¹¹Ôì£¬¹¹Ôì£¬Îö¹¹
+    //æ‹·è´æ„é€ ï¼Œæ„é€ ï¼Œææ„
     upperTriangleAsIrregularArray(const int &theDimension) {
-        if (theDimension < 1)throw IllegalParameterException("µ÷ÓÃupperTriangleAsIrregularArray¹¹Ôìº¯ÊıÊ±£¬´«µİµÄ²ÎÊı±ØĞë´óÓÚ1È·±£¾ØÕóµÄ´óĞ¡·ûºÏÊµ¼Ê");
+        if (theDimension < 1)throw IllegalParameterException("è°ƒç”¨upperTriangleAsIrregularArrayæ„é€ å‡½æ•°æ—¶ï¼Œä¼ é€’çš„å‚æ•°å¿…é¡»å¤§äº1ç¡®ä¿çŸ©é˜µçš„å¤§å°ç¬¦åˆå®é™…");
         this->dimension = theDimension;
         this->element = new T *[theDimension];
         for (int i = 0; i < theDimension; i++) {
@@ -1378,7 +1378,7 @@ public:
     }
 
     upperTriangleAsIrregularArray(const upperTriangleAsIrregularArray<T> &theMatrix) {
-        if (!theMatrix.isInitialized())throw MatrixUnInitializeException("Ê¹ÓÃÎ´³õÊ¼»¯µÄ¾ØÕó¿½±´¹¹ÔìĞÂµÄ¾ØÕóÊÇ²»±»ÔÊĞíµÄ");
+        if (!theMatrix.isInitialized())throw MatrixUnInitializeException("ä½¿ç”¨æœªåˆå§‹åŒ–çš„çŸ©é˜µæ‹·è´æ„é€ æ–°çš„çŸ©é˜µæ˜¯ä¸è¢«å…è®¸çš„");
         this->dimension = theMatrix.getDimension();
         this->element = new T *[this->dimension];
         for (int i = 0; i < this->dimension; i++) {
@@ -1395,12 +1395,12 @@ public:
 
     ~upperTriangleAsIrregularArray() {
         for (int i = 0; i < this->dimension; i++)
-            delete[]this->element[i];//ÊÍ·Å¶şÎ¬Êı×éÖĞµÄÃ¿Ò»¸öÒ»Î¬Êı×éÖĞµÄÃ¿Ò»¸öÔªËØ
+            delete[]this->element[i];//é‡Šæ”¾äºŒç»´æ•°ç»„ä¸­çš„æ¯ä¸€ä¸ªä¸€ç»´æ•°ç»„ä¸­çš„æ¯ä¸€ä¸ªå…ƒç´ 
         delete[]this->element;
     }
 
 
-    virtual T get(const int &i, const int &j) const//·µ»ØÏÂ±êÎªi,jµÄ¾ØÕóÔªËØ
+    virtual T get(const int &i, const int &j) const//è¿”å›ä¸‹æ ‡ä¸ºi,jçš„çŸ©é˜µå…ƒç´ 
     {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension) {
             throw matrixIndexOutOfBounds();
@@ -1412,11 +1412,11 @@ public:
 
     }
 
-    virtual void set(const int &i, const int &j, const T &theElement)//½«ÏÂ±êÎªi,jµÄ¾ØÕóÔªËØÉèÎªÁíÒ»¸öÖµ
+    virtual void set(const int &i, const int &j, const T &theElement)//å°†ä¸‹æ ‡ä¸ºi,jçš„çŸ©é˜µå…ƒç´ è®¾ä¸ºå¦ä¸€ä¸ªå€¼
     {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension)
             throw matrixIndexOutOfBounds();
-        if (i <= j)//ÉÏÈı½ÇÇøµÄÔªËØi<=j
+        if (i <= j)//ä¸Šä¸‰è§’åŒºçš„å…ƒç´ i<=j
         {
             this->element[i - 1][j - 1] = theElement;
         } else {
@@ -1425,7 +1425,7 @@ public:
 
     }
 
-    virtual upperTriangleAsIrregularArray<T> *operator+(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const//¾ØÕó¼Ó·¨
+    virtual upperTriangleAsIrregularArray<T> *operator+(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const//çŸ©é˜µåŠ æ³•
     {
         if (!this->initialized || !theMatrix.isInitialized())throw MatrixUnInitializeException();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfPlus();
@@ -1441,7 +1441,7 @@ public:
         return result;
     }
 
-    virtual upperTriangleAsIrregularArray<T> *operator-(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const //¾ØÕó¼õ·¨
+    virtual upperTriangleAsIrregularArray<T> *operator-(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const //çŸ©é˜µå‡æ³•
     {
         if (!this->initialized || !theMatrix.isInitialized())throw MatrixUnInitializeException();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfSubtraction();
@@ -1458,7 +1458,7 @@ public:
 
     }
 
-    virtual upperTriangleAsIrregularArray<T> *operator*(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const//¾ØÕó³Ë·¨
+    virtual upperTriangleAsIrregularArray<T> *operator*(const virtualDiagonalMatrixAsIrregularArray<T> &theMatrix) const//çŸ©é˜µä¹˜æ³•
     {
         if (!this->initialized || !theMatrix.isInitialized())throw MatrixUnInitializeException();
         if (this->dimension != theMatrix.getDimension())throw matrixSizeMismatchOfMultiply();
@@ -1480,7 +1480,7 @@ public:
         return result;
     }
 
-    virtual T operator()(int i, int j) const //µÃµ½Ë÷ÒıÎªi,jµÄË÷ÒıÔªËØ
+    virtual T operator()(int i, int j) const //å¾—åˆ°ç´¢å¼•ä¸ºi,jçš„ç´¢å¼•å…ƒç´ 
     {
         if (i < 1 || j < 1 || i > this->dimension || j > this->dimension) {
             throw matrixIndexOutOfBounds();
@@ -1492,7 +1492,7 @@ public:
 
     }
 
-    virtual void initialize(T *theElements, const int &theDimension)//³õÊ¼»¯¾ØÕó£¬½«´«ÈëµÄ¶şÎ¬Êı×éÓ³Éäµ½ÄÚ²¿µÄÒ»Î¬Êı×éÖĞ
+    virtual void initialize(T *theElements, const int &theDimension)//åˆå§‹åŒ–çŸ©é˜µï¼Œå°†ä¼ å…¥çš„äºŒç»´æ•°ç»„æ˜ å°„åˆ°å†…éƒ¨çš„ä¸€ç»´æ•°ç»„ä¸­
     {
         if (this->initialized)throw MatrixReinitializeException();
         for (int i = 0; i < this->dimension; i++) {
@@ -1503,7 +1503,7 @@ public:
         this->initialized = true;
     }
 
-    virtual void initialize() //ÖØÔØ³õÊ¼»¯º¯Êı£¬Ä¿µÄÊÇ³õÊ¼»¯Ò»¸ö¿ÕµÄ¾ØÕó£¬½«¾ØÕóËùÓĞÔªËØÖÃÁã
+    virtual void initialize() //é‡è½½åˆå§‹åŒ–å‡½æ•°ï¼Œç›®çš„æ˜¯åˆå§‹åŒ–ä¸€ä¸ªç©ºçš„çŸ©é˜µï¼Œå°†çŸ©é˜µæ‰€æœ‰å…ƒç´ ç½®é›¶
     {
         for (int i = 0; i < this->dimension; i++) {
             for (int j = 0; j < this->dimension - i; j++) {
@@ -1513,12 +1513,12 @@ public:
         this->initialized = true;
     }
 
-    virtual int size() const//·µ»Ø¾ØÕóÖĞÔªËØµÄ¸öÊı
+    virtual int size() const//è¿”å›çŸ©é˜µä¸­å…ƒç´ çš„ä¸ªæ•°
     {
         return this->dimension * (this->dimension + 1) / 2;
     }
 
-    virtual lowerTriangleAsIrregularArray<T> *transpose() const //¾ØÕóµÄ×ªÖÃ
+    virtual lowerTriangleAsIrregularArray<T> *transpose() const //çŸ©é˜µçš„è½¬ç½®
     {
         if (!this->initialized)throw MatrixUnInitializeException();
         auto temp = new lowerTriangleAsIrregularArray<T>(this->getDimension());
