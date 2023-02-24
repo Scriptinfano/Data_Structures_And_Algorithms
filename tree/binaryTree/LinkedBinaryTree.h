@@ -186,7 +186,7 @@ public:
 
 public:
     //在叶子节点之后插入节点
-    void insertTReeNode(T theElement, T theInsertElement, bool leftOrRight) {
+    void insertTReeNode(T theElement, bool leftOrRight) {
         NodePointer theNode = getTreeNode(theElement);
         if (theNode != nullptr) {
             if (theNode->getRightChild()->getElement() == '#' && theNode->getLeftChild()->getElement() == '#') {

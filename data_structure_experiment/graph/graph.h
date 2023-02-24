@@ -1,5 +1,3 @@
-#define INFINITY 999999
-
 #include <stdio.h>
 #include <malloc.h>
 
@@ -56,7 +54,7 @@ Graph *createGraph() {
     return theGraph;
 }
 
-//对传入的数组按照其中每个元素的权值大小进行排序
+//对传入的数组按照其中每个元素的权值大小进行排序。第一个参数是传入的边数组指针，第二个参数是数组的大小
 void sortEdge(Edge *theEdgeArray, int size) {
     for (int i = 0; i < size - 1; i++) {
         for (int j = 0; j < size - 1 - i; j++) {
@@ -74,11 +72,10 @@ void sortEdge(Edge *theEdgeArray, int size) {
                 theEdgeArray[j].tail = end;
             }
         }
-
     }
 }
 
-//克鲁斯卡尔算法生成最小生成树
+//克鲁斯卡尔算法生成最小生成树，参数是图结构体的指针
 void createMiniSpanTree_Kruskal(Graph *theGraph) {
     printf("使用克鲁斯卡尔算法生成最小生成树（输出构成最小生成树的边）：");
     sortEdge(theGraph->edgeArray, theGraph->lineSize);//将数组edgeArray中的元素按权值大小排序
@@ -100,7 +97,7 @@ void createMiniSpanTree_Kruskal(Graph *theGraph) {
     printf("\n");
 
 }
-
+//释放数组所占空间
 void deleteGraph(Graph *theGraph) {
     free(theGraph->pointArray);
     free(theGraph->edgeArray);

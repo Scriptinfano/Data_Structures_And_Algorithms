@@ -3,6 +3,10 @@
 
 using namespace std;
 
+void test2(){
+    int result=-3%20;
+    printf("%d",result);
+}
 template<class T>
 class MatrixTerm {
 private:
@@ -63,6 +67,12 @@ typename T::value_type unpack(T container) {
 }
 
 int main() {
+
+    test2();
+
+    return 0;
+}
+void test1(){
     stringstream transformer;
 
     int nonZeroSize=3;
@@ -106,7 +116,4 @@ int main() {
             } else break;
         }
     }
-
-
-    return 0;
 }
