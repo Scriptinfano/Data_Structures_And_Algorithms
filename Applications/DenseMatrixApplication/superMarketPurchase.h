@@ -1,14 +1,14 @@
 /*
- * ¶ÔÏ¡Êè¾ØÕó´æ´¢µÄÒ»¸öÓ¦ÓÃ£¬´ËÍ·ÎÄ¼şÖ÷ÒªÓÃÀ´½â¾öÒ»¸öÎÊÌâ£º³¬ÊĞ²É¹ºÎÊÌâ£¬ÎÊÌâÃèÊöÈçÏÂ
- * Ä³³¬¼¶ÊĞ³¡ÕıÔÚ¿ªÕ¹Ò»Ïî¹ØÓÚ¹Ë¿Í¹ºÎïÆ·ÖÖµÄ×ÛºÏÑĞ¾¿¡£Îª´ËÊÕ¼¯ÁË1000¸ö¹Ë¿ÍµÄ¹ºÎïÊı¾İ£¬ÕâĞ©Êı¾İ
- * ×éÖ¯³ÉÒ»¸ö¾ØÕópurchases£¬ÆäÖĞpurchases(i,j)±íÊ¾¹Ë¿ÍjËù¹ºÂòµÄÉÌÆ·iµÄÊıÁ¿¡£¼Ù¶¨¸Ã³¬ÊĞ
- * ÓĞ10000ÖÖ²»Í¬µÄÉÌÆ·£¬ÄÇÃ´purchases½«ÊÇÒ»¸ö10000*1000µÄ¾ØÕó¡£³¬¼¶ÊĞ³¡ÓĞÒ»¸ö10000*1µÄ
- * ¼Û¸ñ¾ØÕóprice£¬price(i)´ú±íÉÌÆ·iµÄµ¥¼Û¡£¾ØÕóspent=transpose(purchases)*priceÊÇÒ»¸ö
- * 1000*1µÄ¾ØÕó£¬Ëü¸ø³öÃ¿¸ö¹Ë¿ÍËù»¨·ÑµÄ¹ºÎï×Ê½ğ
+ * å¯¹ç¨€ç–çŸ©é˜µå­˜å‚¨çš„ä¸€ä¸ªåº”ç”¨ï¼Œæ­¤å¤´æ–‡ä»¶ä¸»è¦ç”¨æ¥è§£å†³ä¸€ä¸ªé—®é¢˜ï¼šè¶…å¸‚é‡‡è´­é—®é¢˜ï¼Œé—®é¢˜æè¿°å¦‚ä¸‹
+ * æŸè¶…çº§å¸‚åœºæ­£åœ¨å¼€å±•ä¸€é¡¹å…³äºé¡¾å®¢è´­ç‰©å“ç§çš„ç»¼åˆç ”ç©¶ã€‚ä¸ºæ­¤æ”¶é›†äº†1000ä¸ªé¡¾å®¢çš„è´­ç‰©æ•°æ®ï¼Œè¿™äº›æ•°æ®
+ * ç»„ç»‡æˆä¸€ä¸ªçŸ©é˜µpurchasesï¼Œå…¶ä¸­purchases(i,j)è¡¨ç¤ºé¡¾å®¢jæ‰€è´­ä¹°çš„å•†å“içš„æ•°é‡ã€‚å‡å®šè¯¥è¶…å¸‚
+ * æœ‰10000ç§ä¸åŒçš„å•†å“ï¼Œé‚£ä¹ˆpurchaseså°†æ˜¯ä¸€ä¸ª10000*1000çš„çŸ©é˜µã€‚è¶…çº§å¸‚åœºæœ‰ä¸€ä¸ª10000*1çš„
+ * ä»·æ ¼çŸ©é˜µpriceï¼Œprice(i)ä»£è¡¨å•†å“içš„å•ä»·ã€‚çŸ©é˜µspent=transpose(purchases)*priceæ˜¯ä¸€ä¸ª
+ * 1000*1çš„çŸ©é˜µï¼Œå®ƒç»™å‡ºæ¯ä¸ªé¡¾å®¢æ‰€èŠ±è´¹çš„è´­ç‰©èµ„é‡‘
  *
- * ÓÃµ¥¸öÏßĞÔ±íÃèÊö:
- * °´ĞĞÖ÷´ÎĞò½«ÎŞ¹æÔòÏ¡Êè¾ØÕóµÄ·Ç0ÔªËØÓ³Éäµ½Ò»¸öÏßĞÔ±íÖĞ£¬ÎªÖØ½¨¾ØÕó½á¹¹£¬±ØĞë¼ÇÂ¼Ã¿¸ö·Ç0ÔªËØµÄĞĞºÅºÍÁĞºÅ£¬Òò´Ë
- * Êı×éÔªËØÓĞÈı¸öÓò£ºrow¡¢col¡¢value¡£¶¨Òå½á¹¹½«Èı¸öÓò×÷Îª³ÉÔ±±äÁ¿*/
+ * ç”¨å•ä¸ªçº¿æ€§è¡¨æè¿°:
+ * æŒ‰è¡Œä¸»æ¬¡åºå°†æ— è§„åˆ™ç¨€ç–çŸ©é˜µçš„é0å…ƒç´ æ˜ å°„åˆ°ä¸€ä¸ªçº¿æ€§è¡¨ä¸­ï¼Œä¸ºé‡å»ºçŸ©é˜µç»“æ„ï¼Œå¿…é¡»è®°å½•æ¯ä¸ªé0å…ƒç´ çš„è¡Œå·å’Œåˆ—å·ï¼Œå› æ­¤
+ * æ•°ç»„å…ƒç´ æœ‰ä¸‰ä¸ªåŸŸï¼šrowã€colã€valueã€‚å®šä¹‰ç»“æ„å°†ä¸‰ä¸ªåŸŸä½œä¸ºæˆå‘˜å˜é‡*/
 
 #pragma once
 
@@ -19,7 +19,7 @@
 
 using namespace std;
 
-static stringstream transformer;//½«È«¾Ö±äÁ¿ÏŞÖÆÔÚ±¾ÎÄ¼şÖĞ
+static stringstream transformer;//å°†å…¨å±€å˜é‡é™åˆ¶åœ¨æœ¬æ–‡ä»¶ä¸­
 
 template<class T>
 class MatrixTerm {
@@ -60,8 +60,8 @@ public:
 template<class T>
 class SparseMatrix {
     friend std::ostream &operator<<(ostream &out, SparseMatrix<T> &theMatrix) {
-        out << "Êä³ö¾ØÕóÌØÕ÷£ºrows=" << theMatrix.rows << " columns=" << theMatrix.columns << endl;
-        out << "·Ç0ÏîÔªËØ¸öÊı=" << theMatrix.terms.size() << endl;
+        out << "è¾“å‡ºçŸ©é˜µç‰¹å¾ï¼šrows=" << theMatrix.rows << " columns=" << theMatrix.columns << endl;
+        out << "é0é¡¹å…ƒç´ ä¸ªæ•°=" << theMatrix.terms.size() << endl;
         for (auto item = theMatrix.terms.begin(); item != theMatrix.terms.end(); item++) {
             out << "a(" << (*item).getRow() << "," << (*item).getColumn() << ")=" << (*item).getValue() << endl;
         }
@@ -69,19 +69,19 @@ class SparseMatrix {
     }
 
     friend std::istream &operator>>(istream &in, SparseMatrix<T> &theMatrix) {
-        //ÑéÖ¤ÔªËØÊÇ·ñ°´ĞĞÖ÷´ÎĞòÊäÈë£¬Ã¿¸öÔªËØµÄĞĞºÅºÍÁĞºÅÊÇ·ñÓĞĞ§£¬Ã¿¸öÊäÈëµÄÔªËØÊÇ·ñ·ÇÁã
+        //éªŒè¯å…ƒç´ æ˜¯å¦æŒ‰è¡Œä¸»æ¬¡åºè¾“å…¥ï¼Œæ¯ä¸ªå…ƒç´ çš„è¡Œå·å’Œåˆ—å·æ˜¯å¦æœ‰æ•ˆï¼Œæ¯ä¸ªè¾“å…¥çš„å…ƒç´ æ˜¯å¦éé›¶
         int nonZeroSize = 0;
         string str;
         while (true) {
-            cout << "ÊäÈë·ÇÁãÔªËØµÄ¸öÊı£º";
+            cout << "è¾“å…¥éé›¶å…ƒç´ çš„ä¸ªæ•°ï¼š";
             getline(in, str);
             transformer << str;
             transformer >> nonZeroSize;
             if (nonZeroSize == 0) {
-                cout << "ÊäÈëµÄÊı¾İ²»ºÏ·¨£¬ÇëÖØĞÂÊäÈë" << endl;
+                cout << "è¾“å…¥çš„æ•°æ®ä¸åˆæ³•ï¼Œè¯·é‡æ–°è¾“å…¥" << endl;
                 continue;
             } else if (nonZeroSize > theMatrix.rows * theMatrix.columns) {
-                cout << "·ÇÁãÔªËØµÄ¸öÊı²»µÃ´óÓÚ¾ØÕóÖĞµÄÔªËØ×ÜÊı" << endl;
+                cout << "éé›¶å…ƒç´ çš„ä¸ªæ•°ä¸å¾—å¤§äºçŸ©é˜µä¸­çš„å…ƒç´ æ€»æ•°" << endl;
             } else
                 break;
         }
@@ -94,46 +94,46 @@ class SparseMatrix {
             T value;
 
             while (true) {
-                //ĞĞºÅÖ»ÄÜµİÔö»ò²»±äÍ¬Ê±²»ÄÜ³¬¹ı¾ØÕóµÄĞĞÊı£¬ÁĞºÅÔÚÒ»ĞĞÖ®ÄÚÖ»ÄÜµİÔö
+                //è¡Œå·åªèƒ½é€’å¢æˆ–ä¸å˜åŒæ—¶ä¸èƒ½è¶…è¿‡çŸ©é˜µçš„è¡Œæ•°ï¼Œåˆ—å·åœ¨ä¸€è¡Œä¹‹å†…åªèƒ½é€’å¢
 
-                cout << "ÊäÈëµÚ" << i + 1 << "¸öÔªËØµÄĞĞ±ê£º";
+                cout << "è¾“å…¥ç¬¬" << i + 1 << "ä¸ªå…ƒç´ çš„è¡Œæ ‡ï¼š";
                 getline(in, str);
                 transformer << str;
                 transformer >> row;
                 transformer.clear();
                 transformer.sync();
 
-                //ÏÂÃæµÄ´úÂë¼ì²é±¾´ÎÊäÈëµÄĞĞ±êÊÇ·ñ·ûºÏĞĞÖ÷´ÎĞòÅÅÁĞ
+                //ä¸‹é¢çš„ä»£ç æ£€æŸ¥æœ¬æ¬¡è¾“å…¥çš„è¡Œæ ‡æ˜¯å¦ç¬¦åˆè¡Œä¸»æ¬¡åºæ’åˆ—
                 if (!rows.empty()) {
                     if (row < rows.at(rows.size() - 1)) {
-                        cout << "Ã»ÓĞ°´ÕÕĞĞÖ÷´ÎĞòÊäÈëÊı¾İ£¬ÇëÖØĞÂÊäÈë" << endl;
+                        cout << "æ²¡æœ‰æŒ‰ç…§è¡Œä¸»æ¬¡åºè¾“å…¥æ•°æ®ï¼Œè¯·é‡æ–°è¾“å…¥" << endl;
                         continue;
                     } else {
                         rows.push_back(row);
                     }
                 } else {
-                    //Èç¹ûrowsÎª¿Õ£¬Ö»ÓĞÒ»ÖÖÇé¿ö£¬¾ÍÊÇÊäÈëµÚÒ»¸ö·ÇÁãÔªËØµÄÇé¿ö
+                    //å¦‚æœrowsä¸ºç©ºï¼Œåªæœ‰ä¸€ç§æƒ…å†µï¼Œå°±æ˜¯è¾“å…¥ç¬¬ä¸€ä¸ªéé›¶å…ƒç´ çš„æƒ…å†µ
                     if (row < theMatrix.rows) {
                         rows.push_back(row);
                     } else {
-                        cout << "ĞĞºÅ³¬³öÁË¾ØÕóµÄĞĞÊı£¬ÇëÖØĞÂÊäÈë¸Ã·ÇÁãÔªËØµÄÊı¾İ" << endl;
+                        cout << "è¡Œå·è¶…å‡ºäº†çŸ©é˜µçš„è¡Œæ•°ï¼Œè¯·é‡æ–°è¾“å…¥è¯¥éé›¶å…ƒç´ çš„æ•°æ®" << endl;
                     }
                 }
 
-                cout << "ÊäÈëµÚ" << i + 1 << "¸öÔªËØµÄÁĞ±ê£º";
+                cout << "è¾“å…¥ç¬¬" << i + 1 << "ä¸ªå…ƒç´ çš„åˆ—æ ‡ï¼š";
                 getline(in, str);
                 transformer << str;
                 transformer >> column;
                 transformer.clear();
                 transformer.sync();
 
-                //TODO Ïë³öÒ»ÖÖ°ì·¨¼ì²é±¾´ÎÊäÈëµÄÁĞ±êÊÇ·ñ·ûºÏĞĞÖ÷´ÎĞòÅÅÁĞ
+                //TODO æƒ³å‡ºä¸€ç§åŠæ³•æ£€æŸ¥æœ¬æ¬¡è¾“å…¥çš„åˆ—æ ‡æ˜¯å¦ç¬¦åˆè¡Œä¸»æ¬¡åºæ’åˆ—
                 if (column > theMatrix.columns) {
-                    cout << "ÁĞºÅ³¬³öÁË¾ØÕóµÄÁĞÊı£¬ÇëÖØĞÂÊäÈë¸Ã·ÇÁãÔªËØµÄÊı¾İ" << endl;
+                    cout << "åˆ—å·è¶…å‡ºäº†çŸ©é˜µçš„åˆ—æ•°ï¼Œè¯·é‡æ–°è¾“å…¥è¯¥éé›¶å…ƒç´ çš„æ•°æ®" << endl;
                     continue;
                 }
 
-                cout << "ÊäÈëµÚ" << i + 1 << "¸öÔªËØµÄÖµ£º";
+                cout << "è¾“å…¥ç¬¬" << i + 1 << "ä¸ªå…ƒç´ çš„å€¼ï¼š";
                 getline(in, str);
                 transformer << str;
                 transformer >> value;
@@ -141,7 +141,7 @@ class SparseMatrix {
                 transformer.sync();
 
                 if (row == 0 || column == 0 || value == 0) {
-                    cout << "ÊäÈëµÄÈı¸öÊı¾İÖĞÓĞÒ»¸ö»ò¶à¸ö²»ºÏ·¨²»ºÏ·¨£¬ÇëÖØĞÂÊäÈë" << endl;
+                    cout << "è¾“å…¥çš„ä¸‰ä¸ªæ•°æ®ä¸­æœ‰ä¸€ä¸ªæˆ–å¤šä¸ªä¸åˆæ³•ä¸åˆæ³•ï¼Œè¯·é‡æ–°è¾“å…¥" << endl;
                     continue;
                 } else break;
             }
@@ -154,16 +154,16 @@ public :
     SparseMatrix(int rows, int columns) : rows(rows), columns(columns) {}
 
 
-    //TODO ¼ÌĞøÎªSparseMatrix±àĞ´Ê£ÏÂµÄ´úÂë
+    //TODO ç»§ç»­ä¸ºSparseMatrixç¼–å†™å‰©ä¸‹çš„ä»£ç 
 
-    //×ªÖÃºóµÄ¾ØÕó±£´æÔÚtheMatrixÖĞ£¬È·±£´«ÈëµÄtheMatrixÊÇ¿ÕµÄ
+    //è½¬ç½®åçš„çŸ©é˜µä¿å­˜åœ¨theMatrixä¸­ï¼Œç¡®ä¿ä¼ å…¥çš„theMatrixæ˜¯ç©ºçš„
     void transpose(SparseMatrix<T> &theMatrix) {
         theMatrix.columns = this->columns;
         theMatrix.rows = this->rows;
         int *colSize = new int[theMatrix.rows + 1];
         int *rowNext = new int[theMatrix.rows + 1];
 
-//Ñ°ÕÒ*thisÖĞÃ¿Ò»ÁĞ·ÇÁãÏîµÄÊıÁ¿
+//å¯»æ‰¾*thisä¸­æ¯ä¸€åˆ—éé›¶é¡¹çš„æ•°é‡
     }
 
     void add(SparseMatrix<T> &theMatrixA, SparseMatrix<T> &theMatrixB) {
@@ -171,7 +171,7 @@ public :
     }
 
 private:
-    int rows;//¾ØÕóµÄĞĞÊı
-    int columns;//¾ØÕóµÄÁĞÊı
-    std::vector<MatrixTerm<T>> terms;//·Ç0Ïî±í
+    int rows;//çŸ©é˜µçš„è¡Œæ•°
+    int columns;//çŸ©é˜µçš„åˆ—æ•°
+    std::vector<MatrixTerm<T>> terms;//é0é¡¹è¡¨
 };

@@ -1,4 +1,4 @@
-//×Ô¶¨ÒåÒì³£Àà·â×°
+//è‡ªå®šä¹‰å¼‚å¸¸ç±»å°è£…
 #pragma once
 
 #include <iostream>
@@ -13,9 +13,9 @@ namespace ExceptionSpace {
         string message;
 
     public:
-        explicit IllegalParameterException(string_view theMessage = "·Ç·¨²ÎÊı´«µİ") : message(theMessage) {}
+        explicit IllegalParameterException(string_view theMessage = "éæ³•å‚æ•°ä¼ é€’") : message(theMessage) {}
 
-        [[nodiscard]] const char *what() const noexcept override//ÖØĞ´¸¸Ààº¯Êı
+        [[nodiscard]] const char *what() const noexcept override//é‡å†™çˆ¶ç±»å‡½æ•°
         {
             return message.c_str();
         }
@@ -26,9 +26,9 @@ namespace ExceptionSpace {
         string message;
 
     public:
-        explicit ReinitializeException(string_view theMessage = "·Ç·¨²ÎÊı´«µİ") : message(theMessage) {}
+        explicit ReinitializeException(string_view theMessage = "éæ³•å‚æ•°ä¼ é€’") : message(theMessage) {}
 
-        [[nodiscard]] const char *what() const noexcept override//ÖØĞ´¸¸Ààº¯Êı
+        [[nodiscard]] const char *what() const noexcept override//é‡å†™çˆ¶ç±»å‡½æ•°
         {
             return message.c_str();
         }
@@ -39,7 +39,7 @@ namespace ExceptionSpace {
     protected:
         string message;
     public:
-        explicit OutOfBoundsException(string_view theMessage = "·ÃÎÊ³¬³ö½çÏŞ") : message(theMessage) {}
+        explicit OutOfBoundsException(string_view theMessage = "è®¿é—®è¶…å‡ºç•Œé™") : message(theMessage) {}
 
         const char *what() const noexcept override {
             return message.c_str();
@@ -49,18 +49,18 @@ namespace ExceptionSpace {
 
     class IteratorOutOfBounds : public logic_error {
     public:
-        explicit IteratorOutOfBounds(const string &theMessage = "µü´úÆ÷Ô½½çÒì³£") : logic_error(theMessage) {}
+        explicit IteratorOutOfBounds(const string &theMessage = "è¿­ä»£å™¨è¶Šç•Œå¼‚å¸¸") : logic_error(theMessage) {}
     };
 
     class FullContainerException : public logic_error {
     public:
-        explicit FullContainerException(const string &theMessage = "ÈİÆ÷Âú³öÒì³£") : logic_error(theMessage) {}
+        explicit FullContainerException(const string &theMessage = "å®¹å™¨æ»¡å‡ºå¼‚å¸¸") : logic_error(theMessage) {}
 
     };
 
     class EmptyContainerException:public logic_error{
     public:
-        explicit EmptyContainerException(const string &theMessage="ÈİÆ÷Îª¿Õ¡£ÎŞ·¨Ö´ĞĞÏà¹Ø²Ù×÷"):logic_error(theMessage){}
+        explicit EmptyContainerException(const string &theMessage = "å®¹å™¨ä¸ºç©ºã€‚æ— æ³•æ‰§è¡Œç›¸å…³æ“ä½œ") : logic_error(theMessage) {}
     };
 
 
@@ -68,19 +68,19 @@ namespace ExceptionSpace {
 
         class matrixIndexOutOfBounds : public OutOfBoundsException {
         public:
-            explicit matrixIndexOutOfBounds(string_view theMessage = "¾ØÕóÏÂ±êÒıÓÃ´íÎó£¬µ¼ÖÂ·ÃÎÊ³¬³ö½çÏŞ") : OutOfBoundsException(theMessage) {}
+            explicit matrixIndexOutOfBounds(string_view theMessage = "çŸ©é˜µä¸‹æ ‡å¼•ç”¨é”™è¯¯ï¼Œå¯¼è‡´è®¿é—®è¶…å‡ºç•Œé™") : OutOfBoundsException(theMessage) {}
         };
 
         class iteratorOutOfBounds : public OutOfBoundsException {
         public:
-            explicit iteratorOutOfBounds(string_view theMessage = "µü´úÆ÷³¬³ö¿É·ÃÎÊ½çÏŞ") : OutOfBoundsException(theMessage) {}
+            explicit iteratorOutOfBounds(string_view theMessage = "è¿­ä»£å™¨è¶…å‡ºå¯è®¿é—®ç•Œé™") : OutOfBoundsException(theMessage) {}
         };
 
         class matrixSizeMismatch : public exception {
         protected:
             string message;
         public:
-            explicit matrixSizeMismatch(string_view theMessage = "¾ØÕó´óĞ¡¹æ¸ñ²»Æ¥Åä") : message(theMessage) {}
+            explicit matrixSizeMismatch(string_view theMessage = "çŸ©é˜µå¤§å°è§„æ ¼ä¸åŒ¹é…") : message(theMessage) {}
 
             const char *what() const noexcept override {
                 return message.c_str();
@@ -89,27 +89,27 @@ namespace ExceptionSpace {
 
         class matrixSizeMismatchOfPlus : public matrixSizeMismatch {
         public:
-            explicit matrixSizeMismatchOfPlus(string_view theMessage = "Ö´ĞĞ¾ØÕó¼Ó·¨Ê±£¬Á½¸ö¾ØÕóµÄ´óĞ¡¹æ¸ñ±ØĞëÍêÈ«ÏàÍ¬") : matrixSizeMismatch(
+            explicit matrixSizeMismatchOfPlus(string_view theMessage = "æ‰§è¡ŒçŸ©é˜µåŠ æ³•æ—¶ï¼Œä¸¤ä¸ªçŸ©é˜µçš„å¤§å°è§„æ ¼å¿…é¡»å®Œå…¨ç›¸åŒ") : matrixSizeMismatch(
                     theMessage) {}
         };
 
         class matrixSizeMismatchOfMultiply : public matrixSizeMismatch {
         public:
-            explicit matrixSizeMismatchOfMultiply(string_view theMessage = "Ö´ĞĞ¾ØÕó³Ë·¨Ê±£¬µÚÒ»¸ö¾ØÕóµÄÁĞÊı±ØĞëºÍµÚ¶ş¸ö¾ØÕóµÄĞĞÊı±ØĞëÏàÍ¬")
+            explicit matrixSizeMismatchOfMultiply(string_view theMessage = "æ‰§è¡ŒçŸ©é˜µä¹˜æ³•æ—¶ï¼Œç¬¬ä¸€ä¸ªçŸ©é˜µçš„åˆ—æ•°å¿…é¡»å’Œç¬¬äºŒä¸ªçŸ©é˜µçš„è¡Œæ•°å¿…é¡»ç›¸åŒ")
                     : matrixSizeMismatch(
                     theMessage) {}
         };
 
         class matrixSizeMismatchOfInitialize : public matrixSizeMismatch {
         public:
-            explicit matrixSizeMismatchOfInitialize(string_view theMessage = "Ö´ĞĞ¾ØÕó³õÊ¼»¯Ê±£¬´«ÈëµÄ¾ØÕó±ØĞëºÍµ±Ç°µÄ¾ØÕó´óĞ¡¹æ¸ñÍêÈ«ÏàÍ¬")
+            explicit matrixSizeMismatchOfInitialize(string_view theMessage = "æ‰§è¡ŒçŸ©é˜µåˆå§‹åŒ–æ—¶ï¼Œä¼ å…¥çš„çŸ©é˜µå¿…é¡»å’Œå½“å‰çš„çŸ©é˜µå¤§å°è§„æ ¼å®Œå…¨ç›¸åŒ")
                     : matrixSizeMismatch(
                     theMessage) {}
         };
 
         class matrixSizeMismatchOfSubtraction : public matrixSizeMismatch {
         public:
-            explicit matrixSizeMismatchOfSubtraction(string_view theMessage = "Ö´ĞĞ¾ØÕó¼õ·¨Ê±£¬´«ÈëµÄ¾ØÕó±ØĞëºÍµ±Ç°µÄ¾ØÕó´óĞ¡¹æ¸ñÍêÈ«ÏàÍ¬")
+            explicit matrixSizeMismatchOfSubtraction(string_view theMessage = "æ‰§è¡ŒçŸ©é˜µå‡æ³•æ—¶ï¼Œä¼ å…¥çš„çŸ©é˜µå¿…é¡»å’Œå½“å‰çš„çŸ©é˜µå¤§å°è§„æ ¼å®Œå…¨ç›¸åŒ")
                     : matrixSizeMismatch(
                     theMessage) {}
 
@@ -119,7 +119,7 @@ namespace ExceptionSpace {
         private:
             string message;
         public:
-            explicit MatrixUnInitializeException(string_view theMessage = "Ê¹ÓÃÎ´³õÊ¼»¯µÄ¾ØÕóÖ´ĞĞÁË¾ØÕóÔËËã") : message(theMessage) {}
+            explicit MatrixUnInitializeException(string_view theMessage = "ä½¿ç”¨æœªåˆå§‹åŒ–çš„çŸ©é˜µæ‰§è¡Œäº†çŸ©é˜µè¿ç®—") : message(theMessage) {}
 
             const char *what() const noexcept override {
                 return message.c_str();
@@ -131,7 +131,7 @@ namespace ExceptionSpace {
         private:
             string message;
         public:
-            explicit MatrixReinitializeException(string_view theMessage = "ÒÑ¾­³õÊ¼»¯¹ıµÄ¾ØÕó²»ÄÜÔÙ´Î³õÊ¼»¯") : message(theMessage) {}
+            explicit MatrixReinitializeException(string_view theMessage = "å·²ç»åˆå§‹åŒ–è¿‡çš„çŸ©é˜µä¸èƒ½å†æ¬¡åˆå§‹åŒ–") : message(theMessage) {}
 
             const char *what() const noexcept override {
                 return message.c_str();
@@ -142,7 +142,7 @@ namespace ExceptionSpace {
         private:
             string message;
         public:
-            explicit MatrixInvalidValueSetException(string_view theMessage = "¸Ä±äÌØÊâ¾ØÕóÖĞÔªËØµÄÖµÊ±²»ÄÜ½«ÁãÇøÔªËØÉèÎª³ıÁËÁãÒÔÍâµÄÆäËûÊı") : message(theMessage) {}
+            explicit MatrixInvalidValueSetException(string_view theMessage = "æ”¹å˜ç‰¹æ®ŠçŸ©é˜µä¸­å…ƒç´ çš„å€¼æ—¶ä¸èƒ½å°†é›¶åŒºå…ƒç´ è®¾ä¸ºé™¤äº†é›¶ä»¥å¤–çš„å…¶ä»–æ•°") : message(theMessage) {}
 
             const char *what() const noexcept override {
                 return message.c_str();
@@ -154,7 +154,7 @@ namespace ExceptionSpace {
         private:
             string message;
         public:
-            explicit MatrixDynamicCastException(string_view theMessgae = "Ö´ĞĞ¾ØÕóÔËËãÊ±£¬ÓÒ²Ù×÷ÊıµÄÖ¸ÕëÎ´Ö¸Ïò×ÓÀà¶ÔÏó£¬ÏòÏÂ×ªĞÍÊ§°Ü") : message(theMessgae) {}
+            explicit MatrixDynamicCastException(string_view theMessgae = "æ‰§è¡ŒçŸ©é˜µè¿ç®—æ—¶ï¼Œå³æ“ä½œæ•°çš„æŒ‡é’ˆæœªæŒ‡å‘å­ç±»å¯¹è±¡ï¼Œå‘ä¸‹è½¬å‹å¤±è´¥") : message(theMessgae) {}
 
             const char *what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW override {
                 return message.c_str();
@@ -165,40 +165,40 @@ namespace ExceptionSpace {
     namespace QueueExceptionSpace {
         class QueueFullException:public FullContainerException{
         public:
-            explicit QueueFullException(const string &theMessage="¶ÓÁĞÒÑÂú£¬ÎŞ·¨ÔÙÌí¼ÓÈÎºÎÔªËØ"):FullContainerException(theMessage){}
+            explicit QueueFullException(const string &theMessage = "é˜Ÿåˆ—å·²æ»¡ï¼Œæ— æ³•å†æ·»åŠ ä»»ä½•å…ƒç´ ") : FullContainerException(theMessage) {}
         };
         class QueueEmptyException:public EmptyContainerException{
         public :
-            explicit QueueEmptyException(const string &theMessage="¶ÓÁĞÎª¿Õ£¬ÎŞ·¨È¡³ö¶ÓÍ·ÔªËØ"): EmptyContainerException(theMessage){}
+            explicit QueueEmptyException(const string &theMessage = "é˜Ÿåˆ—ä¸ºç©ºï¼Œæ— æ³•å–å‡ºé˜Ÿå¤´å…ƒç´ ") : EmptyContainerException(theMessage) {}
         };
     }
     namespace DequeExceptionSpace {
         class DequeFullException:public FullContainerException{
         public:
-            explicit DequeFullException(const string &theMessage="Ë«¶Ë¶ÓÁĞÒÑÂú£¬ÎŞ·¨ÔÙÌí¼ÓÈÎºÎÔªËØ"):FullContainerException(theMessage){}
+            explicit DequeFullException(const string &theMessage = "åŒç«¯é˜Ÿåˆ—å·²æ»¡ï¼Œæ— æ³•å†æ·»åŠ ä»»ä½•å…ƒç´ ") : FullContainerException(theMessage) {}
         };
         class DequeEmptyException:public EmptyContainerException{
         public :
-            explicit DequeEmptyException(const string &theMessage="Ë«¶Ë¶ÓÁĞÎª¿Õ£¬ÎŞ·¨È¡³öÈÎºÎÔªËØ"): EmptyContainerException(theMessage){}
+            explicit DequeEmptyException(const string &theMessage = "åŒç«¯é˜Ÿåˆ—ä¸ºç©ºï¼Œæ— æ³•å–å‡ºä»»ä½•å…ƒç´ ") : EmptyContainerException(theMessage) {}
         };
     }
 
     namespace StackExceptionSpace {
         class StackFullException : public FullContainerException {
         public:
-            explicit StackFullException(const string &theMessage = "Õ»ÒÑ¾­ÂúÁË£¬ÎŞ·¨ÔÙÌí¼ÓÈÎºÎÔªËØ") : FullContainerException(theMessage) {}
+            explicit StackFullException(const string &theMessage = "æ ˆå·²ç»æ»¡äº†ï¼Œæ— æ³•å†æ·»åŠ ä»»ä½•å…ƒç´ ") : FullContainerException(theMessage) {}
         };
 
         class StackEmptyException : public EmptyContainerException {
         public:
-            explicit StackEmptyException(const string& theMessage = "Õ»Îª¿Õ£¬ÎŞ·¨È¡µÃÕ»¶¥ÔªËØ") : EmptyContainerException(theMessage) {}
+            explicit StackEmptyException(const string &theMessage = "æ ˆä¸ºç©ºï¼Œæ— æ³•å–å¾—æ ˆé¡¶å…ƒç´ ") : EmptyContainerException(theMessage) {}
         };
 
         class InvalidStackInitializeException : public exception {
         private:
             string message;
         public:
-            explicit InvalidStackInitializeException(string_view theMessage = "³õÊ¼»¯×Ô¶¨ÒåÕ»Ê±£¬Õ»µÄ³õÊ¼ÈİÁ¿Ğ¡ÓÚ´«ÈëµÄÈİÆ÷ÔªËØ¸öÊı") : message(theMessage) {}
+            explicit InvalidStackInitializeException(string_view theMessage = "åˆå§‹åŒ–è‡ªå®šä¹‰æ ˆæ—¶ï¼Œæ ˆçš„åˆå§‹å®¹é‡å°äºä¼ å…¥çš„å®¹å™¨å…ƒç´ ä¸ªæ•°") : message(theMessage) {}
 
             const char *what() const noexcept override {
                 return message.c_str();
@@ -207,27 +207,27 @@ namespace ExceptionSpace {
 
         class ReinitializeStackException : public logic_error {
         public:
-            explicit ReinitializeStackException(const string &theMessage = "Õ»ÖØ¸´³õÊ¼»¯£¬Çë½«Õ»Çå¿ÕÖ®ºóÖØĞÂ³õÊ¼»¯") : logic_error(theMessage) {}
+            explicit ReinitializeStackException(const string &theMessage = "æ ˆé‡å¤åˆå§‹åŒ–ï¼Œè¯·å°†æ ˆæ¸…ç©ºä¹‹åé‡æ–°åˆå§‹åŒ–") : logic_error(theMessage) {}
         };
 
         class VectorEmptyException : public logic_error {
         public:
-            explicit VectorEmptyException(const string &theMessage = "ÓÃÀ´³õÊ¼»¯Õ»µÄvectorÈİÆ÷Îª¿Õ£¬ÇëÏÈ³õÊ¼»¯vectorÈİÆ÷") : logic_error(theMessage) {}
+            explicit VectorEmptyException(const string &theMessage = "ç”¨æ¥åˆå§‹åŒ–æ ˆçš„vectorå®¹å™¨ä¸ºç©ºï¼Œè¯·å…ˆåˆå§‹åŒ–vectorå®¹å™¨") : logic_error(theMessage) {}
         };
 
 
     }
 
     namespace LinkListExceptionSpace {
-        //Á´±íÖĞµÄÒì³£Àà
+        //é“¾è¡¨ä¸­çš„å¼‚å¸¸ç±»
         class LinklistEmptyException : public logic_error {
         public:
-            explicit LinklistEmptyException(const string &theMessage = "Î´ÕÒµ½Ö¸¶¨ÔªËØ") : logic_error(theMessage) {}
+            explicit LinklistEmptyException(const string &theMessage = "æœªæ‰¾åˆ°æŒ‡å®šå…ƒç´ ") : logic_error(theMessage) {}
         };
 
         class ElementNotFoundException : public logic_error {
         public:
-            explicit ElementNotFoundException(const string &theMessage = "Î´ÕÒµ½Ö¸¶¨ÔªËØ") : logic_error(theMessage) {}
+            explicit ElementNotFoundException(const string &theMessage = "æœªæ‰¾åˆ°æŒ‡å®šå…ƒç´ ") : logic_error(theMessage) {}
         };
 
     }
@@ -235,7 +235,7 @@ namespace ExceptionSpace {
     namespace ArrayListExceptionSpace {
         class ArrayListEmptyException : public EmptyContainerException {
         public:
-            explicit ArrayListEmptyException(const string &theMessage = "ArrayListÎª¿Õ£¬ÎŞ·¨Êä³ö") : EmptyContainerException(theMessage) {}
+            explicit ArrayListEmptyException(const string &theMessage = "ArrayListä¸ºç©ºï¼Œæ— æ³•è¾“å‡º") : EmptyContainerException(theMessage) {}
 
         };
     }
