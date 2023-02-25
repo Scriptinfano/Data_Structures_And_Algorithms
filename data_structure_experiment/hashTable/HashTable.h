@@ -10,8 +10,9 @@ typedef char *InfoType;
 typedef struct HashNode {
     KeyType key;//关键字域
     InfoType info;//数据域
-    struct HashNode *next;//哈希表采用链地址法解决冲突，所以存放数据的节点要采用链表节点，此处为地址域
-    struct HashNode *pre;
+    //哈希表采用链地址法解决冲突，所以存放数据的节点要采用链表节点
+    struct HashNode *next;//节点后驱
+    struct HashNode *pre;//节点前驱
 } Node;
 
 Node *createNode(KeyType theKey, InfoType theInfo) {
@@ -142,7 +143,7 @@ bool hashElementDelete(Table *theTable, KeyType theKey) {
 }
 
 //哈希表的删除撤销，释放其中所有空间
-void hashTableDelete(Table *theTable) {
+void freeHashTable(Table *theTable) {
     Node *pointer = NULL;
     Node *nextPointer = NULL;
     for (int i = 0; i < theTable->tableLength; i++) {

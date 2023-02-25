@@ -76,6 +76,8 @@ int main() {
     printf("测试删除元素之后的哈希查找");
     hashSearchTest(theTable);
 
+    freeHashTable(theTable);//释放哈希表所占空间
+
     return 0;
 }
 
